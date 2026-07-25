@@ -131,41 +131,39 @@ export default function Home() {
         )}
       </header>
 
-      {/* Hero Section - With Network Pattern Background */}
+      {/* Hero Section - With Prominent Network Pattern Background */}
       <section id="home" className="relative min-h-screen flex items-center overflow-hidden pt-20">
-        {/* Network Pattern Background */}
-        <div className="absolute inset-0 opacity-[0.15]" style={{
-          backgroundImage: `url('/bg-pattern.png')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat'
-        }} />
+        {/* Network Pattern Background - More Visible */}
+        <div 
+          className="absolute inset-0 opacity-[0.35]"
+          style={{
+            backgroundImage: `url('/bg-pattern.png')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat'
+          }} 
+        />
         
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white via-white/95 to-cyan-50/30" />
-        
-        {/* Subtle Dot Pattern Overlay */}
-        <div className="absolute inset-0 opacity-[0.03]" style={{
-          backgroundImage: `radial-gradient(circle at 1px 1px, #0ea5e9 1px, transparent 0)`,
-          backgroundSize: '40px 40px'
-        }} />
+        {/* Light Gradient Overlay on top of pattern */}
+        <div className="absolute inset-0 bg-gradient-to-br from-white/70 via-white/60 to-cyan-50/40" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-8">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 border border-slate-200 rounded-full">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/90 backdrop-blur-sm border border-slate-200 rounded-full shadow-sm">
                 <Sparkles size={16} className="text-cyan-600" />
-                <span className="text-sm font-medium text-slate-700">Intelligence Without Limits</span>
+                <span className="text-sm font-medium text-slate-700">Welcome to Epigater</span>
               </div>
               
+              {/* UPDATED HEADLINE */}
               <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.1]">
-                <span className="text-slate-900">Transforming</span>
-                <br />
                 <span className="bg-gradient-to-r from-cyan-700 via-blue-700 to-slate-800 bg-clip-text text-transparent">
-                  Tomorrow&apos;s
+                  Intelligence
                 </span>
                 <br />
-                <span className="text-slate-900">Technology</span>
+                <span className="text-slate-900">Without</span>
+                <br />
+                <span className="text-slate-900">Limits</span>
               </h1>
               
               <p className="text-lg sm:text-xl text-slate-600 leading-relaxed max-w-xl">
@@ -216,7 +214,7 @@ export default function Home() {
               </div>
               
               {/* Floating Cards */}
-              <div className="absolute top-10 -left-10 p-4 bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl shadow-slate-200/50 animate-bounce" style={{ animationDuration: '3s' }}>
+              <div className="absolute top-10 -left-10 p-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl shadow-slate-200/50 animate-bounce" style={{ animationDuration: '3s' }}>
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-emerald-100 rounded-xl">
                     <TrendingUp size={20} className="text-emerald-600" />
@@ -228,7 +226,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="absolute bottom-20 -right-5 p-4 bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl shadow-slate-200/50 animate-bounce" style={{ animationDuration: '4s' }}>
+              <div className="absolute bottom-20 -right-5 p-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl shadow-slate-200/50 animate-bounce" style={{ animationDuration: '4s' }}>
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-cyan-100 rounded-xl">
                     <Brain size={20} className="text-cyan-600" />
@@ -244,14 +242,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* About Section - Light with subtle pattern */}
+      {/* About Section - With visible pattern */}
       <section id="about" className="py-24 relative overflow-hidden">
-        {/* Subtle Background Pattern */}
-        <div className="absolute inset-0 opacity-[0.08]" style={{
-          backgroundImage: `url('/bg-pattern.png')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center'
-        }} />
+        {/* Visible Network Pattern Background */}
+        <div 
+          className="absolute inset-0 opacity-[0.25]"
+          style={{
+            backgroundImage: `url('/bg-pattern.png')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-white/95 to-slate-50/80" />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -313,7 +315,7 @@ export default function Home() {
                   { value: 'End-to-End', label: 'Solution Delivery' },
                   { value: '24/7', label: 'Technical Support' }
                 ].map((stat, i) => (
-                  <div key={i} className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                  <div key={i} className="p-4 bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-100 shadow-sm">
                     <div className="text-2xl font-bold text-slate-900">{stat.value}</div>
                     <div className="text-sm text-slate-500">{stat.label}</div>
                   </div>
@@ -324,13 +326,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Services Section - Clean white with accent cards */}
-      <section id="services" className="py-24 bg-slate-50 relative overflow-hidden">
-        {/* Dot Pattern Background */}
-        <div className="absolute inset-0 opacity-[0.04]" style={{
-          backgroundImage: `radial-gradient(circle at 1px 1px, #0ea5e9 1px, transparent 0)`,
-          backgroundSize: '30px 30px'
-        }} />
+      {/* Services Section - Clean white with subtle but visible pattern */}
+      <section id="services" className="py-24 relative overflow-hidden">
+        {/* Visible Dot Pattern Background */}
+        <div 
+          className="absolute inset-0 opacity-[0.15]"
+          style={{
+            backgroundImage: `url('/bg-pattern.png')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-50/90 via-white to-slate-50/90" />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
@@ -393,7 +400,7 @@ export default function Home() {
             ].map((service, index) => (
               <div 
                 key={index}
-                className="group relative bg-white rounded-3xl p-8 border border-slate-200 hover:border-slate-300 hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-500 hover:-translate-y-2"
+                className="group relative bg-white/90 backdrop-blur-sm rounded-3xl p-8 border border-slate-200 hover:border-slate-300 hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-500 hover:-translate-y-2"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-transparent to-slate-50/50 group-hover:from-cyan-50/30 group-hover:to-transparent rounded-3xl transition-all duration-500 opacity-0 group-hover:opacity-100" />
                 
@@ -434,14 +441,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Business Divisions - With pattern background */}
+      {/* Business Divisions - With visible pattern background */}
       <section id="divisions" className="py-24 relative overflow-hidden">
-        {/* Network Pattern Background */}
-        <div className="absolute inset-0 opacity-[0.06]" style={{
-          backgroundImage: `url('/bg-pattern.png')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center'
-        }} />
+        {/* Visible Network Pattern Background */}
+        <div 
+          className="absolute inset-0 opacity-[0.2]"
+          style={{
+            backgroundImage: `url('/bg-pattern.png')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-white/95 to-slate-50/90" />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
@@ -516,7 +527,7 @@ export default function Home() {
             ].map((division, index) => (
               <div 
                 key={index}
-                className={`group relative ${division.bgColor} rounded-3xl p-8 border ${division.borderColor} hover:shadow-xl transition-all duration-300 cursor-pointer`}
+                className={`group relative ${division.bgColor} rounded-3xl p-8 border ${division.borderColor} hover:shadow-xl transition-all duration-300 cursor-pointer backdrop-blur-sm`}
               >
                 <div className="flex items-start gap-4 mb-4">
                   <div className={`p-3 bg-white rounded-xl shadow-sm`}>
@@ -547,18 +558,21 @@ export default function Home() {
 
       {/* Why Choose Us - Dark section with dot pattern (like reference image) */}
       <section id="why-us" className="py-24 bg-gradient-to-br from-slate-800 via-slate-800 to-slate-900 relative overflow-hidden">
-        {/* Subtle Dot Pattern - Like the reference image */}
-        <div className="absolute inset-0 opacity-[0.05]" style={{
+        {/* Visible Subtle Dot Pattern - Like the reference image */}
+        <div className="absolute inset-0 opacity-[0.08]" style={{
           backgroundImage: `radial-gradient(circle at 1px 1px, white 1px, transparent 0)`,
           backgroundSize: '24px 24px'
         }} />
         
-        {/* Network Pattern Overlay */}
-        <div className="absolute inset-0 opacity-[0.03]" style={{
-          backgroundImage: `url('/bg-pattern.png')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center'
-        }} />
+        {/* Network Pattern Overlay - Visible */}
+        <div 
+          className="absolute inset-0 opacity-[0.05]"
+          style={{
+            backgroundImage: `url('/bg-pattern.png')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
+          }}
+        />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
@@ -648,14 +662,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Contact Section - Clean with subtle pattern */}
+      {/* Contact Section - Clean with visible pattern */}
       <section id="contact" className="py-24 relative overflow-hidden">
-        {/* Subtle Pattern Background */}
-        <div className="absolute inset-0 opacity-[0.06]" style={{
-          backgroundImage: `url('/bg-pattern.png')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center'
-        }} />
+        {/* Visible Pattern Background */}
+        <div 
+          className="absolute inset-0 opacity-[0.25]"
+          style={{
+            backgroundImage: `url('/bg-pattern.png')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-white/95 to-slate-50/90" />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16">
@@ -671,7 +689,7 @@ export default function Home() {
               </div>
 
               <div className="space-y-6">
-                <div className="flex items-start gap-4 p-6 bg-slate-50 rounded-2xl border border-slate-100">
+                <div className="flex items-start gap-4 p-6 bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-100 shadow-sm">
                   <div className="p-3 bg-white rounded-xl shadow-sm">
                     <Mail size={22} className="text-cyan-600" />
                   </div>
@@ -682,7 +700,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4 p-6 bg-slate-50 rounded-2xl border border-slate-100">
+                <div className="flex items-start gap-4 p-6 bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-100 shadow-sm">
                   <div className="p-3 bg-white rounded-xl shadow-sm">
                     <Phone size={22} className="text-cyan-600" />
                   </div>
@@ -693,7 +711,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4 p-6 bg-slate-50 rounded-2xl border border-slate-100">
+                <div className="flex items-start gap-4 p-6 bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-100 shadow-sm">
                   <div className="p-3 bg-white rounded-xl shadow-sm">
                     <MapPin size={22} className="text-cyan-600" />
                   </div>
@@ -706,14 +724,14 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="bg-white rounded-3xl p-8 sm:p-10 shadow-xl shadow-slate-200/50 border border-slate-200">
+            <div className="bg-white/90 backdrop-blur-sm rounded-3xl p-8 sm:p-10 shadow-xl shadow-slate-200/50 border border-slate-200">
               <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-2">First Name</label>
                     <input 
                       type="text" 
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all"
+                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all bg-white/80"
                       placeholder="John"
                     />
                   </div>
@@ -721,7 +739,7 @@ export default function Home() {
                     <label className="block text-sm font-medium text-slate-700 mb-2">Last Name</label>
                     <input 
                       type="text" 
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all"
+                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all bg-white/80"
                       placeholder="Doe"
                     />
                   </div>
@@ -731,7 +749,7 @@ export default function Home() {
                   <label className="block text-sm font-medium text-slate-700 mb-2">Email Address</label>
                   <input 
                     type="email" 
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all bg-white/80"
                     placeholder="john@company.com"
                   />
                 </div>
@@ -740,14 +758,14 @@ export default function Home() {
                   <label className="block text-sm font-medium text-slate-700 mb-2">Company</label>
                   <input 
                     type="text" 
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all bg-white/80"
                     placeholder="Your Company Name"
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Service Interest</label>
-                  <select className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all bg-white">
+                  <select className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all bg-white/80">
                     <option>Select a service...</option>
                     <option>AI & Machine Learning</option>
                     <option>Enterprise Software</option>
@@ -763,7 +781,7 @@ export default function Home() {
                   <label className="block text-sm font-medium text-slate-700 mb-2">Message</label>
                   <textarea 
                     rows={4}
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all resize-none"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all resize-none bg-white/80"
                     placeholder="Tell us about your project..."
                   />
                 </div>
