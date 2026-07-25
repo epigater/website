@@ -1,0 +1,2524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Epigater Solutions | Intelligence Without Limits</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0A192F;
+            --secondary: #112240;
+            --accent: #00E5FF;
+            --accent-2: #6366F1;
+            --accent-glow: rgba(0, 229, 255, 0.15);
+            --accent-glow-strong: rgba(0, 229, 255, 0.4);
+            --text-dark: #1E293B;
+            --text-light: #64748B;
+            --bg-light: #F8FAFC;
+            --white: #FFFFFF;
+            --border: #E2E8F0;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            --mega-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            color: var(--text-dark); 
+            line-height: 1.6; 
+            background: var(--white);
+            overflow-x: hidden;
+        }
+        h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; line-height: 1.2; }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+        ul { list-style: none; }
+
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-20px); } }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.7; transform: scale(1.05); } }
+        @keyframes gradientShift { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+        @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes dataFlow { 0% { background-position: 0 0; } 100% { background-position: 0 100%; } }
+        @keyframes iconPulse {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0 var(--accent)); }
+            50% { transform: scale(1.1); filter: drop-shadow(0 0 15px var(--accent)); }
+        }
+        @keyframes borderGlow {
+            0%, 100% { border-color: rgba(0, 229, 255, 0.3); }
+            50% { border-color: rgba(0, 229, 255, 0.8); }
+        }
+        @keyframes pageIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+
+        /* HEADER */
+        header {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            background: rgba(10, 25, 47, 0.85); backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 229, 255, 0.1);
+            transition: var(--transition);
+        }
+        header.scrolled { background: rgba(10, 25, 47, 0.98); box-shadow: 0 4px 30px rgba(0, 229, 255, 0.1); }
+        .nav-wrapper { display: flex; justify-content: space-between; align-items: center; height: 75px; }
+        .logo { 
+            font-family: 'Space Grotesk', sans-serif; font-size: 1.6rem; font-weight: 700; 
+            color: var(--white); letter-spacing: 1px; cursor: pointer;
+        }
+        .logo span { color: var(--accent); text-shadow: 0 0 10px var(--accent-glow-strong); animation: pulse 2s ease-in-out infinite; }
+        .logo::after { content: '_'; color: var(--accent); animation: blink 1s infinite; margin-left: 2px; }
+
+        .main-nav { display: flex; gap: 10px; align-items: center; }
+        .nav-item { position: relative; }
+        .nav-link {
+            color: rgba(255,255,255,0.85); font-weight: 500; font-size: 0.95rem;
+            padding: 10px 16px; border-radius: 6px; transition: var(--transition);
+            display: flex; align-items: center; gap: 6px; cursor: pointer;
+            position: relative;
+        }
+        .nav-link::before {
+            content: ''; position: absolute; bottom: 0; left: 50%;
+            width: 0; height: 2px; background: var(--accent);
+            transition: all 0.3s ease; transform: translateX(-50%);
+            box-shadow: 0 0 10px var(--accent);
+        }
+        .nav-link:hover::before, .nav-item:hover .nav-link::before { width: 80%; }
+        .nav-link:hover, .nav-item:hover .nav-link { color: var(--white); }
+        .nav-link i.fa-chevron-down { font-size: 0.7rem; transition: var(--transition); }
+        .nav-item:hover .nav-link i.fa-chevron-down { transform: rotate(180deg); }
+
+        .mega-menu {
+            position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(10px);
+            background: rgba(17, 34, 64, 0.98); backdrop-filter: blur(20px);
+            border-radius: 12px; box-shadow: var(--mega-shadow);
+            padding: 30px; min-width: 750px; opacity: 0; visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+            pointer-events: none;
+        }
+        .mega-menu::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, transparent, rgba(0, 229, 255, 0.05), transparent);
+            pointer-events: none; border-radius: 12px;
+        }
+        .nav-item:hover .mega-menu { 
+            opacity: 1; visibility: visible; 
+            transform: translateX(-50%) translateY(0);
+            pointer-events: auto;
+        }
+        
+        .mega-col h4 { 
+            font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; 
+            color: var(--accent); margin-bottom: 15px; 
+            font-family: 'JetBrains Mono', monospace; font-weight: 500;
+        }
+        .mega-col ul li a {
+            display: flex; align-items: flex-start; gap: 10px; padding: 8px 10px;
+            color: rgba(255,255,255,0.85); font-size: 0.9rem; transition: var(--transition);
+            border-radius: 6px; cursor: pointer;
+        }
+        .mega-col ul li a:hover { 
+            color: var(--accent); background: rgba(0, 229, 255, 0.05); transform: translateX(5px);
+        }
+        .mega-col ul li a i { color: var(--accent); margin-top: 4px; font-size: 0.8rem; width: 16px; }
+
+        .nav-cta {
+            background: transparent; color: var(--accent); padding: 10px 24px;
+            border: 1px solid var(--accent); border-radius: 6px; font-weight: 600; 
+            font-size: 0.9rem; transition: var(--transition);
+            position: relative; overflow: hidden; cursor: pointer;
+        }
+        .nav-cta:hover { 
+            background: var(--accent); color: var(--primary);
+            box-shadow: 0 0 30px var(--accent-glow-strong);
+        }
+
+        .mobile-menu-btn { display: none; font-size: 1.5rem; color: var(--white); background: none; border: none; cursor: pointer; }
+
+        /* HERO */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, #0f172a 50%, var(--secondary) 100%);
+            color: var(--white); padding: 180px 0 120px; position: relative; overflow: hidden;
+            min-height: 100vh; display: flex; align-items: center;
+        }
+        #neuralCanvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.6; }
+        .hero::before {
+            content: ""; position: absolute; top: -50%; right: -20%; width: 800px; height: 800px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            animation: float 8s ease-in-out infinite; z-index: 1;
+        }
+        .hero-content { position: relative; z-index: 2; max-width: 850px; }
+        .hero-tag {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: rgba(0, 229, 255, 0.08); border: 1px solid rgba(0, 229, 255, 0.3);
+            color: var(--accent); padding: 8px 20px; border-radius: 30px; font-size: 0.85rem;
+            font-weight: 600; margin-bottom: 24px; letter-spacing: 1px;
+            font-family: 'JetBrains Mono', monospace; animation: borderGlow 3s ease-in-out infinite;
+        }
+        .hero-tag::before {
+            content: ''; width: 8px; height: 8px; background: var(--accent);
+            border-radius: 50%; box-shadow: 0 0 10px var(--accent); animation: pulse 1.5s ease-in-out infinite;
+        }
+        .hero h1 { 
+            font-size: 4.5rem; margin-bottom: 24px; line-height: 1.1;
+            background: linear-gradient(135deg, #ffffff 0%, var(--accent) 100%);
+            background-size: 200% 200%; -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent; animation: gradientShift 5s ease infinite;
+        }
+        .hero h1 .typed-text { color: var(--accent); -webkit-text-fill-color: var(--accent); position: relative; }
+        .hero h1 .typed-text::after {
+            content: '|'; color: var(--accent); -webkit-text-fill-color: var(--accent);
+            animation: blink 1s infinite; margin-left: 4px;
+        }
+        .hero p { font-size: 1.25rem; color: rgba(255,255,255,0.75); margin-bottom: 40px; max-width: 700px; }
+        .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+        .btn {
+            display: inline-flex; align-items: center; gap: 8px; padding: 16px 32px;
+            border-radius: 8px; font-weight: 600; font-size: 1rem; transition: var(--transition); 
+            cursor: pointer; border: none; position: relative; overflow: hidden;
+        }
+        .btn-primary { background: var(--accent); color: var(--primary); box-shadow: 0 0 20px var(--accent-glow); }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 40px var(--accent-glow-strong); }
+        .btn-outline { background: transparent; border: 2px solid rgba(255,255,255,0.3); color: var(--white); }
+        .btn-outline:hover { border-color: var(--accent); background: rgba(0, 229, 255, 0.05); box-shadow: 0 0 20px var(--accent-glow); }
+
+        /* PAGE SYSTEM */
+        .page { display: none; animation: pageIn 0.6s ease; }
+        .page.active { display: block; }
+
+        .page-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--white); padding: 160px 0 80px; position: relative; overflow: hidden;
+        }
+        .page-header::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                linear-gradient(rgba(0, 229, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 229, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px; animation: dataFlow 20s linear infinite;
+        }
+        .page-header::after {
+            content: ''; position: absolute; top: -50%; right: -20%; width: 600px; height: 600px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            animation: float 8s ease-in-out infinite;
+        }
+        .page-header-content { position: relative; z-index: 2; }
+        .breadcrumb {
+            display: flex; align-items: center; gap: 8px; margin-bottom: 20px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--accent);
+            flex-wrap: wrap;
+        }
+        .breadcrumb a { color: rgba(255,255,255,0.6); transition: var(--transition); cursor: pointer; }
+        .breadcrumb a:hover { color: var(--accent); }
+        .breadcrumb span { color: rgba(255,255,255,0.4); }
+        .page-header h1 {
+            font-size: 3.5rem; margin-bottom: 16px;
+            background: linear-gradient(135deg, #ffffff 0%, var(--accent) 100%);
+            background-size: 200% 200%; -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent; animation: gradientShift 5s ease infinite;
+        }
+        .page-header p { font-size: 1.2rem; color: rgba(255,255,255,0.75); max-width: 750px; }
+        .page-tag {
+            display: inline-block; font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem; color: var(--accent); letter-spacing: 3px;
+            text-transform: uppercase; margin-bottom: 12px; padding: 6px 16px;
+            background: rgba(0, 229, 255, 0.08); border-radius: 20px;
+            border: 1px solid rgba(0, 229, 255, 0.2);
+        }
+
+        /* SECTIONS */
+        section.content-section { padding: 100px 0; position: relative; }
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-header .section-tag {
+            display: inline-block; font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem; color: var(--accent); letter-spacing: 3px;
+            text-transform: uppercase; margin-bottom: 12px; padding: 6px 16px;
+            background: rgba(0, 229, 255, 0.08); border-radius: 20px;
+            border: 1px solid rgba(0, 229, 255, 0.2);
+        }
+        .section-header h2 { 
+            font-size: 2.8rem; margin-bottom: 16px; color: var(--primary);
+            position: relative; display: inline-block;
+        }
+        .section-header h2::after {
+            content: ''; position: absolute; bottom: -10px; left: 50%;
+            transform: translateX(-50%); width: 60px; height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2)); border-radius: 2px;
+        }
+        .section-header p { color: var(--text-light); max-width: 650px; margin: 20px auto 0; font-size: 1.1rem; }
+        .bg-light { background: var(--bg-light); }
+        .bg-dark { 
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); 
+            color: var(--white); position: relative; overflow: hidden;
+        }
+        .bg-dark::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                linear-gradient(rgba(0, 229, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 229, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px; animation: dataFlow 20s linear infinite;
+        }
+        .bg-dark .section-header h2 { color: var(--white); }
+        .bg-dark .section-header h2::after { background: linear-gradient(90deg, var(--accent), transparent); }
+        .bg-dark .section-header p { color: rgba(255,255,255,0.7); }
+
+        /* CARDS */
+        .detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+        .detail-card {
+            background: var(--white); padding: 30px; border-radius: 16px; 
+            border: 1px solid var(--border);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative; overflow: hidden;
+        }
+        .detail-card::before {
+            content: ''; position: absolute; top: 0; left: 0;
+            width: 100%; height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent));
+            background-size: 200% 100%; transform: scaleX(0);
+            transform-origin: left; transition: transform 0.5s ease;
+        }
+        .detail-card:hover { 
+            border-color: var(--accent); box-shadow: 0 20px 40px rgba(0, 229, 255, 0.15);
+            transform: translateY(-8px);
+        }
+        .detail-card:hover::before { transform: scaleX(1); }
+        .detail-card h4 { 
+            font-size: 1.2rem; margin-bottom: 16px; color: var(--primary); 
+            display: flex; align-items: center; gap: 12px; position: relative; z-index: 2;
+        }
+        .detail-card h4 i { color: var(--accent); font-size: 1.4rem; transition: var(--transition); }
+        .detail-card:hover h4 i { animation: iconPulse 1.5s ease-in-out infinite; }
+        .detail-card ul { padding-left: 0; position: relative; z-index: 2; }
+        .detail-card ul li {
+            font-size: 0.9rem; color: var(--text-light); margin-bottom: 8px;
+            display: flex; align-items: flex-start; gap: 8px; transition: var(--transition);
+        }
+        .detail-card:hover ul li { color: var(--text-dark); }
+        .detail-card ul li::before { 
+            content: "▹"; color: var(--accent); font-weight: bold; transition: var(--transition);
+        }
+        .detail-card:hover ul li::before { transform: translateX(3px); }
+        .detail-card p { color: var(--text-light); position: relative; z-index: 2; }
+
+        .ai-card {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--white); border: 1px solid rgba(0, 229, 255, 0.3);
+        }
+        .ai-card h4 { color: var(--white); }
+        .ai-card ul li { color: rgba(255,255,255,0.8); }
+        .ai-card ul li::before { color: var(--accent); }
+
+        .content-block { margin-bottom: 60px; }
+        .content-block h3 {
+            font-size: 1.8rem; color: var(--primary); margin-bottom: 20px;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .content-block h3 i { color: var(--accent); }
+        .content-block p { color: var(--text-light); margin-bottom: 20px; font-size: 1.05rem; }
+        .content-block ul.feature-list { padding-left: 0; }
+        .content-block ul.feature-list li {
+            padding: 12px 0; border-bottom: 1px solid var(--border);
+            display: flex; align-items: flex-start; gap: 12px;
+            color: var(--text-dark); font-size: 1rem;
+        }
+        .content-block ul.feature-list li::before {
+            content: "▹"; color: var(--accent); font-weight: bold; font-size: 1.2rem;
+        }
+
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+        .two-col-content h3 { font-size: 1.8rem; color: var(--primary); margin-bottom: 20px; }
+        .two-col-content p { color: var(--text-light); margin-bottom: 16px; }
+
+        .value-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+        .value-card {
+            background: var(--white); padding: 30px; border-radius: 16px;
+            border: 1px solid var(--border); transition: var(--transition);
+            position: relative; overflow: hidden;
+        }
+        .value-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
+            background: linear-gradient(to bottom, var(--accent), var(--accent-2));
+        }
+        .value-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); border-color: var(--accent); }
+        .value-card .value-icon {
+            width: 50px; height: 50px; background: rgba(0, 229, 255, 0.1);
+            border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem; color: var(--accent); margin-bottom: 16px;
+        }
+        .value-card h4 { color: var(--primary); margin-bottom: 10px; font-size: 1.2rem; }
+        .value-card p { color: var(--text-light); font-size: 0.95rem; }
+
+        .timeline { position: relative; max-width: 900px; margin: 0 auto; }
+        .timeline::before {
+            content: ''; position: absolute; left: 50%; transform: translateX(-50%);
+            width: 2px; height: 100%; 
+            background: linear-gradient(to bottom, var(--accent), var(--accent-2), var(--accent));
+        }
+        .timeline-item { padding: 20px 0; position: relative; width: 50%; padding-right: 50px; }
+        .timeline-item:nth-child(even) { left: 50%; padding-right: 0; padding-left: 50px; }
+        .timeline-dot {
+            position: absolute; width: 20px; height: 20px; background: var(--accent);
+            border-radius: 50%; right: -10px; top: 30px; 
+            border: 4px solid var(--white); box-shadow: 0 0 0 4px var(--accent-glow), 0 0 20px var(--accent);
+            animation: pulse 2s ease-in-out infinite;
+        }
+        .timeline-item:nth-child(even) .timeline-dot { left: -10px; right: auto; }
+        .timeline-content {
+            background: var(--white); padding: 24px; border-radius: 12px; 
+            box-shadow: var(--shadow); border-left: 4px solid var(--accent);
+            transition: var(--transition);
+        }
+        .timeline-content:hover { transform: translateX(-5px); box-shadow: 0 15px 40px rgba(0, 229, 255, 0.15); }
+        .timeline-content h4 { color: var(--accent); margin-bottom: 8px; }
+        .timeline-content p { font-size: 0.95rem; color: var(--text-light); }
+
+        .stats-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 80px 0; position: relative; overflow: hidden;
+        }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; position: relative; z-index: 2; }
+        .stat-item { text-align: center; color: var(--white); }
+        .stat-number {
+            font-family: 'Space Grotesk', sans-serif; font-size: 3.5rem; font-weight: 700;
+            color: var(--accent); text-shadow: 0 0 20px var(--accent-glow-strong);
+            line-height: 1; margin-bottom: 10px;
+        }
+        .stat-label {
+            font-size: 0.9rem; color: rgba(255,255,255,0.7); text-transform: uppercase;
+            letter-spacing: 2px; font-family: 'JetBrains Mono', monospace;
+        }
+
+        .process-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+        .process-step {
+            background: var(--white); padding: 24px; border-radius: 12px;
+            border: 1px solid var(--border); transition: var(--transition);
+            position: relative; overflow: hidden;
+        }
+        .process-step::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+        }
+        .process-step:hover { transform: translateY(-5px); box-shadow: var(--shadow); border-color: var(--accent); }
+        .process-step .step-num {
+            font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 700;
+            color: var(--accent); margin-bottom: 8px;
+        }
+        .process-step h4 { color: var(--primary); margin-bottom: 8px; font-size: 1.05rem; }
+        .process-step p { color: var(--text-light); font-size: 0.9rem; }
+
+        .contact-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 60px; }
+        .contact-info h3 { font-size: 1.8rem; margin-bottom: 20px; }
+        .contact-details li { 
+            display: flex; align-items: center; gap: 15px; margin-bottom: 20px; font-weight: 500;
+            transition: var(--transition);
+        }
+        .contact-details li:hover { transform: translateX(5px); }
+        .contact-details i { 
+            width: 45px; height: 45px; 
+            background: linear-gradient(135deg, var(--primary), var(--secondary)); 
+            color: var(--accent); border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 15px var(--accent-glow); transition: var(--transition);
+        }
+        .contact-details li:hover i { transform: rotate(360deg); box-shadow: 0 0 25px var(--accent-glow-strong); }
+        .form-input {
+            width: 100%; padding: 14px 16px; border: 1px solid var(--border); border-radius: 8px;
+            font-family: inherit; font-size: 1rem; transition: var(--transition);
+            background: var(--white);
+        }
+        .form-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+
+        .industry-card {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+            padding: 30px; border-radius: 16px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative; overflow: hidden; backdrop-filter: blur(10px);
+        }
+        .industry-card:hover {
+            border-color: var(--accent); transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0, 229, 255, 0.2);
+        }
+        .industry-card .industry-icon {
+            width: 50px; height: 50px; background: rgba(0, 229, 255, 0.1);
+            border: 1px solid rgba(0, 229, 255, 0.3); border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem; color: var(--accent); margin-bottom: 16px;
+            transition: var(--transition); position: relative; z-index: 2;
+        }
+        .industry-card:hover .industry-icon {
+            background: var(--accent); color: var(--primary);
+            transform: rotate(360deg) scale(1.1); box-shadow: 0 0 20px var(--accent-glow-strong);
+        }
+        .industry-card h4 { color: var(--white); font-size: 1.1rem; margin-bottom: 10px; position: relative; z-index: 2; }
+        .industry-card p { color: rgba(255,255,255,0.6); font-size: 0.85rem; position: relative; z-index: 2; }
+
+        footer { 
+            background: #060f1d; color: rgba(255,255,255,0.6); padding: 60px 0 30px;
+            position: relative; overflow: hidden;
+        }
+        footer::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+        .footer-col h4 { color: var(--white); margin-bottom: 20px; font-size: 1.1rem; }
+        .footer-col ul li { margin-bottom: 10px; }
+        .footer-col ul li a { font-size: 0.9rem; transition: var(--transition); cursor: pointer; }
+        .footer-col ul li a:hover { color: var(--accent); padding-left: 5px; }
+        .footer-bottom { 
+            border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px; 
+            text-align: center; font-size: 0.85rem;
+        }
+
+        @media (max-width: 1024px) {
+            .mega-menu { min-width: 600px; grid-template-columns: repeat(2, 1fr); }
+            .hero h1, .page-header h1 { font-size: 3rem; }
+            .two-col { grid-template-columns: 1fr; gap: 40px; }
+        }
+        @media (max-width: 768px) {
+            .mobile-menu-btn { display: block; }
+            .main-nav {
+                display: none; position: absolute; top: 75px; left: 0; width: 100%;
+                background: rgba(10, 25, 47, 0.98); backdrop-filter: blur(20px);
+                flex-direction: column; padding: 20px;
+                max-height: calc(100vh - 75px); overflow-y: auto;
+            }
+            .main-nav.active { display: flex; }
+            .nav-item { width: 100%; border-bottom: 1px solid rgba(255,255,255,0.05); }
+            .nav-link { width: 100%; justify-content: space-between; padding: 15px 0; }
+            .mega-menu {
+                position: static; transform: none; min-width: 100%; 
+                background: rgba(0, 229, 255, 0.03);
+                box-shadow: none; border: none; padding: 10px 0 20px 20px;
+                grid-template-columns: 1fr; display: none; opacity: 1; visibility: visible;
+                pointer-events: auto;
+            }
+            .nav-item.mobile-open .mega-menu { display: grid; }
+            .mega-col h4 { color: var(--accent); }
+            .mega-col ul li a { color: rgba(255,255,255,0.8); }
+            .nav-cta { display: none; }
+            
+            .hero, .page-header { padding: 140px 0 80px; min-height: auto; }
+            .hero h1, .page-header h1 { font-size: 2.2rem; }
+            .hero p, .page-header p { font-size: 1rem; }
+            .section-header h2 { font-size: 2rem; }
+            .contact-grid, .footer-grid { grid-template-columns: 1fr; }
+            
+            .timeline::before { left: 10px; }
+            .timeline-item, .timeline-item:nth-child(even) { 
+                width: 100%; left: 0; padding-left: 40px; padding-right: 0; 
+            }
+            .timeline-dot, .timeline-item:nth-child(even) .timeline-dot { left: 0; right: auto; }
+            
+            .stat-number { font-size: 2.5rem; }
+            .content-block h3 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="header">
+    <div class="container nav-wrapper">
+        <a class="logo" onclick="navigateTo('home')">EPIGATER<span>.</span></a>
+        
+        <nav class="main-nav" id="mainNav">
+            <div class="nav-item">
+                <div class="nav-link">About Us<i class="fas fa-chevron-down"></i></div>
+                <div class="mega-menu">
+                    <div class="mega-col">
+                        <h4>// Overview</h4>
+                        <ul>
+                            <li><a data-page="overview"><i class="fas fa-building"></i> Company Overview</a></li>
+                            <li><a data-page="vision"><i class="fas fa-eye"></i> Vision & Mission</a></li>
+                            <li><a data-page="values"><i class="fas fa-gem"></i> Core Values</a></li>
+                        </ul>
+                    </div>
+                    <div class="mega-col">
+                        <h4>// Strategy</h4>
+                        <ul>
+                            <li><a data-page="objectives"><i class="fas fa-bullseye"></i> Strategic Objectives</a></li>
+                            <li><a data-page="governance"><i class="fas fa-balance-scale"></i> Governance</a></li>
+                            <li><a data-page="roadmap"><i class="fas fa-route"></i> Growth Roadmap</a></li>
+                        </ul>
+                    </div>
+                    <div class="mega-col">
+                        <h4>// Impact</h4>
+                        <ul>
+                            <li><a data-page="sustainability"><i class="fas fa-leaf"></i> Sustainability</a></li>
+                            <li><a data-page="workforce"><i class="fas fa-users"></i> AI-Augmented Workforce</a></li>
+                            <li><a data-page="partnership"><i class="fas fa-handshake"></i> Partnership Strategy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-item">
+                <div class="nav-link">Divisions <i class="fas fa-chevron-down"></i></div>
+                <div class="mega-menu">
+                    <div class="mega-col">
+                        <h4>// Software & Intelligence</h4>
+                        <ul>
+                            <li><a data-page="labs"><i class="fas fa-brain"></i> Epigater Labs</a></li>
+                            <li><a data-page="intelligence"><i class="fas fa-chart-line"></i> Epigater Intelligence</a></li>
+                        </ul>
+                    </div>
+                    <div class="mega-col">
+                        <h4>// Infrastructure & Industry</h4>
+                        <ul>
+                            <li><a data-page="nexus"><i class="fas fa-network-wired"></i> Epigater Nexus</a></li>
+                            <li><a data-page="matrix"><i class="fas fa-industry"></i> Epigater Matrix</a></li>
+                        </ul>
+                    </div>
+                    <div class="mega-col">
+                        <h4>// Energy & Trade</h4>
+                        <ul>
+                            <li><a data-page="energy"><i class="fas fa-solar-panel"></i> Epigater Energy</a></li>
+                            <li><a data-page="trade"><i class="fas fa-globe-africa"></i> Global Trade</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-item">
+                <div class="nav-link">Solutions <i class="fas fa-chevron-down"></i></div>
+                <div class="mega-menu">
+                    <div class="mega-col">
+                        <h4>// Digital & Enterprise</h4>
+                        <ul>
+                            <li><a data-page="sol-ai"><i class="fas fa-robot"></i> AI & Custom Software</a></li>
+                            <li><a data-page="sol-ai-agents"><i class="fas fa-user-cog"></i> AI Agents</a></li>
+                            <li><a data-page="sol-erp"><i class="fas fa-database"></i> ERP Solutions</a></li>
+                            <li><a data-page="sol-cyber"><i class="fas fa-shield-alt"></i> Cybersecurity</a></li>
+                        </ul>
+                    </div>
+                    <div class="mega-col">
+                        <h4>// Physical & Industrial</h4>
+                        <ul>
+                            <li><a data-page="sol-energy"><i class="fas fa-bolt"></i> Smart Energy</a></li>
+                            <li><a data-page="sol-mfg"><i class="fas fa-cogs"></i> Smart Manufacturing</a></li>
+                            <li><a data-page="sol-digital-twins"><i class="fas fa-cube"></i> Digital Twins</a></li>
+                            <li><a data-page="sol-infra"><i class="fas fa-server"></i> Tech Integration</a></li>
+                        </ul>
+                    </div>
+                    <div class="mega-col">
+                        <h4>// Telecom & VAS</h4>
+                        <ul>
+                            <li><a data-page="sol-vas"><i class="fas fa-star"></i> Value-Added Services</a></li>
+                            <li><a data-page="sol-smart-metering"><i class="fas fa-tachometer-alt"></i> Smart Metering</a></li>
+                            <li><a data-page="sol-ev-charging"><i class="fas fa-charging-station"></i> EV Charging</a></li>
+                        </ul>
+                    </div>
+                    <div class="mega-col">
+                        <h4>// Methodology</h4>
+                        <ul>
+                            <li><a data-page="methodology"><i class="fas fa-tasks"></i> Delivery Process</a></li>
+                            <li><a data-page="quality"><i class="fas fa-check-circle"></i> Quality Assurance</a></li>
+                            <li><a data-page="support"><i class="fas fa-headset"></i> Support & Maintenance</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-item">
+                <div class="nav-link">Industries <i class="fas fa-chevron-down"></i></div>
+                <div class="mega-menu">
+                    <div class="mega-col">
+                        <h4>// Public & Enterprise</h4>
+                        <ul>
+                            <li><a data-page="ind-gov"><i class="fas fa-landmark"></i> Government</a></li>
+                            <li><a data-page="ind-fin"><i class="fas fa-university"></i> Financial Services</a></li>
+                            <li><a data-page="ind-health"><i class="fas fa-hospital"></i> Healthcare</a></li>
+                            <li><a data-page="ind-edu"><i class="fas fa-graduation-cap"></i> Education</a></li>
+                        </ul>
+                    </div>
+                    <div class="mega-col">
+                        <h4>// Industrial</h4>
+                        <ul>
+                            <li><a data-page="ind-mfg"><i class="fas fa-industry"></i> Manufacturing</a></li>
+                            <li><a data-page="ind-energy"><i class="fas fa-bolt"></i> Energy & Utilities</a></li>
+                            <li><a data-page="ind-telecom"><i class="fas fa-satellite-dish"></i> Telecom</a></li>
+                            <li><a data-page="ind-construction"><i class="fas fa-building"></i> Construction</a></li>
+                        </ul>
+                    </div>
+                    <div class="mega-col">
+                        <h4>// Commerce</h4>
+                        <ul>
+                            <li><a data-page="ind-logistics"><i class="fas fa-truck"></i> Logistics</a></li>
+                            <li><a data-page="ind-retail"><i class="fas fa-shopping-cart"></i> Retail</a></li>
+                            <li><a data-page="ind-agri"><i class="fas fa-seedling"></i> Agriculture</a></li>
+                            <li><a data-page="ind-hospitality"><i class="fas fa-hotel"></i> Hospitality</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <a class="nav-cta" data-page="contact">Contact Us</a>
+        </nav>
+
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+</header>
+
+<!-- HOME PAGE -->
+<div class="page active" id="page-home">
+    <section class="hero">
+        <canvas id="neuralCanvas"></canvas>
+        <div class="container hero-content">
+            <span class="hero-tag">AI-NATIVE TECHNOLOGY ECOSYSTEM</span>
+            <h1>Intelligence <br><span class="typed-text" id="typedText"></span></h1>
+            <p>Epigater Solutions is an AI-driven technology, engineering, and international trading company. We develop, integrate, and implement intelligent systems that enable organizations to operate more efficiently, securely, and sustainably across Africa and global markets.</p>
+            <div class="hero-btns">
+                <a class="btn btn-primary" data-page="overview">Explore Our Company <i class="fas fa-arrow-right"></i></a>
+                <a class="btn btn-outline" data-page="contact">Partner With Us</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item reveal"><div class="stat-number" data-target="6">0</div><div class="stat-label">Business Divisions</div></div>
+                <div class="stat-item reveal reveal-delay-1"><div class="stat-number" data-target="12">0</div><div class="stat-label">Industries Served</div></div>
+                <div class="stat-item reveal reveal-delay-2"><div class="stat-number" data-target="50">0</div><div class="stat-label">AI Solutions</div></div>
+                <div class="stat-item reveal reveal-delay-3"><div class="stat-number" data-target="24">0</div><div class="stat-label">7 Support</div></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-tag">// Our Divisions</span>
+                <h2>Business Divisions</h2>
+                <p>Specialized but interconnected divisions working together to deliver complete, end-to-end technology ecosystems.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card ai-card reveal" data-page="labs" style="cursor:pointer;">
+                    <h4><i class="fas fa-brain"></i> Epigater Labs</h4>
+                    <ul>
+                        <li>AI software development</li>
+                        <li>AI agents & AI employees</li>
+                        <li>Enterprise applications</li>
+                        <li>Cloud platforms & APIs</li>
+                    </ul>
+                </div>
+                <div class="detail-card reveal reveal-delay-1" data-page="nexus" style="cursor:pointer;">
+                    <h4><i class="fas fa-network-wired"></i> Epigater Nexus</h4>
+                    <ul>
+                        <li>Technology infrastructure</li>
+                        <li>Cybersecurity systems</li>
+                        <li>Data centers & networking</li>
+                        <li>IoT & smart buildings</li>
+                    </ul>
+                </div>
+                <div class="detail-card reveal reveal-delay-2" data-page="matrix" style="cursor:pointer;">
+                    <h4><i class="fas fa-industry"></i> Epigater Matrix</h4>
+                    <ul>
+                        <li>Industrial automation</li>
+                        <li>Computer-vision inspection</li>
+                        <li>Robotics integration</li>
+                        <li>Digital twins</li>
+                    </ul>
+                </div>
+                <div class="detail-card reveal reveal-delay-3" data-page="energy" style="cursor:pointer;">
+                    <h4><i class="fas fa-solar-panel"></i> Epigater Energy</h4>
+                    <ul>
+                        <li>Solar PV systems</li>
+                        <li>Battery storage</li>
+                        <li>Smart energy management</li>
+                        <li>EV charging infrastructure</li>
+                    </ul>
+                </div>
+                <div class="detail-card reveal" data-page="intelligence" style="cursor:pointer;">
+                    <h4><i class="fas fa-chart-line"></i> Epigater Intelligence</h4>
+                    <ul>
+                        <li>Business intelligence</li>
+                        <li>Predictive analytics</li>
+                        <li>AI advisory services</li>
+                        <li>Decision-support systems</li>
+                    </ul>
+                </div>
+                <div class="detail-card reveal reveal-delay-1" data-page="trade" style="cursor:pointer;">
+                    <h4><i class="fas fa-globe-africa"></i> Global Trade</h4>
+                    <ul>
+                        <li>Import of tech equipment</li>
+                        <li>Export of software & services</li>
+                        <li>Supply-chain management</li>
+                        <li>Authorized distribution</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section bg-dark">
+        <div class="container" style="position: relative; z-index: 2;">
+            <div class="section-header reveal">
+                <span class="section-tag">// Industries</span>
+                <h2>Industries We Serve</h2>
+                <p>Delivering scalable, multi-industry solutions that transfer seamlessly across public and private sectors.</p>
+            </div>
+            <div class="detail-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+                <div class="industry-card reveal" data-page="ind-gov" style="cursor:pointer;"><div class="industry-icon"><i class="fas fa-landmark"></i></div><h4>Government</h4><p>Digital government, smart cities, revenue management.</p></div>
+                <div class="industry-card reveal reveal-delay-1" data-page="ind-fin" style="cursor:pointer;"><div class="industry-icon"><i class="fas fa-university"></i></div><h4>Financial Services</h4><p>AI customer service, fraud monitoring, analytics.</p></div>
+                <div class="industry-card reveal reveal-delay-2" data-page="ind-mfg" style="cursor:pointer;"><div class="industry-icon"><i class="fas fa-industry"></i></div><h4>Manufacturing</h4><p>ERP, predictive maintenance, automation.</p></div>
+                <div class="industry-card reveal reveal-delay-3" data-page="ind-energy" style="cursor:pointer;"><div class="industry-icon"><i class="fas fa-bolt"></i></div><h4>Energy & Utilities</h4><p>Smart metering, renewable energy, analytics.</p></div>
+                <div class="industry-card reveal" data-page="ind-health" style="cursor:pointer;"><div class="industry-icon"><i class="fas fa-hospital"></i></div><h4>Healthcare</h4><p>Hospital systems, medical inventory, resilient energy.</p></div>
+                <div class="industry-card reveal reveal-delay-1" data-page="ind-telecom" style="cursor:pointer;"><div class="industry-icon"><i class="fas fa-satellite-dish"></i></div><h4>Telecom</h4><p>Network infrastructure, VAS, AI support.</p></div>
+                <div class="industry-card reveal reveal-delay-2" data-page="ind-logistics" style="cursor:pointer;"><div class="industry-icon"><i class="fas fa-truck"></i></div><h4>Logistics</h4><p>Fleet management, route optimization, tracking.</p></div>
+                <div class="industry-card reveal reveal-delay-3" data-page="ind-agri" style="cursor:pointer;"><div class="industry-icon"><i class="fas fa-seedling"></i></div><h4>Agriculture</h4><p>Smart irrigation, farm management, remote sensing.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section bg-light" id="contact-home">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-info reveal">
+                    <span class="section-tag">// Get In Touch</span>
+                    <h3 style="margin-top: 12px;">Let's Build the Future Together</h3>
+                    <p style="color: var(--text-light); margin-bottom: 30px;">Whether you need AI-enhanced software, enterprise automation, smart energy solutions, or technology infrastructure, our team is ready to help you transform your operations.</p>
+                    <ul class="contact-details">
+                        <li><i class="fas fa-map-marker-alt"></i> Bole, Addis Ababa, Ethiopia</li>
+                        <li><i class="fas fa-phone"></i> +251 966 131 415</li>
+                        <li><i class="fas fa-envelope"></i> contact@epigater.com</li>
+                        <li><i class="fas fa-globe"></i> https://epigater.com</li>
+                        <li><i class="fas fa-user-tie"></i> Hailay Weldegebriel, General Manager</li>
+                    </ul>
+                </div>
+                <div class="detail-card reveal reveal-delay-2" style="padding: 40px;">
+                    <h4 style="margin-bottom: 20px;">Send us a message</h4>
+                    <form>
+                        <div style="margin-bottom: 15px;"><input type="text" placeholder="Full Name" class="form-input"></div>
+                        <div style="margin-bottom: 15px;"><input type="email" placeholder="Email Address" class="form-input"></div>
+                        <div style="margin-bottom: 15px;">
+                            <select class="form-input">
+                                <option>Select Division of Interest</option>
+                                <option>Epigater Labs (AI & Software)</option>
+                                <option>Epigater Nexus (Infrastructure)</option>
+                                <option>Epigater Matrix (Manufacturing)</option>
+                                <option>Epigater Energy (Smart Energy)</option>
+                                <option>Global Trade (Import/Export)</option>
+                            </select>
+                        </div>
+                        <div style="margin-bottom: 20px;"><textarea placeholder="Tell us about your project..." rows="4" class="form-input"></textarea></div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Send Message <i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- COMPANY: OVERVIEW -->
+<div class="page" id="page-overview">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Company</a> <span>/</span> Overview</div>
+            <span class="page-tag">// About Epigater</span>
+            <h1>Company Overview</h1>
+            <p>An AI-driven technology, engineering and international trading company focused on developing, integrating and implementing intelligent systems.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-building"></i> Who We Are</h3>
+                <p>Epigater Solutions is an AI-driven technology, engineering and international trading company focused on developing, integrating and implementing intelligent systems that help organizations operate more efficiently, securely and sustainably.</p>
+                <p>The company designs and delivers AI-enhanced software applications, enterprise resource planning systems, business automation platforms, mobile applications, cloud solutions, cybersecurity systems, data infrastructure, smart energy technologies, industrial automation solutions and integrated digital platforms.</p>
+            </div>
+            <div class="content-block reveal">
+                <h3><i class="fas fa-cubes"></i> An Integrated Technology Ecosystem</h3>
+                <p>Unlike conventional technology companies that focus on a single product or service, Epigater operates as an integrated technology ecosystem. The company develops proprietary software, customizes international platforms, integrates infrastructure, supplies technological products and provides implementation and support services.</p>
+                <p>Epigater combines artificial intelligence, software engineering, infrastructure integration, smart energy, industrial technology and international trade under one coordinated corporate structure. This enables the company to provide complete solutions—from business analysis, system design and software development to equipment sourcing, implementation, training, maintenance and long-term technical support.</p>
+            </div>
+            <div class="content-block reveal">
+                <h3><i class="fas fa-bullseye"></i> What We Deliver</h3>
+                <p>Epigater's solutions are designed to improve productivity, reduce operational costs, strengthen institutional control, increase transparency, enhance customer experience, improve energy efficiency and support evidence-based decision-making.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-brain"></i> AI-Enhanced Software</h4><p>Custom AI applications, AI agents, document intelligence, mobile and web apps.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-database"></i> ERP & Automation</h4><p>Unified enterprise platforms integrating all operational and administrative functions.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-network-wired"></i> Tech Integration</h4><p>Infrastructure, networks, data centers, cloud, and smart-building systems.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-solar-panel"></i> Smart Energy</h4><p>Solar PV, battery storage, microgrids, smart metering, EV charging.</p></div>
+                <div class="detail-card reveal"><h4><i class="fas fa-industry"></i> Smart Manufacturing</h4><p>Industrial automation, computer vision, predictive maintenance, digital twins.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-globe-africa"></i> Global Trade</h4><p>Import, export, distribution of technology, energy and industrial products.</p></div>
+            </div>
+            <div class="content-block reveal" style="margin-top: 60px;">
+                <h3><i class="fas fa-users"></i> Who We Serve</h3>
+                <p>The company serves government institutions, financial organizations, manufacturers, energy companies, healthcare institutions, educational organizations, telecommunications operators, retailers, logistics companies, construction companies, development organizations and other public and private enterprises.</p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- COMPANY: VISION -->
+<div class="page" id="page-vision">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Company</a> <span>/</span> Vision & Mission</div>
+            <span class="page-tag">// Our Purpose</span>
+            <h1>Vision, Mission & Purpose</h1>
+            <p>Guided by a clear vision to transform businesses and communities through intelligent technology.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="two-col">
+                <div class="two-col-content reveal">
+                    <h3><i class="fas fa-eye" style="color: var(--accent);"></i> Our Vision</h3>
+                    <p>To become a globally recognized African technology company that transforms businesses, industries and communities through artificial intelligence, intelligent infrastructure, sustainable energy and advanced digital systems.</p>
+                </div>
+                <div class="two-col-content reveal reveal-delay-2">
+                    <h3><i class="fas fa-bullseye" style="color: var(--accent);"></i> Our Mission</h3>
+                    <p>To design, develop and implement reliable AI-enhanced systems, enterprise applications, integrated technologies, smart energy solutions and industrial platforms that improve productivity, efficiency, security, sustainability and organizational performance.</p>
+                </div>
+            </div>
+            <div class="content-block reveal" style="margin-top: 60px;">
+                <h3><i class="fas fa-compass"></i> Corporate Purpose</h3>
+                <p>Epigater exists to make advanced technology accessible, practical and valuable for organizations operating in emerging and developed markets. The company bridges the gap between global technological innovation and local operational requirements by providing systems that are intelligent, scalable, secure, interoperable, cost-effective, user-friendly, sustainable and adaptable.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-brain"></i> Intelligent</h4><p>Powered by AI and data-driven decision-making.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-expand-arrows-alt"></i> Scalable</h4><p>Grows with your organization's needs.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-shield-alt"></i> Secure</h4><p>Built with security-by-design principles.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-plug"></i> Interoperable</h4><p>Seamlessly integrates with existing systems.</p></div>
+                <div class="detail-card reveal"><h4><i class="fas fa-dollar-sign"></i> Cost-Effective</h4><p>Optimized for value and ROI.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-user-friends"></i> User-Friendly</h4><p>Designed around real operational needs.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-leaf"></i> Sustainable</h4><p>Supporting long-term environmental goals.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-sliders-h"></i> Adaptable</h4><p>Flexible to changing requirements.</p></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- COMPANY: VALUES -->
+<div class="page" id="page-values">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Company</a> <span>/</span> Core Values</div>
+            <span class="page-tag">// Our Principles</span>
+            <h1>Core Values</h1>
+            <p>The principles that guide every decision, partnership and solution we deliver.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="value-grid">
+                <div class="value-card reveal"><div class="value-icon"><i class="fas fa-lightbulb"></i></div><h4>Innovation</h4><p>We continuously explore emerging technologies and transform them into practical solutions that create measurable value.</p></div>
+                <div class="value-card reveal reveal-delay-1"><div class="value-icon"><i class="fas fa-brain"></i></div><h4>Intelligence</h4><p>We use data, artificial intelligence, experience and structured analysis to support better decisions and more efficient operations.</p></div>
+                <div class="value-card reveal reveal-delay-2"><div class="value-icon"><i class="fas fa-balance-scale"></i></div><h4>Integrity</h4><p>We conduct business transparently, ethically and responsibly while protecting the interests of customers, partners and stakeholders.</p></div>
+                <div class="value-card reveal reveal-delay-3"><div class="value-icon"><i class="fas fa-award"></i></div><h4>Excellence</h4><p>We maintain high standards in design, development, procurement, implementation, documentation and customer support.</p></div>
+                <div class="value-card reveal"><div class="value-icon"><i class="fas fa-user-check"></i></div><h4>Customer-Centered Delivery</h4><p>We develop solutions around the customer's operational realities, objectives, budget, users and long-term growth requirements.</p></div>
+                <div class="value-card reveal reveal-delay-1"><div class="value-icon"><i class="fas fa-shield-alt"></i></div><h4>Security</h4><p>We treat cybersecurity, information protection, operational continuity and system reliability as fundamental parts of every solution.</p></div>
+                <div class="value-card reveal reveal-delay-2"><div class="value-icon"><i class="fas fa-handshake"></i></div><h4>Collaboration</h4><p>We work closely with customers, technology manufacturers, software developers, research institutions and implementation partners.</p></div>
+                <div class="value-card reveal reveal-delay-3"><div class="value-icon"><i class="fas fa-leaf"></i></div><h4>Sustainability</h4><p>We promote technologies that reduce waste, improve energy efficiency, support renewable energy and contribute to sustainable development.</p></div>
+                <div class="value-card reveal"><div class="value-icon"><i class="fas fa-map-marker-alt"></i></div><h4>Local Impact</h4><p>We develop local technical capabilities, create employment opportunities and support Africa's digital transformation.</p></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- COMPANY: OBJECTIVES -->
+<div class="page" id="page-objectives">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Company</a> <span>/</span> Strategic Objectives</div>
+            <span class="page-tag">// Our Goals</span>
+            <h1>Strategic Objectives</h1>
+            <p>Clear goals driving our growth, innovation and impact across Africa and beyond.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-flag"></i> Strategic Ambition</h3>
+                <p style="font-size: 1.15rem; font-style: italic; color: var(--primary);">To become one of Africa's leading AI-native technology companies by developing scalable systems that solve real operational, industrial and social challenges and can be deployed across multiple markets.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-code"></i> Proprietary AI Platforms</h4><p>Develop proprietary AI-enhanced software platforms for African and international markets.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-database"></i> ERP Leadership</h4><p>Become a leading provider of enterprise automation and ERP solutions.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-robot"></i> AI Agents</h4><p>Create specialized AI agents for business, government and industrial operations.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-server"></i> Infrastructure Integration</h4><p>Implement integrated technology infrastructure for large organizations.</p></div>
+                <div class="detail-card reveal"><h4><i class="fas fa-solar-panel"></i> Energy Solutions</h4><p>Provide intelligent energy-management and renewable-energy solutions.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-industry"></i> Manufacturing Support</h4><p>Support manufacturers through industrial automation, computer vision and predictive maintenance.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-globe"></i> Global Partnerships</h4><p>Establish strong international technology-manufacturer and supplier partnerships.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-truck"></i> Trade Channels</h4><p>Create reliable import, export and distribution channels for technological products.</p></div>
+                <div class="detail-card reveal"><h4><i class="fas fa-headset"></i> Regional Support</h4><p>Build regional implementation, maintenance and customer-support capabilities.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-flask"></i> R&D Investment</h4><p>Invest in research, product development and intellectual property.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-user-graduate"></i> Skilled Employment</h4><p>Create skilled employment opportunities in software engineering, AI, energy and industrial technology.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-map"></i> Market Expansion</h4><p>Expand Epigater solutions throughout Africa and selected international markets.</p></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- COMPANY: GOVERNANCE -->
+<div class="page" id="page-governance">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Company</a> <span>/</span> Governance</div>
+            <span class="page-tag">// Structure</span>
+            <h1>Corporate Governance</h1>
+            <p>Committed to responsible governance, accountability and transparent decision-making.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-balance-scale"></i> Governance Principles</h3>
+                <p>Epigater Solutions is committed to responsible corporate governance, accountability and transparent decision-making. The governance structure includes shareholders, a board of directors, the chief executive officer, an executive management committee, technical and investment committees, internal audit and risk functions, department directors, project teams and independent advisors.</p>
+                <p>Management decisions are guided by corporate strategy, approved policies, financial controls, risk assessments, applicable laws, customer commitments, ethical standards and long-term stakeholder value.</p>
+            </div>
+            <div class="content-block reveal">
+                <h3><i class="fas fa-sitemap"></i> Organizational Structure</h3>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-crown"></i> Board of Directors</h4><p>Strategic oversight, governance and investment direction.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-user-tie"></i> CEO / General Manager</h4><p>Overall leadership and implementation of the company vision and strategy.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-microchip"></i> Chief Technology Officer</h4><p>Technology architecture, AI, software engineering, cybersecurity and research.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-cogs"></i> Chief Operating Officer</h4><p>Project delivery, operational performance, logistics and customer support.</p></div>
+                <div class="detail-card reveal"><h4><i class="fas fa-chart-line"></i> Chief Commercial Officer</h4><p>Sales, marketing, partnerships, customer development and expansion.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-coins"></i> Chief Financial Officer</h4><p>Financial planning, accounting, investment, taxation and control.</p></div>
+            </div>
+            <div class="content-block reveal" style="margin-top: 60px;">
+                <h3><i class="fas fa-building"></i> Division Directors</h3>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal" data-page="labs" style="cursor:pointer;"><h4><i class="fas fa-brain"></i> Director - Epigater Labs</h4><p>AI software, enterprise applications and digital products.</p></div>
+                <div class="detail-card reveal reveal-delay-1" data-page="nexus" style="cursor:pointer;"><h4><i class="fas fa-network-wired"></i> Director - Epigater Nexus</h4><p>Infrastructure, networking, cybersecurity and systems integration.</p></div>
+                <div class="detail-card reveal reveal-delay-2" data-page="matrix" style="cursor:pointer;"><h4><i class="fas fa-industry"></i> Director - Epigater Matrix</h4><p>Industrial automation, smart manufacturing and digital twins.</p></div>
+                <div class="detail-card reveal reveal-delay-3" data-page="energy" style="cursor:pointer;"><h4><i class="fas fa-solar-panel"></i> Director - Epigater Energy</h4><p>Renewable energy, energy storage and energy management.</p></div>
+                <div class="detail-card reveal" data-page="trade" style="cursor:pointer;"><h4><i class="fas fa-globe-africa"></i> Director - Global Trade</h4><p>International sourcing, import, export, logistics and distribution.</p></div>
+                <div class="detail-card reveal reveal-delay-1" data-page="intelligence" style="cursor:pointer;"><h4><i class="fas fa-chart-pie"></i> Director - Intelligence</h4><p>Analytics, research, advisory and executive decision support.</p></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- COMPANY: ROADMAP -->
+<div class="page" id="page-roadmap">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Company</a> <span>/</span> Growth Roadmap</div>
+            <span class="page-tag">// Future Vision</span>
+            <h1>Future Growth Roadmap</h1>
+            <p>Our five-stage journey from foundation to global technology leadership.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="timeline">
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>Stage 1: Foundation</h4>
+                        <p>Establish corporate structure, leadership, brand, initial AI and ERP products, partnerships, import channels and flagship projects.</p>
+                    </div>
+                </div>
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>Stage 2: Product Expansion</h4>
+                        <p>Launch subscription AI applications, industry ERP, smart-energy platforms, industrial automation and managed cybersecurity services.</p>
+                    </div>
+                </div>
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>Stage 3: Regional Expansion</h4>
+                        <p>Enter selected East African markets, appoint partners, export software and establish regional implementation teams.</p>
+                    </div>
+                </div>
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>Stage 4: Continental Growth</h4>
+                        <p>Expand across Africa, establish a research center, build proprietary AI infrastructure and invest in local assembly.</p>
+                    </div>
+                </div>
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>Stage 5: Global Technology Company</h4>
+                        <p>Export proprietary platforms internationally, establish global offices, develop intellectual property and pursue strategic investments.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- COMPANY: SUSTAINABILITY -->
+<div class="page" id="page-sustainability">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Company</a> <span>/</span> Sustainability</div>
+            <span class="page-tag">// Impact</span>
+            <h1>Sustainability & Social Impact</h1>
+            <p>Aligning our projects with national development priorities and internationally recognized sustainability principles.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-leaf"></i> Our Commitment</h3>
+                <p>Epigater Solutions is committed to creating lasting value for customers, shareholders, employees, partners and communities while advancing environmental sustainability and social progress across Africa. Epigater seeks to align its projects with applicable national development priorities and internationally recognized sustainability principles.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-wifi"></i> Digital Access</h4><p>Expand access to digital services for underserved communities.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-sun"></i> Renewable Energy</h4><p>Support renewable-energy adoption across industries.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-industry"></i> Industrial Efficiency</h4><p>Improve industrial energy efficiency through smart systems.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-file-alt"></i> Paper Reduction</h4><p>Reduce paper-based processes through digital transformation.</p></div>
+                <div class="detail-card reveal"><h4><i class="fas fa-graduation-cap"></i> Capacity Building</h4><p>Build local technical capacity and skilled employment.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-rocket"></i> Youth Innovation</h4><p>Support youth innovation and entrepreneurship.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-recycle"></i> E-Waste Management</h4><p>Promote responsible electronic-waste management.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-globe"></i> Digital Inclusion</h4><p>Advance digital inclusion across all demographics.</p></div>
+                <div class="detail-card reveal"><h4><i class="fas fa-eye"></i> Transparency</h4><p>Increase organizational transparency through technology.</p></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- COMPANY: WORKFORCE -->
+<div class="page" id="page-workforce">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Company</a> <span>/</span> Workforce</div>
+            <span class="page-tag">// Human + AI</span>
+            <h1>AI-Augmented Workforce</h1>
+            <p>Combining skilled professionals with AI-supported systems for superior outcomes.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-users-cog"></i> The Human + AI Operating Model</h3>
+                <p>Epigater's operating model combines skilled professionals with AI-supported systems. This model improves speed, accuracy, scalability and institutional knowledge while maintaining responsible human control and accountability.</p>
+            </div>
+            <div class="two-col">
+                <div class="two-col-content reveal">
+                    <h3><i class="fas fa-user-tie" style="color: var(--accent);"></i> Human Professionals Provide</h3>
+                    <ul class="feature-list">
+                        <li>Strategy and vision</li>
+                        <li>Industry knowledge</li>
+                        <li>Customer engagement</li>
+                        <li>Ethical oversight</li>
+                        <li>Engineering supervision</li>
+                        <li>Negotiation</li>
+                        <li>Leadership</li>
+                        <li>Final decision-making</li>
+                    </ul>
+                </div>
+                <div class="two-col-content reveal reveal-delay-2">
+                    <h3><i class="fas fa-robot" style="color: var(--accent);"></i> AI Systems Support</h3>
+                    <ul class="feature-list">
+                        <li>Research and analysis</li>
+                        <li>Data processing</li>
+                        <li>Document preparation</li>
+                        <li>Software development</li>
+                        <li>Customer-service workflows</li>
+                        <li>Financial reporting</li>
+                        <li>Project monitoring</li>
+                        <li>Quality checking</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- COMPANY: PARTNERSHIP -->
+<div class="page" id="page-partnership">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Company</a> <span>/</span> Partnership</div>
+            <span class="page-tag">// Collaboration</span>
+            <h1>Partnership Strategy</h1>
+            <p>Building strong collaborations to deliver successful technology outcomes.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-handshake"></i> Our Partnership Approach</h3>
+                <p>Epigater recognizes that successful technology delivery requires strong partnerships. The company seeks collaboration with AI companies, software manufacturers, cloud providers, cybersecurity companies, server and networking manufacturers, energy-technology companies, industrial automation companies, robotics manufacturers, telecommunications providers, universities, research institutions, financial institutions, development organizations and engineering firms.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-certificate"></i> Authorized Representation</h4><p>Serve as official representatives for international technology brands.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-file-contract"></i> Distribution Agreements</h4><p>Establish formal distribution channels for technology products.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-exchange-alt"></i> Technology Transfer</h4><p>Facilitate knowledge and technology transfer to local markets.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-flask"></i> Joint Product Development</h4><p>Co-develop innovative solutions with technology partners.</p></div>
+                <div class="detail-card reveal"><h4><i class="fas fa-handshake"></i> Joint Ventures</h4><p>Form strategic joint ventures for market expansion.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-store"></i> Reseller Partnerships</h4><p>Implementation and reseller partnerships with global vendors.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-microscope"></i> Research Collaboration</h4><p>Partner with universities and research institutions.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-chalkboard-teacher"></i> Training Partnerships</h4><p>Collaborate on capacity-building and skills development.</p></div>
+                <div class="detail-card reveal"><h4><i class="fas fa-map-marked-alt"></i> Market Development</h4><p>Joint market-development agreements for new regions.</p></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- DIVISION: LABS -->
+<div class="page" id="page-labs">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Divisions</a> <span>/</span> Epigater Labs</div>
+            <span class="page-tag">// Division</span>
+            <h1>Epigater Labs</h1>
+            <p>AI software development, enterprise applications, cloud platforms, workflow automation, data intelligence and digital product innovation.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-brain"></i> About Epigater Labs</h3>
+                <p>Epigater Labs is the software and AI innovation engine of Epigater Solutions. We design, develop and deploy intelligent applications, AI agents, enterprise platforms and cloud-native software that power modern organizations across Africa and international markets.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card ai-card reveal"><h4><i class="fas fa-brain"></i> AI Applications</h4><ul><li>Artificial intelligence applications</li><li>AI agents and AI employees</li><li>Machine learning & LLM integration</li><li>Intelligent document processing</li></ul></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-laptop-code"></i> Enterprise Apps</h4><ul><li>ERP and CRM systems</li><li>Mobile and web applications</li><li>Business intelligence and analytics</li><li>E-commerce and payment integrations</li></ul></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-cubes"></i> Digital Innovation</h4><ul><li>Industry-specific enterprise systems</li><li>Cloud platforms & microservices</li><li>API development & cloud-native software</li><li>IoT and edge computing solutions</li></ul></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-file-alt"></i> Document Intelligence</h4><ul><li>Document recognition & classification</li><li>Contract and invoice extraction</li><li>Tender analysis & compliance</li><li>Automated indexing & search</li></ul></div>
+                <div class="detail-card reveal"><h4><i class="fas fa-project-diagram"></i> Workflow Automation</h4><ul><li>Business-process automation</li><li>Approval workflows</li><li>Automated reporting</li><li>Integration with existing systems</li></ul></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-cloud"></i> Cloud Platforms</h4><ul><li>Cloud-native architecture</li><li>Containerized applications</li><li>Data lakes and warehouses</li><li>Scalable microservices</li></ul></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- DIVISION: NEXUS -->
+<div class="page" id="page-nexus">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Divisions</a> <span>/</span> Epigater Nexus</div>
+            <span class="page-tag">// Division</span>
+            <h1>Epigater Nexus</h1>
+            <p>Technology infrastructure, cybersecurity and systems integration for modern enterprises.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-network-wired"></i> About Epigater Nexus</h3>
+                <p>Epigater Nexus delivers the critical infrastructure backbone that modern organizations depend on. From data centers to cybersecurity, smart buildings to command centers, we design, implement and manage the connected systems that keep businesses running securely and efficiently.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-server"></i> Infrastructure</h4><ul><li>Data-center infrastructure</li><li>Servers, storage, backup & disaster recovery</li><li>Enterprise networking and cloud</li><li>Hybrid cloud infrastructure</li></ul></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-shield-alt"></i> Security & Control</h4><ul><li>Enterprise Cybersecurity</li><li>Command-and-control centers</li><li>Network and security operation centers</li><li>Audio-visual and security systems</li></ul></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-city"></i> Smart Systems</h4><ul><li>IoT and smart-building systems</li><li>Smart-city technologies</li><li>Fleet-management infrastructure</li><li>Wireless and unified communications</li></ul></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- DIVISION: MATRIX -->
+<div class="page" id="page-matrix">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Divisions</a> <span>/</span> Epigater Matrix</div>
+            <span class="page-tag">// Division</span>
+            <h1>Epigater Matrix</h1>
+            <p>Industrial automation, intelligent manufacturing and engineering technology.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-industry"></i> About Epigater Matrix</h3>
+                <p>Epigater Matrix helps manufacturers improve productivity, quality, safety, energy efficiency and equipment availability through digital and automated systems. We combine industrial engineering expertise with AI-powered intelligence to transform manufacturing operations.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-robot"></i> Automation</h4><ul><li>Manufacturing execution systems (MES)</li><li>Production-line automation</li><li>Robotics integration</li><li>Warehouse automation</li></ul></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-eye"></i> Computer Vision</h4><ul><li>Computer-vision inspection</li><li>Defect detection & quality control</li><li>Workplace-safety monitoring</li><li>Protective-equipment detection</li></ul></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-microchip"></i> Advanced Tech</h4><ul><li>Industrial Internet of Things (IIoT)</li><li>Digital twins & simulation</li><li>Predictive maintenance</li><li>Industrial energy monitoring</li></ul></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- DIVISION: ENERGY -->
+<div class="page" id="page-energy">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Divisions</a> <span>/</span> Epigater Energy</div>
+            <span class="page-tag">// Division</span>
+            <h1>Epigater Energy</h1>
+            <p>Smart energy, renewable energy and energy-efficiency solutions.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-solar-panel"></i> About Epigater Energy</h3>
+                <p>Epigater Energy delivers energy solutions that combine renewable-energy technologies, digital monitoring, intelligent control and data analytics. We help organizations reduce energy costs, improve reliability and advance sustainability goals.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-solar-panel"></i> Solar & Storage</h4><ul><li>Solar photovoltaic systems (Grid/Off-grid)</li><li>Battery-energy storage systems</li><li>Hybrid power systems & microgrids</li><li>Solar water pumping & street lighting</li></ul></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-chart-area"></i> Smart Management</h4><ul><li>Smart metering and energy management</li><li>AI-supported demand forecasting</li><li>Power-quality monitoring</li><li>Carbon-impact reporting</li></ul></div>
+                <div class="detail-card reveal reveal-delay-2" data-page="sol-ev-charging" style="cursor:pointer;"><h4><i class="fas fa-charging-station"></i> E-Mobility</h4><ul><li>Electric-vehicle charging stations</li><li>Charging-management software</li><li>Fleet-charging infrastructure</li><li>Renewable-powered charging integration</li></ul></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- DIVISION: INTELLIGENCE -->
+<div class="page" id="page-intelligence">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Divisions</a> <span>/</span> Epigater Intelligence</div>
+            <span class="page-tag">// Division</span>
+            <h1>Epigater Intelligence</h1>
+            <p>Data analytics, business intelligence, research, AI advisory and decision-support services.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-chart-line"></i> About Epigater Intelligence</h3>
+                <p>Epigater Intelligence transforms data into actionable insights. We provide analytics platforms, advisory services and decision-support systems that enable organizations to make faster, smarter, evidence-based decisions.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-chart-pie"></i> Analytics</h4><ul><li>Business intelligence dashboards</li><li>Predictive analytics</li><li>Market and financial intelligence</li><li>Risk analytics</li></ul></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-lightbulb"></i> Advisory</h4><ul><li>AI-readiness assessment</li><li>Digital transformation strategy</li><li>Data governance frameworks</li><li>Executive decision-support systems</li></ul></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-tachometer-alt"></i> Monitoring</h4><ul><li>Operational-performance monitoring</li><li>Real-time KPI dashboards</li><li>Performance benchmarking</li><li>Continuous improvement analytics</li></ul></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- DIVISION: TRADE -->
+<div class="page" id="page-trade">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Divisions</a> <span>/</span> Global Trade</div>
+            <span class="page-tag">// Division</span>
+            <h1>Epigater Global Trade</h1>
+            <p>Import, export, distribution and trading of technology, energy and industrial products.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-globe-africa"></i> About Epigater Global Trade</h3>
+                <p>Epigater Global Trade connects African markets with world-class technology manufacturers and suppliers. We handle the complete supply chain—from sourcing and negotiation to customs, warehousing, installation and after-sales support.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-file-import"></i> Import & Sourcing</h4><ul><li>ICT, AI computing & data-center equipment</li><li>Solar panels, inverters, and batteries</li><li>Industrial automation & control systems</li><li>Software licenses & machinery</li></ul></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-file-export"></i> Export & Services</h4><ul><li>Locally developed software & AI apps</li><li>Digital services & BPO</li><li>Technology consulting</li><li>Value-added Ethiopian products</li></ul></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-truck-loading"></i> Supply Chain</h4><ul><li>Supplier identification & verification</li><li>International sourcing & negotiation</li><li>Customs coordination & warehousing</li><li>Warranty and after-sales support</li></ul></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-certificate"></i> Distribution</h4><ul><li>Authorized distribution agreements</li><li>Reseller partnerships</li><li>Systems integration partnerships</li><li>Market-development partnerships</li></ul></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- SOLUTION: AI & SOFTWARE -->
+<div class="page" id="page-sol-ai">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Solutions</a> <span>/</span> AI & Custom Software</div>
+            <span class="page-tag">// Solution</span>
+            <h1>AI & Custom Software</h1>
+            <p>Artificial intelligence is at the center of Epigater's technology strategy.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-robot"></i> Custom AI Applications</h3>
+                <p>Epigater develops customized AI applications based on the operational needs of each customer. These systems automate repetitive activities, analyze large volumes of information, support human decision-making and improve the speed and quality of service delivery.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card ai-card reveal"><h4><i class="fas fa-headset"></i> AI Customer Support</h4><p>Intelligent chatbots and virtual assistants for 24/7 customer service.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-file-contract"></i> Document Processing</h4><p>Intelligent document processing, extraction and classification.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-file-signature"></i> Proposal Generation</h4><p>Automated proposal and report generation with AI.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-chart-line"></i> Financial Analysis</h4><p>AI-based financial analysis and forecasting.</p></div>
+                <div class="detail-card reveal"><h4><i class="fas fa-shopping-cart"></i> Intelligent Procurement</h4><p>Smart procurement automation and vendor analysis.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-user-tie"></i> HR Automation</h4><p>Human-resource automation and talent analytics.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-gavel"></i> Legal Analysis</h4><p>Legal document analysis and compliance checking.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-user-shield"></i> Fraud Detection</h4><p>AI-powered fraud detection and prevention.</p></div>
+                <div class="detail-card reveal"><h4><i class="fas fa-tools"></i> Predictive Maintenance</h4><p>Predict equipment failures before they happen.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-check-double"></i> Quality Control</h4><p>AI-driven quality-control systems.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-chart-bar"></i> Demand Forecasting</h4><p>Accurate demand forecasting with machine learning.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-bell"></i> Automated Monitoring</h4><p>Automated monitoring and intelligent alerting.</p></div>
+            </div>
+            <div class="content-block reveal" style="margin-top: 60px;">
+                <h3><i class="fas fa-robot"></i> AI Agents & AI Employees</h3>
+                <p>Epigater develops specialized AI agents capable of performing defined organizational functions with human supervision. AI agents can support customer service, sales, software development, procurement, finance, human resources, legal research, project management, technical support, data analysis, inventory management, tender preparation, document review and management reporting.</p>
+                <p>Each agent can be connected to approved organizational data, applications, communication channels and workflows. Authorization, audit trails, approval controls and human oversight are built into the design.</p>
+                <a class="btn btn-primary" data-page="sol-ai-agents" style="margin-top: 20px;">Learn More About AI Agents <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- SOLUTION: AI AGENTS -->
+<div class="page" id="page-sol-ai-agents">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Solutions</a> <span>/</span> AI Agents</div>
+            <span class="page-tag">// Solution</span>
+            <h1>AI Agents & AI Employees</h1>
+            <p>Specialized AI agents capable of performing defined organizational functions with human supervision.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-robot"></i> AI Agent Overview</h3>
+                <p>Epigater develops specialized AI agents capable of performing defined organizational functions with human supervision. These AI agents are designed to augment human capabilities, automate repetitive tasks, and provide intelligent support across various business functions.</p>
+                <p>Each AI agent can be connected to approved organizational data, applications, communication channels, and workflows. Authorization, audit trails, approval controls, and human oversight are built into the design to ensure responsible AI deployment.</p>
+            </div>
+            <div class="content-block reveal">
+                <h3><i class="fas fa-users-cog"></i> AI Agent Capabilities</h3>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card ai-card reveal"><h4><i class="fas fa-headset"></i> Customer Service Agent</h4><ul><li>24/7 customer support</li><li>Multi-language capabilities</li><li>Ticket management</li><li>Knowledge base access</li><li>Escalation handling</li><li>Sentiment analysis</li></ul></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-chart-line"></i> Sales Agent</h4><ul><li>Lead qualification</li><li>Product recommendations</li><li>Quote generation</li><li>CRM integration</li><li>Follow-up automation</li><li>Sales forecasting</li></ul></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-code"></i> Software Development Agent</h4><ul><li>Code generation</li><li>Bug detection</li><li>Code review</li><li>Documentation</li><li>Testing automation</li><li>Refactoring suggestions</li></ul></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-shopping-cart"></i> Procurement Agent</h4><ul><li>Vendor analysis</li><li>Price comparison</li><li>Purchase order generation</li><li>Contract management</li><li>Supplier communication</li><li>Inventory optimization</li></ul></div>
+                <div class="detail-card reveal"><h4><i class="fas fa-coins"></i> Finance Agent</h4><ul><li>Financial analysis</li><li>Budget monitoring</li><li>Expense tracking</li><li>Invoice processing</li><li>Financial reporting</li><li>Compliance checking</li></ul></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-user-friends"></i> HR Agent</h4><ul><li>Recruitment screening</li><li>Employee onboarding</li><li>Policy Q&A</li><li>Leave management</li><li>Performance tracking</li><li>Training recommendations</li></ul></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-gavel"></i> Legal Research Agent</h4><ul><li>Contract analysis</li><li>Legal document review</li><li>Compliance checking</li><li>Case law research</li><li>Risk assessment</li><li>Regulatory updates</li></ul></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-tasks"></i> Project Management Agent</h4><ul><li>Task assignment</li><li>Progress tracking</li><li>Risk identification</li><li>Resource allocation</li><li>Status reporting</li><li>Timeline optimization</li></ul></div>
+            </div>
+            <div class="content-block reveal" style="margin-top: 60px;">
+                <h3><i class="fas fa-shield-alt"></i> AI Agent Governance</h3>
+                <p>Epigater's AI agents are designed with robust governance frameworks that ensure responsible deployment, human oversight, and organizational control.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-user-check"></i> Human Oversight</h4><ul><li>Human-in-the-loop design</li><li>Approval workflows</li><li>Override capabilities</li><li>Decision escalation</li></ul></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-lock"></i> Access Control</h4><ul><li>Role-based permissions</li><li>Data access restrictions</li><li>System integration limits</li><li>API authorization</li></ul></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-clipboard-list"></i> Audit Trails</h4><ul><li>Complete activity logging</li><li>Decision traceability</li><li>Data access records</li><li>Performance metrics</li></ul></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-balance-scale"></i> Ethical Guidelines</h4><ul><li>Bias detection</li><li>Fairness monitoring</li><li>Transparency reporting</li><li>Privacy protection</li></ul></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- SOLUTION: ERP -->
+<div class="page" id="page-sol-erp">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Solutions</a> <span>/</span> ERP Solutions</div>
+            <span class="page-tag">// Solution</span>
+            <h1>Enterprise Resource Planning</h1>
+            <p>Integrate your organization's major operational and administrative functions into a unified platform.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-database"></i> ERP Overview</h3>
+                <p>Epigater provides ERP systems that integrate an organization's major operational and administrative functions into a unified platform. The objective is to provide accurate information, standardized processes, financial control and organization-wide visibility.</p>
+            </div>
+            <div class="content-block reveal">
+                <h3><i class="fas fa-th-large"></i> ERP Modules</h3>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-coins"></i> Finance & Accounting</h4><p>Complete financial management and reporting.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-wallet"></i> Budgeting</h4><p>Strategic budget planning and control.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-shopping-basket"></i> Procurement</h4><p>End-to-end procurement automation.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-boxes"></i> Inventory</h4><p>Real-time inventory tracking and management.</p></div>
+                <div class="detail-card reveal"><h4><i class="fas fa-warehouse"></i> Warehouse Mgmt</h4><p>Warehouse operations and optimization.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-truck-loading"></i> Sales & Distribution</h4><p>Sales pipeline and distribution management.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-users"></i> CRM</h4><p>Customer relationship management.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-user-friends"></i> HR & Payroll</h4><p>Human resources and payroll management.</p></div>
+                <div class="detail-card reveal"><h4><i class="fas fa-tasks"></i> Project Mgmt</h4><p>Project planning, execution and tracking.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-car"></i> Asset & Fleet</h4><p>Asset and fleet management systems.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-industry"></i> Manufacturing</h4><p>Manufacturing operations management.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-award"></i> Quality Mgmt</h4><p>Quality management and compliance.</p></div>
+            </div>
+            <div class="content-block reveal" style="margin-top: 60px;">
+                <h3><i class="fas fa-cogs"></i> ERP Implementation Services</h3>
+            </div>
+            <div class="process-grid">
+                <div class="process-step reveal"><div class="step-num">01</div><h4>Assessment</h4><p>Organizational assessment.</p></div>
+                <div class="process-step reveal reveal-delay-1"><div class="step-num">02</div><h4>Analysis</h4><p>Business-process analysis.</p></div>
+                <div class="process-step reveal reveal-delay-2"><div class="step-num">03</div><h4>Requirements</h4><p>Requirements gathering.</p></div>
+                <div class="process-step reveal reveal-delay-3"><div class="step-num">04</div><h4>Design</h4><p>System design.</p></div>
+                <div class="process-step reveal"><div class="step-num">05</div><h4>Configuration</h4><p>Configuration & customization.</p></div>
+                <div class="process-step reveal reveal-delay-1"><div class="step-num">06</div><h4>Migration</h4><p>Legacy-data migration.</p></div>
+                <div class="process-step reveal reveal-delay-2"><div class="step-num">07</div><h4>Integration</h4><p>Third-party integration.</p></div>
+                <div class="process-step reveal reveal-delay-3"><div class="step-num">08</div><h4>Testing</h4><p>User-acceptance testing.</p></div>
+                <div class="process-step reveal"><div class="step-num">09</div><h4>Training</h4><p>Training & deployment.</p></div>
+                <div class="process-step reveal reveal-delay-1"><div class="step-num">10</div><h4>Change Mgmt</h4><p>Change management.</p></div>
+                <div class="process-step reveal reveal-delay-2"><div class="step-num">11</div><h4>Support</h4><p>Post-implementation support.</p></div>
+                <div class="process-step reveal reveal-delay-3"><div class="step-num">12</div><h4>Improvement</h4><p>Continuous improvement.</p></div>
+            </div>
+            <div class="content-block reveal" style="margin-top: 60px;">
+                <h3><i class="fas fa-industry"></i> Industry-Specific ERP</h3>
+                <p>Epigater can develop or configure ERP platforms for manufacturing, trading, construction, logistics, energy, healthcare, education, finance, government, non-governmental organizations, retail, hospitality, agriculture and professional services.</p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- SOLUTION: CYBERSECURITY -->
+<div class="page" id="page-sol-cyber">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Solutions</a> <span>/</span> Cybersecurity</div>
+            <span class="page-tag">// Solution</span>
+            <h1>Cybersecurity & Data Protection</h1>
+            <p>Security-by-design across software, infrastructure, cloud, industrial and energy projects.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-shield-alt"></i> Security-First Approach</h3>
+                <p>Epigater applies security principles across all projects. Security requirements are considered during planning, development, integration, testing, deployment and support. AI systems incorporate human oversight, role-based access, audit logging, data protection and controlled decision-making.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-search"></i> Security Assessments</h4><p>Comprehensive security assessments and audits.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-network-wired"></i> Network Security</h4><p>Network-security design and implementation.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-id-card"></i> Identity Management</h4><p>Identity and access management systems.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-laptop"></i> Endpoint Protection</h4><p>Advanced endpoint protection solutions.</p></div>
+                <div class="detail-card reveal"><h4><i class="fas fa-fire"></i> Firewall Implementation</h4><p>Enterprise firewall deployment and management.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-eye"></i> Security Monitoring</h4><p>24/7 security monitoring and incident response.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-bug"></i> Vulnerability Mgmt</h4><p>Vulnerability management and patching.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-lock"></i> Encryption</h4><p>Data encryption at rest and in transit.</p></div>
+                <div class="detail-card reveal"><h4><i class="fas fa-database"></i> Backup & DR</h4><p>Backup and disaster recovery solutions.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-cloud"></i> Cloud Security</h4><p>Cloud security and compliance.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-industry"></i> Industrial Cyber</h4><p>Industrial cybersecurity for OT environments.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-graduation-cap"></i> Awareness Training</h4><p>Security awareness training programs.</p></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- SOLUTION: SMART ENERGY -->
+<div class="page" id="page-sol-energy">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Solutions</a> <span>/</span> Smart Energy</div>
+            <span class="page-tag">// Solution</span>
+            <h1>Smart Energy Solutions</h1>
+            <p>Combining renewable-energy technologies, digital monitoring, intelligent control and data analytics.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-sun"></i> Solar Energy Systems</h3>
+                <p>Grid-connected, off-grid and hybrid solar systems for commercial, industrial and institutional applications.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-building"></i> Commercial & Industrial</h4><p>Rooftop solar systems for businesses and factories.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-plug"></i> Mini-Grids</h4><p>Solar mini-grids for communities and campuses.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-tint"></i> Water Pumping</h4><p>Solar water pumping for agriculture and utilities.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-lightbulb"></i> Street Lighting</h4><p>Solar street lighting systems.</p></div>
+                <div class="detail-card reveal"><h4><i class="fas fa-satellite-dish"></i> Telecom Sites</h4><p>Solar power for telecom towers.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-hospital"></i> Healthcare & Education</h4><p>Solar systems for critical facilities.</p></div>
+            </div>
+            <div class="content-block reveal" style="margin-top: 60px;">
+                <h3><i class="fas fa-battery-full"></i> Battery-Energy Storage</h3>
+                <p>Epigater supplies and integrates battery systems for renewable-energy storage, backup power, peak-demand reduction, industrial continuity, data centers, telecom facilities, commercial buildings, residential developments and microgrids.</p>
+            </div>
+            <div class="content-block reveal" data-page="sol-smart-metering" style="cursor:pointer;">
+                <h3><i class="fas fa-tachometer-alt"></i> Smart Energy Management</h3>
+                <p>Real-time monitoring, consumption analysis, automated reporting, AI-supported demand forecasting, load control, power-quality analysis, tariff optimization, equipment monitoring, energy-loss identification, carbon-impact reporting and maintenance alerts. <strong>Click to learn more →</strong></p>
+            </div>
+            <div class="content-block reveal" data-page="sol-ev-charging" style="cursor:pointer;">
+                <h3><i class="fas fa-charging-station"></i> Electric Mobility</h3>
+                <p>The company plans, supplies and integrates electric-vehicle charging stations, charging-management software, fleet-charging infrastructure, renewable-powered charging, payment integration, usage monitoring and energy-demand management. <strong>Click to learn more →</strong></p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- SOLUTION: SMART MANUFACTURING -->
+<div class="page" id="page-sol-mfg">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Solutions</a> <span>/</span> Smart Manufacturing</div>
+            <span class="page-tag">// Solution</span>
+            <h1>Smart Manufacturing</h1>
+            <p>Improve productivity, quality, safety, energy efficiency and equipment availability through digital systems.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-cogs"></i> Industrial Automation</h3>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-microchip"></i> PLC Integration</h4><p>Programmable logic controller integration.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-desktop"></i> SCADA Systems</h4><p>Supervisory control and data acquisition.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-tv"></i> HMI</h4><p>Human-machine interface design.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-project-diagram"></i> DCS Integration</h4><p>Distributed control integration.</p></div>
+                <div class="detail-card reveal"><h4><i class="fas fa-satellite-dish"></i> Industrial Sensors</h4><p>Industrial sensors and drives.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-network-wired"></i> Communication</h4><p>Industrial communication networks.</p></div>
+            </div>
+            <div class="content-block reveal" style="margin-top: 60px;">
+                <h3><i class="fas fa-industry"></i> Manufacturing Execution Systems</h3>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-calendar-alt"></i> Production Planning</h4><p>Strategic production planning.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-clipboard-list"></i> Work Orders</h4><p>Work-order management.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-clock"></i> Real-Time Tracking</h4><p>Real-time production tracking.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-chart-line"></i> Performance Dashboards</h4><p>Performance dashboards and KPIs.</p></div>
+            </div>
+            <div class="content-block reveal" style="margin-top: 60px;">
+                <h3><i class="fas fa-eye"></i> Computer Vision</h3>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-search"></i> Product Inspection</h4><p>Automated product inspection.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-exclamation-triangle"></i> Defect Detection</h4><p>AI-powered defect detection.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-hard-hat"></i> Safety Monitoring</h4><p>Workplace-safety monitoring.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-boxes"></i> Inventory Counting</h4><p>Automated inventory counting.</p></div>
+            </div>
+            <div class="content-block reveal" style="margin-top: 60px;">
+                <h3><i class="fas fa-tools"></i> Predictive Maintenance</h3>
+                <p>AI-supported predictive-maintenance solutions analyze vibration, temperature, pressure, acoustic, energy-consumption and maintenance-history data to identify abnormal behavior and estimate potential equipment failure. This reduces unplanned downtime and improves maintenance scheduling.</p>
+            </div>
+            <div class="content-block reveal" data-page="sol-digital-twins" style="cursor:pointer;">
+                <h3><i class="fas fa-cube"></i> Digital Twins</h3>
+                <p>Epigater develops digital representations of physical systems, equipment and facilities to support performance simulation, capacity analysis, maintenance planning, energy optimization, operational testing, failure analysis and process redesign. <strong>Click to learn more →</strong></p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- SOLUTION: DIGITAL TWINS -->
+<div class="page" id="page-sol-digital-twins">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Solutions</a> <span>/</span> Digital Twins</div>
+            <span class="page-tag">// Solution</span>
+            <h1>Digital Twins</h1>
+            <p>Digital representations of physical systems, equipment, and facilities for simulation, analysis, and optimization.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-cube"></i> Digital Twin Overview</h3>
+                <p>Epigater develops digital representations of physical systems, equipment, and facilities to support performance simulation, capacity analysis, maintenance planning, energy optimization, operational testing, failure analysis, and process redesign.</p>
+                <p>Our digital twin solutions combine IoT data, AI analytics, 3D visualization, and simulation capabilities to create virtual models that mirror real-world assets in real-time. These digital replicas enable organizations to predict outcomes, optimize operations, and make data-driven decisions without risking physical assets.</p>
+            </div>
+            <div class="content-block reveal">
+                <h3><i class="fas fa-industry"></i> Industrial Digital Twins</h3>
+                <p>Digital twins for manufacturing equipment, production lines, and industrial facilities.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-cogs"></i> Equipment Twins</h4><ul><li>Real-time equipment monitoring</li><li>Performance simulation</li><li>Predictive maintenance</li><li>Failure analysis</li><li>Optimization testing</li><li>Lifecycle management</li></ul></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-project-diagram"></i> Process Twins</h4><ul><li>Production line simulation</li><li>Workflow optimization</li><li>Bottleneck identification</li><li>Capacity planning</li><li>What-if scenarios</li><li>Continuous improvement</li></ul></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-building"></i> Facility Twins</h4><ul><li>Building energy modeling</li><li>Space utilization</li><li>Environmental monitoring</li><li>Safety simulation</li><li>Emergency planning</li><li>Maintenance scheduling</li></ul></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-bolt"></i> Energy System Twins</h4><ul><li>Power grid simulation</li><li>Renewable integration</li><li>Load forecasting</li><li>Storage optimization</li><li>Demand response</li><li>Carbon tracking</li></ul></div>
+            </div>
+            <div class="content-block reveal" style="margin-top: 60px;">
+                <h3><i class="fas fa-chart-line"></i> Digital Twin Capabilities</h3>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card ai-card reveal"><h4><i class="fas fa-code"></i> Technical Features</h4><ul><li>Real-time data integration</li><li>3D visualization</li><li>Physics-based simulation</li><li>AI/ML integration</li><li>IoT connectivity</li><li>Cloud-native architecture</li></ul></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-chart-bar"></i> Analytics</h4><ul><li>Performance analytics</li><li>Predictive insights</li><li>Anomaly detection</li><li>Root cause analysis</li><li>Trend forecasting</li><li>ROI measurement</li></ul></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-plug"></i> Integration</h4><ul><li>SCADA integration</li><li>ERP connectivity</li><li>MES integration</li><li>Historian systems</li><li>Third-party APIs</li><li>Legacy system support</li></ul></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-users"></i> Collaboration</h4><ul><li>Multi-user access</li><li>Role-based permissions</li><li>Remote monitoring</li><li>Mobile access</li><li>Training simulations</li><li>Knowledge sharing</li></ul></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- SOLUTION: TECH INTEGRATION -->
+<div class="page" id="page-sol-infra">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Solutions</a> <span>/</span> Tech Integration</div>
+            <span class="page-tag">// Solution</span>
+            <h1>Technology Integration</h1>
+            <p>Connect software, infrastructure, devices, communication platforms and security systems as one coordinated platform.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-server"></i> Infrastructure Integration</h3>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-network-wired"></i> Enterprise Networks</h4><p>Enterprise network design and deployment.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-database"></i> Data Centers</h4><p>Data center infrastructure solutions.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-hdd"></i> Servers & Storage</h4><p>Servers, storage and backup systems.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-cloud"></i> Cloud & Virtualization</h4><p>Cloud and virtualization platforms.</p></div>
+                <div class="detail-card reveal"><h4><i class="fas fa-sync"></i> Disaster Recovery</h4><p>Backup and disaster recovery.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-wifi"></i> Unified Comms</h4><p>Wireless and unified communications.</p></div>
+            </div>
+            <div class="content-block reveal" style="margin-top: 60px;">
+                <h3><i class="fas fa-plug"></i> Application Integration</h3>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-database"></i> ERP & CRM</h4><p>ERP and CRM system integration.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-credit-card"></i> Payment Gateways</h4><p>Banking and payment gateway integration.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-shopping-cart"></i> E-Commerce</h4><p>E-commerce and mobile app integration.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-landmark"></i> Government Platforms</h4><p>Government platform integration.</p></div>
+            </div>
+            <div class="content-block reveal" style="margin-top: 60px;">
+                <h3><i class="fas fa-city"></i> Smart Infrastructure</h3>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-video"></i> CCTV & Access</h4><p>CCTV and access control systems.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-fire-extinguisher"></i> Fire Detection</h4><p>Fire detection and suppression.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-building"></i> Building Mgmt</h4><p>Building management systems.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-lightbulb"></i> Smart Lighting</h4><p>Smart lighting and sensors.</p></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- SOLUTION: VAS -->
+<div class="page" id="page-sol-vas">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Solutions</a> <span>/</span> Value-Added Services</div>
+            <span class="page-tag">// Solution</span>
+            <h1>Value-Added Services (VAS)</h1>
+            <p>Comprehensive value-added services for telecommunications operators, enterprises, and digital service providers.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-star"></i> VAS Overview</h3>
+                <p>Epigater Solutions provides comprehensive Value-Added Services (VAS) that enhance core telecommunications offerings, improve customer engagement, and create new revenue streams for operators and enterprises. Our VAS solutions combine AI, data analytics, and digital platforms to deliver innovative services that differentiate our clients in competitive markets.</p>
+                <p>Our VAS portfolio spans mobile financial services, content delivery, enterprise communication solutions, IoT services, and digital lifestyle applications. Each solution is designed to integrate seamlessly with existing telecom infrastructure while providing scalable, secure, and monetizable capabilities.</p>
+            </div>
+            <div class="content-block reveal">
+                <h3><i class="fas fa-mobile-alt"></i> Mobile Financial Services</h3>
+                <p>Epigater develops and integrates mobile financial services that enable operators to offer secure, convenient, and compliant digital payment solutions to their customers.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-wallet"></i> Mobile Money</h4><ul><li>Mobile wallet platforms</li><li>Peer-to-peer transfers</li><li>Bill payments</li><li>Airtime top-up</li><li>Merchant payments</li><li>QR code payments</li></ul></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-university"></i> Banking Integration</h4><ul><li>Bank account linking</li><li>ATM withdrawal services</li><li>Remittance services</li><li>Micro-lending platforms</li><li>Savings products</li><li>Insurance services</li></ul></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-shield-alt"></i> Compliance & Security</h4><ul><li>KYC/AML compliance</li><li>Fraud detection</li><li>Transaction monitoring</li><li>Regulatory reporting</li><li>Multi-factor authentication</li><li>Encryption standards</li></ul></div>
+            </div>
+            <div class="content-block reveal" style="margin-top: 60px;">
+                <h3><i class="fas fa-tv"></i> Content & Entertainment Services</h3>
+                <p>Epigater delivers content aggregation, distribution, and monetization platforms that enable operators to offer rich digital entertainment experiences to their subscribers.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-music"></i> Music & Audio</h4><ul><li>Music streaming platforms</li><li>Podcast distribution</li><li>Audio content aggregation</li><li>Artist promotion tools</li><li>Subscription management</li><li>Revenue sharing systems</li></ul></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-video"></i> Video & Streaming</h4><ul><li>Video-on-demand platforms</li><li>Live streaming services</li><li>Content delivery networks</li><li>Ad insertion systems</li><li>Multi-screen support</li><li>Personalized recommendations</li></ul></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-gamepad"></i> Gaming Services</h4><ul><li>Mobile gaming platforms</li><li>Cloud gaming services</li><li>Tournament management</li><li>In-game purchases</li><li>Social gaming features</li><li>Leaderboards & rewards</li></ul></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-newspaper"></i> News & Information</h4><ul><li>News aggregation platforms</li><li>Personalized news feeds</li><li>SMS news alerts</li><li>Weather services</li><li>Sports updates</li><li>Financial market data</li></ul></div>
+            </div>
+            <div class="content-block reveal" style="margin-top: 60px;">
+                <h3><i class="fas fa-building"></i> Enterprise VAS Solutions</h3>
+                <p>Epigater provides enterprise-focused VAS that enhance business communication, productivity, and operational efficiency for corporate customers.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-comments"></i> Business Messaging</h4><ul><li>Bulk SMS platforms</li><li>Two-way messaging</li><li>USSD applications</li><li>Chatbot integration</li><li>Notification systems</li><li>Marketing campaigns</li></ul></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-cloud"></i> Cloud Communication</h4><ul><li>Cloud PBX systems</li><li>Video conferencing</li><li>Team collaboration tools</li><li>Call center solutions</li><li>Unified communications</li><li>API integration</li></ul></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-map-marker-alt"></i> Location Services</h4><ul><li>Fleet tracking</li><li>Asset monitoring</li><li>Geofencing alerts</li><li>Route optimization</li><li>Location-based marketing</li><li>Emergency services</li></ul></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-id-card"></i> Identity & Authentication</h4><ul><li>Mobile identity verification</li><li>OTP services</li><li>Digital signatures</li><li>eKYC solutions</li><li>Access control</li><li>Biometric authentication</li></ul></div>
+            </div>
+            <div class="content-block reveal" style="margin-top: 60px;">
+                <h3><i class="fas fa-wifi"></i> IoT & Connected Services</h3>
+                <p>Epigater delivers IoT-based VAS that connect devices, sensors, and systems to create intelligent, data-driven services for consumers and enterprises.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-home"></i> Smart Home Services</h4><ul><li>Home automation platforms</li><li>Security monitoring</li><li>Energy management</li><li>Appliance control</li><li>Voice assistant integration</li><li>Remote access</li></ul></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-car"></i> Connected Vehicle</h4><ul><li>Vehicle tracking</li><li>Diagnostic monitoring</li><li>Driver behavior analysis</li><li>Emergency assistance</li><li>Fuel management</li><li>Maintenance alerts</li></ul></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-heartbeat"></i> Health & Wellness</h4><ul><li>Remote patient monitoring</li><li>Wearable device integration</li><li>Health data analytics</li><li>Telemedicine platforms</li><li>Medication reminders</li><li>Emergency alerts</li></ul></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-industry"></i> Industrial IoT</h4><ul><li>Asset tracking</li><li>Condition monitoring</li><li>Predictive maintenance</li><li>Environmental sensing</li><li>Process optimization</li><li>Safety monitoring</li></ul></div>
+            </div>
+            <div class="content-block reveal" style="margin-top: 60px;">
+                <h3><i class="fas fa-chart-line"></i> VAS Platform Capabilities</h3>
+                <p>Our VAS platforms are built on modern, scalable architectures that support rapid service deployment, flexible monetization, and seamless integration with operator systems.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card ai-card reveal"><h4><i class="fas fa-code"></i> Technical Features</h4><ul><li>Cloud-native architecture</li><li>API-first design</li><li>Microservices-based</li><li>Multi-tenant support</li><li>Real-time processing</li><li>High availability</li></ul></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-coins"></i> Monetization</h4><ul><li>Subscription billing</li><li>Pay-per-use models</li><li>Freemium options</li><li>Advertising integration</li><li>Revenue sharing</li><li>Bundle management</li></ul></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-plug"></i> Integration</h4><ul><li>BSS/OSS integration</li><li>Payment gateway support</li><li>Content provider APIs</li><li>Third-party services</li><li>Legacy system support</li><li>Standard protocols</li></ul></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-tachometer-alt"></i> Analytics & Reporting</h4><ul><li>Usage analytics</li><li>Revenue reporting</li><li>Customer insights</li><li>Performance monitoring</li><li>A/B testing</li><li>Real-time dashboards</li></ul></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- SOLUTION: SMART METERING -->
+<div class="page" id="page-sol-smart-metering">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Solutions</a> <span>/</span> Smart Metering</div>
+            <span class="page-tag">// Solution</span>
+            <h1>Smart Metering Solutions</h1>
+            <p>Advanced metering infrastructure for real-time energy monitoring and management.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-tachometer-alt"></i> Smart Metering Overview</h3>
+                <p>Epigater delivers advanced metering infrastructure (AMI) solutions that enable utilities, industries, and commercial buildings to monitor energy consumption in real-time, reduce losses, improve billing accuracy, and optimize energy distribution.</p>
+                <p>Our smart metering solutions combine IoT-enabled meters, communication networks, data analytics platforms, and user interfaces to provide comprehensive visibility into energy usage patterns and operational performance.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-bolt"></i> Electricity Metering</h4><ul><li>Smart electricity meters</li><li>Prepaid & postpaid systems</li><li>Time-of-use tariffs</li><li>Demand response</li><li>Load profiling</li><li>Power quality monitoring</li></ul></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-tint"></i> Water Metering</h4><ul><li>Smart water meters</li><li>Leak detection</li><li>Consumption analytics</li><li>Pressure monitoring</li><li>Quality tracking</li><li>Billing automation</li></ul></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-fire"></i> Gas Metering</h4><ul><li>Smart gas meters</li><li>Safety monitoring</li><li>Leak detection</li><li>Usage analytics</li><li>Remote shutoff</li><li>Compliance reporting</li></ul></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-network-wired"></i> Communication</h4><ul><li>RF mesh networks</li><li>Cellular IoT (NB-IoT, LTE-M)</li><li>LoRaWAN connectivity</li><li>PLC communication</li><li>Hybrid networks</li><li>Secure data transmission</li></ul></div>
+            </div>
+            <div class="content-block reveal" style="margin-top: 60px;">
+                <h3><i class="fas fa-chart-line"></i> Metering Platform Capabilities</h3>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card ai-card reveal"><h4><i class="fas fa-tachometer-alt"></i> Real-Time Monitoring</h4><ul><li>Live consumption data</li><li>Instant alerts</li><li>Remote meter reading</li><li>Outage detection</li><li>Tamper alerts</li><li>Performance dashboards</li></ul></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-chart-bar"></i> Analytics & Insights</h4><ul><li>Consumption patterns</li><li>Loss identification</li><li>Forecasting</li><li>Benchmarking</li><li>Anomaly detection</li><li>ROI analysis</li></ul></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-file-invoice-dollar"></i> Billing & Revenue</h4><ul><li>Automated billing</li><li>Prepaid management</li><li>Revenue protection</li><li>Debt management</li><li>Customer portals</li><li>Mobile payments</li></ul></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-cogs"></i> Grid Management</h4><ul><li>Load balancing</li><li>Demand forecasting</li><li>Asset management</li><li>Maintenance planning</li><li>Grid optimization</li><li>Integration with SCADA</li></ul></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- SOLUTION: EV CHARGING -->
+<div class="page" id="page-sol-ev-charging">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Solutions</a> <span>/</span> EV Charging</div>
+            <span class="page-tag">// Solution</span>
+            <h1>EV Charging Infrastructure</h1>
+            <p>Complete electric vehicle charging solutions for commercial, fleet, and public applications.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-charging-station"></i> EV Charging Overview</h3>
+                <p>Epigater plans, supplies and integrates electric-vehicle charging stations, charging-management software, fleet-charging infrastructure, renewable-powered charging, payment integration, usage monitoring and energy-demand management.</p>
+                <p>As electric mobility accelerates across Africa and globally, Epigater provides end-to-end solutions that enable businesses, municipalities, and property developers to deploy reliable, scalable, and profitable EV charging infrastructure.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-bolt"></i> AC Charging</h4><ul><li>Level 2 AC chargers</li><li>Workplace charging</li><li>Residential solutions</li><li>Destination charging</li><li>Smart load management</li><li>OCPP compliance</li></ul></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-rocket"></i> DC Fast Charging</h4><ul><li>DC fast chargers (50-350kW)</li><li>Highway corridor charging</li><li>Fleet depot charging</li><li>Urban public charging</li><li>Plug & Charge support</li><li>Dynamic load balancing</li></ul></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-truck"></i> Fleet Charging</h4><ul><li>Fleet depot solutions</li><li>Smart charging schedules</li><li>Vehicle integration</li><li>Route optimization</li><li>Energy cost optimization</li><li>Telematics integration</li></ul></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-solar-panel"></i> Solar-Powered Charging</h4><ul><li>Solar + storage integration</li><li>Off-grid charging stations</li><li>Green energy certificates</li><li>Carbon reduction tracking</li><li>Energy independence</li><li>Cost optimization</li></ul></div>
+            </div>
+            <div class="content-block reveal" style="margin-top: 60px;">
+                <h3><i class="fas fa-laptop-code"></i> Charging Management Software</h3>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card ai-card reveal"><h4><i class="fas fa-tachometer-alt"></i> Operations Management</h4><ul><li>Real-time monitoring</li><li>Remote management</li><li>Fault detection</li><li>Maintenance scheduling</li><li>Performance analytics</li><li>Multi-site management</li></ul></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-credit-card"></i> Payment & Billing</h4><ul><li>Multiple payment methods</li><li>Mobile wallet integration</li><li>Subscription plans</li><li>Roaming agreements</li><li>Invoice generation</li><li>Revenue management</li></ul></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-mobile-alt"></i> User Experience</h4><ul><li>Mobile apps</li><li>RFID access</li><li>Plug & Charge</li><li>Reservation system</li><li>Real-time availability</li><li>Charging history</li></ul></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-chart-line"></i> Analytics & Reporting</h4><ul><li>Usage analytics</li><li>Revenue reporting</li><li>Energy consumption</li><li>Carbon impact</li><li>Customer insights</li><li>Performance KPIs</li></ul></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- SOLUTION: METHODOLOGY -->
+<div class="page" id="page-methodology">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Solutions</a> <span>/</span> Delivery Process</div>
+            <span class="page-tag">// Methodology</span>
+            <h1>Project Delivery Methodology</h1>
+            <p>Our structured 8-phase methodology ensures quality delivery from discovery to optimization.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="process-grid">
+                <div class="process-step reveal"><div class="step-num">01</div><h4>Discovery & Assessment</h4><p>Study objectives, existing systems, operational problems, users, infrastructure and budget.</p></div>
+                <div class="process-step reveal reveal-delay-1"><div class="step-num">02</div><h4>Requirements Definition</h4><p>Document and validate functional, technical, security, integration, reporting and performance requirements.</p></div>
+                <div class="process-step reveal reveal-delay-2"><div class="step-num">03</div><h4>Solution Architecture</h4><p>Prepare architecture, components, integration model, implementation approach and project plan.</p></div>
+                <div class="process-step reveal reveal-delay-3"><div class="step-num">04</div><h4>Design & Development</h4><p>Develop software, configure infrastructure, source equipment and create interfaces.</p></div>
+                <div class="process-step reveal"><div class="step-num">05</div><h4>Testing</h4><p>Conduct functional, integration, performance, security and user-acceptance testing.</p></div>
+                <div class="process-step reveal reveal-delay-1"><div class="step-num">06</div><h4>Deployment</h4><p>Install and commission the approved production solution.</p></div>
+                <div class="process-step reveal reveal-delay-2"><div class="step-num">07</div><h4>Training & Change</h4><p>Train administrators, technical personnel, managers and end users.</p></div>
+                <div class="process-step reveal reveal-delay-3"><div class="step-num">08</div><h4>Support & Optimization</h4><p>Provide maintenance, updates, monitoring and continuous improvement.</p></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- SOLUTION: QUALITY -->
+<div class="page" id="page-quality">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Solutions</a> <span>/</span> Quality Assurance</div>
+            <span class="page-tag">// Quality</span>
+            <h1>Quality Assurance</h1>
+            <p>Quality-control processes throughout the project lifecycle.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-check-circle"></i> Our QA Commitment</h3>
+                <p>Epigater applies quality-control processes throughout the project lifecycle, including requirements validation, design review, source-code review, equipment verification, configuration review, functional testing, performance testing, security testing, integration testing, user acceptance, installation inspection, documentation, training evaluation, warranty management and post-implementation review.</p>
+                <p>The company aims to work with products and technologies that comply with relevant national and international standards. Where required, Epigater engages certified professionals, licensed contractors, specialized consultants and manufacturer-authorized experts.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-clipboard-check"></i> Requirements Validation</h4><p>Thorough validation of all project requirements.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-drafting-compass"></i> Design Review</h4><p>Comprehensive design reviews at every stage.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-code"></i> Code Review</h4><p>Rigorous source-code review processes.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-vial"></i> Testing</h4><p>Functional, performance and security testing.</p></div>
+                <div class="detail-card reveal"><h4><i class="fas fa-file-alt"></i> Documentation</h4><p>Complete and accurate documentation.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-user-check"></i> User Acceptance</h4><p>Thorough user-acceptance testing.</p></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- SOLUTION: SUPPORT -->
+<div class="page" id="page-support">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Solutions</a> <span>/</span> Support</div>
+            <span class="page-tag">// Support</span>
+            <h1>Customer Support & Maintenance</h1>
+            <p>Comprehensive support levels and response times defined according to system criticality.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-headset"></i> Support Services</h3>
+                <p>Support levels and response times are defined according to the criticality of the customer's systems and the applicable service-level agreement.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-phone"></i> Help-Desk Support</h4><p>24/7 help-desk support for all customers.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-laptop-code"></i> Remote Assistance</h4><p>Remote technical assistance when needed.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-tools"></i> On-Site Maintenance</h4><p>On-site maintenance services.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-wrench"></i> Preventive Maintenance</h4><p>Preventive and corrective maintenance.</p></div>
+                <div class="detail-card reveal"><h4><i class="fas fa-sync"></i> Updates</h4><p>Software and security updates.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-chart-line"></i> Monitoring</h4><p>System monitoring and optimization.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-database"></i> Backup Verification</h4><p>Regular backup verification.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-exchange-alt"></i> Equipment Replacement</h4><p>Equipment replacement coordination.</p></div>
+                <div class="detail-card reveal"><h4><i class="fas fa-file-contract"></i> Warranty Admin</h4><p>Warranty administration.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-graduation-cap"></i> Refresher Training</h4><p>Refresher training for users.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-file-signature"></i> AMCs</h4><p>Annual maintenance agreements.</p></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- INDUSTRIES: GOVERNMENT -->
+<div class="page" id="page-ind-gov">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Industries</a> <span>/</span> Government</div>
+            <span class="page-tag">// Industry</span>
+            <h1>Government & Public Institutions</h1>
+            <p>Digital government, document systems, public services, revenue management, smart cities and command centers.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-landmark"></i> Transforming Public Services</h3>
+                <p>Epigater Solutions helps government institutions modernize operations, improve service delivery and enhance citizen engagement through intelligent digital systems.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-desktop"></i> Digital Government</h4><p>End-to-end digital government platforms.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-file-alt"></i> Document Systems</h4><p>Intelligent document management systems.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-users"></i> Public Services</h4><p>Citizen-facing service portals.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-coins"></i> Revenue Management</h4><p>Revenue collection and management systems.</p></div>
+                <div class="detail-card reveal"><h4><i class="fas fa-city"></i> Smart Cities</h4><p>Smart-city technologies and infrastructure.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-tv"></i> Command Centers</h4><p>Integrated command-and-control centers.</p></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- INDUSTRIES: FINANCIAL -->
+<div class="page" id="page-ind-fin">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Industries</a> <span>/</span> Financial Services</div>
+            <span class="page-tag">// Industry</span>
+            <h1>Financial Services</h1>
+            <p>AI customer service, fraud monitoring, analytics, cybersecurity, document automation and digital onboarding.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-university"></i> Intelligent Financial Operations</h3>
+                <p>Empowering banks, insurance companies and financial institutions with AI-powered solutions that enhance security, improve customer experience and drive operational efficiency.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-robot"></i> AI Customer Service</h4><p>AI-powered customer service solutions.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-user-shield"></i> Fraud Monitoring</h4><p>Real-time fraud detection and monitoring.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-chart-line"></i> Analytics</h4><p>Advanced financial analytics.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-shield-alt"></i> Cybersecurity</h4><p>Financial-grade cybersecurity.</p></div>
+                <div class="detail-card reveal"><h4><i class="fas fa-file-contract"></i> Document Automation</h4><p>Automated document processing.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-user-plus"></i> Digital Onboarding</h4><p>Seamless digital customer onboarding.</p></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- INDUSTRIES: HEALTHCARE -->
+<div class="page" id="page-ind-health">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Industries</a> <span>/</span> Healthcare</div>
+            <span class="page-tag">// Industry</span>
+            <h1>Healthcare</h1>
+            <p>Hospital systems, patient applications, medical inventory, analytics and resilient energy systems.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-hospital"></i> Smart Healthcare Solutions</h3>
+                <p>Transforming healthcare delivery through intelligent hospital systems, patient applications and resilient infrastructure.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-hospital-alt"></i> Hospital Systems</h4><p>Comprehensive hospital management systems.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-mobile-alt"></i> Patient Apps</h4><p>Patient-facing mobile applications.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-pills"></i> Medical Inventory</h4><p>Medical inventory management.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-chart-bar"></i> Analytics</h4><p>Healthcare analytics and reporting.</p></div>
+                <div class="detail-card reveal"><h4><i class="fas fa-bolt"></i> Resilient Energy</h4><p>Uninterrupted power for critical care.</p></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- INDUSTRIES: EDUCATION -->
+<div class="page" id="page-ind-edu">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Industries</a> <span>/</span> Education</div>
+            <span class="page-tag">// Industry</span>
+            <h1>Education</h1>
+            <p>Learning platforms, student information, digital libraries, campus networks and smart classrooms.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-graduation-cap"></i> Digital Education Ecosystems</h3>
+                <p>Empowering educational institutions with modern learning platforms and smart campus infrastructure.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-laptop"></i> Learning Platforms</h4><p>Modern e-learning platforms.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-user-graduate"></i> Student Info</h4><p>Student information systems.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-book"></i> Digital Libraries</h4><p>Digital library solutions.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-network-wired"></i> Campus Networks</h4><p>Campus-wide network infrastructure.</p></div>
+                <div class="detail-card reveal"><h4><i class="fas fa-chalkboard"></i> Smart Classrooms</h4><p>Smart classroom technologies.</p></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- INDUSTRIES: MANUFACTURING -->
+<div class="page" id="page-ind-mfg">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Industries</a> <span>/</span> Manufacturing</div>
+            <span class="page-tag">// Industry</span>
+            <h1>Manufacturing</h1>
+            <p>ERP, production monitoring, predictive maintenance, automation, quality inspection and energy management.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-industry"></i> Smart Manufacturing</h3>
+                <p>Helping manufacturers improve productivity, quality, safety and efficiency through integrated digital systems.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-database"></i> ERP</h4><p>Manufacturing ERP systems.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-chart-line"></i> Production Monitoring</h4><p>Real-time production monitoring.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-tools"></i> Predictive Maintenance</h4><p>AI-powered predictive maintenance.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-robot"></i> Automation</h4><p>Production-line automation.</p></div>
+                <div class="detail-card reveal"><h4><i class="fas fa-eye"></i> Quality Inspection</h4><p>Computer-vision quality inspection.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-bolt"></i> Energy Management</h4><p>Industrial energy management.</p></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- INDUSTRIES: ENERGY -->
+<div class="page" id="page-ind-energy">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Industries</a> <span>/</span> Energy & Utilities</div>
+            <span class="page-tag">// Industry</span>
+            <h1>Energy & Utilities</h1>
+            <p>Smart metering, renewable energy, asset monitoring, energy analytics and field-service applications.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-bolt"></i> Intelligent Energy Operations</h3>
+                <p>Empowering energy and utility companies with smart systems for monitoring, management and optimization.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-tachometer-alt"></i> Smart Metering</h4><p>Advanced smart metering solutions.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-solar-panel"></i> Renewable Energy</h4><p>Renewable energy systems.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-satellite-dish"></i> Asset Monitoring</h4><p>Remote asset monitoring.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-chart-bar"></i> Energy Analytics</h4><p>Energy analytics and reporting.</p></div>
+                <div class="detail-card reveal"><h4><i class="fas fa-hard-hat"></i> Field Service</h4><p>Field-service applications.</p></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- INDUSTRIES: TELECOM -->
+<div class="page" id="page-ind-telecom">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Industries</a> <span>/</span> Telecom</div>
+            <span class="page-tag">// Industry</span>
+            <h1>Telecommunications</h1>
+            <p>Network infrastructure, customer platforms, data analytics, VAS, AI support and site energy systems.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-satellite-dish"></i> Telecom Solutions</h3>
+                <p>Comprehensive solutions for telecommunications operators.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-network-wired"></i> Network Infrastructure</h4><p>Network infrastructure solutions.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-users"></i> Customer Platforms</h4><p>Customer-facing platforms.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-chart-line"></i> Data Analytics</h4><p>Telecom data analytics.</p></div>
+                <div class="detail-card reveal reveal-delay-3" data-page="sol-vas" style="cursor:pointer;"><h4><i class="fas fa-star"></i> VAS</h4><p>Value-added services.</p></div>
+                <div class="detail-card reveal"><h4><i class="fas fa-robot"></i> AI Support</h4><p>AI-powered support systems.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-solar-panel"></i> Site Energy</h4><p>Site energy systems.</p></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- INDUSTRIES: CONSTRUCTION -->
+<div class="page" id="page-ind-construction">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Industries</a> <span>/</span> Construction</div>
+            <span class="page-tag">// Industry</span>
+            <h1>Construction & Real Estate</h1>
+            <p>Project platforms, smart buildings, security, energy, procurement and facilities management.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-building"></i> Construction Solutions</h3>
+                <p>Digital solutions for construction and real estate companies.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-tasks"></i> Project Platforms</h4><p>Construction project management.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-building"></i> Smart Buildings</h4><p>Smart building technologies.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-shield-alt"></i> Security</h4><p>Building security systems.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-bolt"></i> Energy</h4><p>Building energy management.</p></div>
+                <div class="detail-card reveal"><h4><i class="fas fa-shopping-basket"></i> Procurement</h4><p>Construction procurement.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-tools"></i> Facilities Mgmt</h4><p>Facilities management.</p></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- INDUSTRIES: LOGISTICS -->
+<div class="page" id="page-ind-logistics">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Industries</a> <span>/</span> Logistics</div>
+            <span class="page-tag">// Industry</span>
+            <h1>Logistics & Transportation</h1>
+            <p>Fleet management, route optimization, warehousing, cargo tracking and fuel monitoring.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-truck"></i> Smart Logistics</h3>
+                <p>Intelligent logistics solutions that optimize operations and reduce costs.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-truck-moving"></i> Fleet Management</h4><p>Comprehensive fleet management.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-route"></i> Route Optimization</h4><p>AI-powered route optimization.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-warehouse"></i> Warehousing</h4><p>Warehouse management systems.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-box"></i> Cargo Tracking</h4><p>Real-time cargo tracking.</p></div>
+                <div class="detail-card reveal"><h4><i class="fas fa-gas-pump"></i> Fuel Monitoring</h4><p>Fuel consumption monitoring.</p></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- INDUSTRIES: RETAIL -->
+<div class="page" id="page-ind-retail">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Industries</a> <span>/</span> Retail</div>
+            <span class="page-tag">// Industry</span>
+            <h1>Retail & Distribution</h1>
+            <p>Sales, inventory, e-commerce, customer analytics, payments and supply chains.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-shopping-cart"></i> Retail Solutions</h3>
+                <p>End-to-end retail solutions from POS to e-commerce.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-cash-register"></i> Sales & POS</h4><p>Point-of-sale systems.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-boxes"></i> Inventory</h4><p>Inventory management.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-shopping-bag"></i> E-Commerce</h4><p>E-commerce platforms.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-users"></i> Customer Analytics</h4><p>Customer analytics and insights.</p></div>
+                <div class="detail-card reveal"><h4><i class="fas fa-credit-card"></i> Payments</h4><p>Payment integration.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-truck"></i> Supply Chain</h4><p>Supply chain management.</p></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- INDUSTRIES: AGRICULTURE -->
+<div class="page" id="page-ind-agri">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Industries</a> <span>/</span> Agriculture</div>
+            <span class="page-tag">// Industry</span>
+            <h1>Agriculture</h1>
+            <p>Smart irrigation, farm management, remote sensing, crop monitoring and renewable energy.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-seedling"></i> Smart Agriculture</h3>
+                <p>Technology-driven solutions for modern agriculture.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-tint"></i> Smart Irrigation</h4><p>Intelligent irrigation systems.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-tractor"></i> Farm Management</h4><p>Farm management platforms.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-satellite"></i> Remote Sensing</h4><p>Satellite remote sensing.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-leaf"></i> Crop Monitoring</h4><p>Crop health monitoring.</p></div>
+                <div class="detail-card reveal"><h4><i class="fas fa-solar-panel"></i> Renewable Energy</h4><p>Solar-powered farm solutions.</p></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- INDUSTRIES: HOSPITALITY -->
+<div class="page" id="page-ind-hospitality">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> <a>Industries</a> <span>/</span> Hospitality</div>
+            <span class="page-tag">// Industry</span>
+            <h1>Hospitality</h1>
+            <p>Hotel systems, customer applications, smart-room controls, energy management and payments.</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block reveal">
+                <h3><i class="fas fa-hotel"></i> Hospitality Solutions</h3>
+                <p>Modern solutions for hotels and hospitality businesses.</p>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card reveal"><h4><i class="fas fa-concierge-bell"></i> Hotel Systems</h4><p>Property management systems.</p></div>
+                <div class="detail-card reveal reveal-delay-1"><h4><i class="fas fa-mobile-alt"></i> Customer Apps</h4><p>Guest-facing applications.</p></div>
+                <div class="detail-card reveal reveal-delay-2"><h4><i class="fas fa-bed"></i> Smart Rooms</h4><p>Smart-room controls.</p></div>
+                <div class="detail-card reveal reveal-delay-3"><h4><i class="fas fa-bolt"></i> Energy Mgmt</h4><p>Hotel energy management.</p></div>
+                <div class="detail-card reveal"><h4><i class="fas fa-credit-card"></i> Payments</h4><p>Payment integration.</p></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- CONTACT PAGE -->
+<div class="page" id="page-contact">
+    <section class="page-header">
+        <div class="container page-header-content">
+            <div class="breadcrumb"><a data-page="home">Home</a> <span>/</span> Contact</div>
+            <span class="page-tag">// Get In Touch</span>
+            <h1>Contact Us</h1>
+            <p>Let's build the future together. Reach out to discuss your project.</p>
+        </div>
+    </section>
+    <section class="content-section bg-light">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-info reveal">
+                    <h3>Get In Touch</h3>
+                    <p style="color: var(--text-light); margin-bottom: 30px;">Whether you need AI-enhanced software, enterprise automation, smart energy solutions, or technology infrastructure, our team is ready to help you transform your operations.</p>
+                    <ul class="contact-details">
+                        <li><i class="fas fa-map-marker-alt"></i> Bole, Addis Ababa, Ethiopia</li>
+                        <li><i class="fas fa-phone"></i> +251 966 131 415</li>
+                        <li><i class="fas fa-envelope"></i> contact@epigater.com</li>
+                        <li><i class="fas fa-globe"></i> https://epigater.com</li>
+                        <li><i class="fas fa-user-tie"></i> Hailay Weldegebriel, General Manager</li>
+                    </ul>
+                </div>
+                <div class="detail-card reveal reveal-delay-2" style="padding: 40px;">
+                    <h4 style="margin-bottom: 20px;">Send us a message</h4>
+                    <form>
+                        <div style="margin-bottom: 15px;"><input type="text" placeholder="Full Name" class="form-input"></div>
+                        <div style="margin-bottom: 15px;"><input type="email" placeholder="Email Address" class="form-input"></div>
+                        <div style="margin-bottom: 15px;">
+                            <select class="form-input">
+                                <option>Select Division of Interest</option>
+                                <option>Epigater Labs (AI & Software)</option>
+                                <option>Epigater Nexus (Infrastructure)</option>
+                                <option>Epigater Matrix (Manufacturing)</option>
+                                <option>Epigater Energy (Smart Energy)</option>
+                                <option>Epigater Intelligence (Analytics)</option>
+                                <option>Global Trade (Import/Export)</option>
+                            </select>
+                        </div>
+                        <div style="margin-bottom: 20px;"><textarea placeholder="Tell us about your project..." rows="4" class="form-input"></textarea></div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Send Message <i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>EPIGATER SOLUTIONS</h4>
+                <p>Intelligence Without Limits. We develop the intelligence, systems, and infrastructure that enable organizations to operate smarter, grow faster, and build a more sustainable future.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Divisions</h4>
+                <ul>
+                    <li><a data-page="labs">Epigater Labs</a></li>
+                    <li><a data-page="nexus">Epigater Nexus</a></li>
+                    <li><a data-page="matrix">Epigater Matrix</a></li>
+                    <li><a data-page="energy">Epigater Energy</a></li>
+                    <li><a data-page="intelligence">Epigater Intelligence</a></li>
+                    <li><a data-page="trade">Global Trade</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Solutions</h4>
+                <ul>
+                    <li><a data-page="sol-ai">AI Applications</a></li>
+                    <li><a data-page="sol-ai-agents">AI Agents</a></li>
+                    <li><a data-page="sol-erp">ERP Systems</a></li>
+                    <li><a data-page="sol-energy">Smart Energy</a></li>
+                    <li><a data-page="sol-mfg">Smart Manufacturing</a></li>
+                    <li><a data-page="sol-vas">Value-Added Services</a></li>
+                    <li><a data-page="sol-cyber">Cybersecurity</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <ul>
+                    <li><a data-page="overview">About Us</a></li>
+                    <li><a data-page="vision">Vision & Mission</a></li>
+                    <li><a data-page="values">Core Values</a></li>
+                    <li><a data-page="roadmap">Growth Roadmap</a></li>
+                    <li><a data-page="sustainability">Sustainability</a></li>
+                    <li><a data-page="partnership">Partnerships</a></li>
+                    <li><a data-page="contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Epigater Solutions. All Rights Reserved. | <span style="color: var(--accent);">Intelligence Without Limits.</span></p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // PAGE NAVIGATION
+    function navigateTo(pageId) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        const targetPage = document.getElementById('page-' + pageId);
+        if (targetPage) {
+            targetPage.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setTimeout(() => {
+                const reveals = targetPage.querySelectorAll('.reveal');
+                reveals.forEach(el => {
+                    el.classList.remove('active');
+                    setTimeout(() => el.classList.add('active'), 50);
+                });
+            }, 100);
+        }
+        document.getElementById('mainNav').classList.remove('active');
+    }
+
+    document.querySelectorAll('[data-page]').forEach(el => {
+        el.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            navigateTo(el.dataset.page);
+        });
+    });
+
+    // MOBILE MENU
+    function toggleMobileMenu() {
+        document.getElementById('mainNav').classList.toggle('active');
+    }
+
+    // Mobile mega menu toggle
+    if (window.innerWidth <= 768) {
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.querySelector('.nav-link').addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelectorAll('.nav-item').forEach(i => {
+                    if (i !== item) i.classList.remove('mobile-open');
+                });
+                item.classList.toggle('mobile-open');
+            });
+        });
+    }
+
+    // NEURAL NETWORK CANVAS
+    const canvas = document.getElementById('neuralCanvas');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let nodes = [];
+
+        function resizeCanvas() {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+        }
+
+        function initNodes() {
+            nodes = [];
+            const numNodes = Math.min(80, Math.floor(canvas.width / 20));
+            for (let i = 0; i < numNodes; i++) {
+                nodes.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
+                    radius: Math.random() * 2 + 1
+                });
+            }
+        }
+
+        function drawNeuralNetwork() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const dx = nodes[i].x - nodes[j].x;
+                    const dy = nodes[i].y - nodes[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < 150) {
+                        const opacity = (1 - distance / 150) * 0.5;
+                        ctx.strokeStyle = `rgba(0, 229, 255, ${opacity})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.beginPath();
+                        ctx.moveTo(nodes[i].x, nodes[i].y);
+                        ctx.lineTo(nodes[j].x, nodes[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            nodes.forEach(node => {
+                ctx.fillStyle = 'rgba(0, 229, 255, 0.8)';
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = 'rgba(0, 229, 255, 0.8)';
+                ctx.beginPath();
+                ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+                ctx.fill();
+                node.x += node.vx;
+                node.y += node.vy;
+                if (node.x < 0 || node.x > canvas.width) node.vx *= -1;
+                if (node.y < 0 || node.y > canvas.height) node.vy *= -1;
+            });
+            requestAnimationFrame(drawNeuralNetwork);
+        }
+
+        window.addEventListener('resize', () => { resizeCanvas(); initNodes(); });
+        resizeCanvas();
+        initNodes();
+        drawNeuralNetwork();
+    }
+
+    // TYPING EFFECT
+    const typedText = document.getElementById('typedText');
+    if (typedText) {
+        const words = ['Without Limits', 'Powered by AI', 'For Africa', 'Built to Scale'];
+        let wordIndex = 0, charIndex = 0, isDeleting = false;
+        function typeEffect() {
+            const currentWord = words[wordIndex];
+            if (isDeleting) {
+                typedText.textContent = currentWord.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typedText.textContent = currentWord.substring(0, charIndex + 1);
+                charIndex++;
+            }
+            let typeSpeed = isDeleting ? 50 : 100;
+            if (!isDeleting && charIndex === currentWord.length) {
+                typeSpeed = 2000; isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                wordIndex = (wordIndex + 1) % words.length;
+                typeSpeed = 500;
+            }
+            setTimeout(typeEffect, typeSpeed);
+        }
+        typeEffect();
+    }
+
+    // SCROLL REVEAL
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('active');
+        });
+    }, { threshold: 0.1 });
+
+    function observeReveals() {
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+    }
+    observeReveals();
+
+    // STATS COUNTER
+    const statsObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const target = parseInt(entry.target.dataset.target);
+                let current = 0;
+                const increment = target / 50;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        entry.target.textContent = target + (target === 24 ? '/7' : '+');
+                        clearInterval(timer);
+                    } else {
+                        entry.target.textContent = Math.floor(current);
+                    }
+                }, 30);
+                statsObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.stat-number').forEach(num => statsObserver.observe(num));
+
+    // HEADER SCROLL
+    window.addEventListener('scroll', () => {
+        const header = document.getElementById('header');
+        if (window.scrollY > 50) header.classList.add('scrolled');
+        else header.classList.remove('scrolled');
+    });
+</script>
+</body>
+</html>
