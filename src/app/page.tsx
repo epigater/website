@@ -837,12 +837,13 @@ export default function Home() {
                   { label: 'Industrial Automation', id: 'services' }
                 ].map((item) => (
                   <li key={item.label}>
-                    <button 
-                      onClick={() => scrollToSection(item.id)}
-                      className="hover:text-cyan-400 transition-colors text-left"
+                    <a 
+                      href={`#${item.id}`}
+                      onClick={(e) => { e.preventDefault(); scrollToSection(item.id); }}
+                      className="hover:text-cyan-400 transition-colors"
                     >
                       {item.label}
-                    </button>
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -856,17 +857,18 @@ export default function Home() {
                   { label: 'Divisions', id: 'divisions' },
                   { label: 'Why Choose Us', id: 'why-us' },
                   { label: 'Contact', id: 'contact' },
-                  { label: 'Careers', id: null, external: '#' },
-                  { label: 'Privacy Policy', id: null, external: '#' }
+                  { label: 'Careers', external: '#' },
+                  { label: 'Privacy Policy', external: '#' }
                 ].map((item) => (
                   <li key={item.label}>
-                    {item.id ? (
-                      <button 
-                        onClick={() => scrollToSection(item.id)}
-                        className="hover:text-cyan-400 transition-colors text-left"
+                    {'id' in item && item.id ? (
+                      <a 
+                        href={`#${item.id}`}
+                        onClick={(e) => { e.preventDefault(); scrollToSection(item.id!); }}
+                        className="hover:text-cyan-400 transition-colors"
                       >
                         {item.label}
-                      </button>
+                      </a>
                     ) : (
                       <a href={item.external} className="hover:text-cyan-400 transition-colors">{item.label}</a>
                     )}
