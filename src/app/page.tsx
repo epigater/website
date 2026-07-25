@@ -57,7 +57,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 via-white to-blue-50">
+    <div className="min-h-screen flex flex-col bg-white">
       {/* Navigation */}
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled ? 'bg-white/95 backdrop-blur-md shadow-lg shadow-slate-200/20' : 'bg-transparent'
@@ -67,7 +67,7 @@ export default function Home() {
             <div className="flex items-center gap-3">
               <img src="/logo.png" alt="Epigater Solutions" className="h-12 w-auto" />
               <div className="hidden sm:block">
-                <span className="text-xl font-bold bg-gradient-to-r from-blue-900 to-cyan-700 bg-clip-text text-transparent">
+                <span className="text-xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
                   EPIGATER
                 </span>
                 <span className="block text-xs font-medium text-slate-500 tracking-wider">SOLUTIONS</span>
@@ -87,18 +87,18 @@ export default function Home() {
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
                   className={`text-sm font-medium transition-colors relative group ${
-                    activeSection === item.id ? 'text-blue-900' : 'text-slate-600 hover:text-blue-800'
+                    activeSection === item.id ? 'text-slate-900' : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
                   {item.label}
-                  <span className={`absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-blue-600 to-cyan-500 transition-all duration-300 ${
+                  <span className={`absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-cyan-600 to-blue-600 transition-all duration-300 ${
                     activeSection === item.id ? 'w-full' : 'w-0 group-hover:w-full'
                   }`} />
                 </button>
               ))}
               <button 
                 onClick={() => scrollToSection('contact')}
-                className="px-5 py-2.5 bg-gradient-to-r from-blue-900 to-blue-800 text-white rounded-full text-sm font-semibold hover:shadow-lg hover:shadow-blue-900/25 transition-all duration-300 hover:-translate-y-0.5"
+                className="px-5 py-2.5 bg-gradient-to-r from-slate-800 to-slate-700 text-white rounded-full text-sm font-semibold hover:shadow-lg hover:shadow-slate-400/25 transition-all duration-300 hover:-translate-y-0.5"
               >
                 Get Started
               </button>
@@ -121,7 +121,7 @@ export default function Home() {
                 <button
                   key={item}
                   onClick={() => scrollToSection(item)}
-                  className="block w-full text-left px-4 py-3 rounded-xl text-slate-700 hover:bg-blue-50 hover:text-blue-900 font-medium capitalize transition-colors"
+                  className="block w-full text-left px-4 py-3 rounded-xl text-slate-700 hover:bg-slate-50 hover:text-slate-900 font-medium capitalize transition-colors"
                 >
                   {item.replace('-', ' ')}
                 </button>
@@ -131,33 +131,37 @@ export default function Home() {
         )}
       </header>
 
-      {/* Hero Section */}
+      {/* Hero Section - With Network Pattern Background */}
       <section id="home" className="relative min-h-screen flex items-center overflow-hidden pt-20">
-        {/* Background Elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-gradient-to-br from-blue-200/40 to-cyan-200/30 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute -bottom-40 -left-40 w-[500px] h-[500px] bg-gradient-to-tr from-indigo-200/30 to-blue-200/30 rounded-full blur-3xl animate-pulse delay-1000" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-blue-100/20 to-transparent rounded-full blur-3xl" />
-          
-          {/* Grid Pattern */}
-          <div className="absolute inset-0 opacity-[0.03]" style={{
-            backgroundImage: `linear-gradient(rgba(30,58,138,1) 1px, transparent 1px), linear-gradient(90deg, rgba(30,58,138,1) 1px, transparent 1px)`,
-            backgroundSize: '60px 60px'
-          }} />
-        </div>
+        {/* Network Pattern Background */}
+        <div className="absolute inset-0 opacity-[0.15]" style={{
+          backgroundImage: `url('/bg-pattern.png')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }} />
+        
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-white via-white/95 to-cyan-50/30" />
+        
+        {/* Subtle Dot Pattern Overlay */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{
+          backgroundImage: `radial-gradient(circle at 1px 1px, #0ea5e9 1px, transparent 0)`,
+          backgroundSize: '40px 40px'
+        }} />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-8">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-100 rounded-full">
-                <Sparkles size={16} className="text-blue-600" />
-                <span className="text-sm font-medium text-blue-800">Intelligence Without Limits</span>
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 border border-slate-200 rounded-full">
+                <Sparkles size={16} className="text-cyan-600" />
+                <span className="text-sm font-medium text-slate-700">Intelligence Without Limits</span>
               </div>
               
               <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.1]">
                 <span className="text-slate-900">Transforming</span>
                 <br />
-                <span className="bg-gradient-to-r from-blue-900 via-blue-700 to-cyan-600 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-cyan-700 via-blue-700 to-slate-800 bg-clip-text text-transparent">
                   Tomorrow&apos;s
                 </span>
                 <br />
@@ -171,14 +175,14 @@ export default function Home() {
               <div className="flex flex-wrap gap-4">
                 <button 
                   onClick={() => scrollToSection('contact')}
-                  className="group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-900 to-blue-800 text-white rounded-full font-semibold hover:shadow-xl hover:shadow-blue-900/25 transition-all duration-300 hover:-translate-y-1"
+                  className="group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-slate-800 to-slate-700 text-white rounded-full font-semibold hover:shadow-xl hover:shadow-slate-400/25 transition-all duration-300 hover:-translate-y-1"
                 >
                   Explore Solutions
                   <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                 </button>
                 <button 
                   onClick={() => scrollToSection('about')}
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-white text-slate-800 rounded-full font-semibold border border-slate-200 hover:border-blue-300 hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+                  className="inline-flex items-center gap-2 px-8 py-4 bg-white text-slate-800 rounded-full font-semibold border border-slate-200 hover:border-slate-300 hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
                 >
                   Learn More
                 </button>
@@ -186,17 +190,17 @@ export default function Home() {
 
               <div className="flex items-center gap-8 pt-4">
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-blue-900">150+</div>
+                  <div className="text-3xl font-bold text-slate-900">150+</div>
                   <div className="text-sm text-slate-500">Projects Delivered</div>
                 </div>
                 <div className="w-px h-12 bg-slate-200" />
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-blue-900">98%</div>
+                  <div className="text-3xl font-bold text-slate-900">98%</div>
                   <div className="text-sm text-slate-500">Client Satisfaction</div>
                 </div>
                 <div className="w-px h-12 bg-slate-200" />
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-blue-900">24/7</div>
+                  <div className="text-3xl font-bold text-slate-900">24/7</div>
                   <div className="text-sm text-slate-500">Support Available</div>
                 </div>
               </div>
@@ -214,24 +218,24 @@ export default function Home() {
               {/* Floating Cards */}
               <div className="absolute top-10 -left-10 p-4 bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl shadow-slate-200/50 animate-bounce" style={{ animationDuration: '3s' }}>
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-green-100 rounded-xl">
-                    <TrendingUp size={20} className="text-green-600" />
+                  <div className="p-2 bg-emerald-100 rounded-xl">
+                    <TrendingUp size={20} className="text-emerald-600" />
                   </div>
                   <div>
                     <div className="text-sm font-semibold text-slate-800">Growth Rate</div>
-                    <div className="text-lg font-bold text-green-600">+47%</div>
+                    <div className="text-lg font-bold text-emerald-600">+47%</div>
                   </div>
                 </div>
               </div>
 
               <div className="absolute bottom-20 -right-5 p-4 bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl shadow-slate-200/50 animate-bounce" style={{ animationDuration: '4s' }}>
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-blue-100 rounded-xl">
-                    <Brain size={20} className="text-blue-600" />
+                  <div className="p-2 bg-cyan-100 rounded-xl">
+                    <Brain size={20} className="text-cyan-600" />
                   </div>
                   <div>
                     <div className="text-sm font-semibold text-slate-800">AI Powered</div>
-                    <div className="text-lg font-bold text-blue-600">Solutions</div>
+                    <div className="text-lg font-bold text-cyan-600">Solutions</div>
                   </div>
                 </div>
               </div>
@@ -240,13 +244,20 @@ export default function Home() {
         </div>
       </section>
 
-      {/* About Section */}
-      <section id="about" className="py-24 relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* About Section - Light with subtle pattern */}
+      <section id="about" className="py-24 relative overflow-hidden">
+        {/* Subtle Background Pattern */}
+        <div className="absolute inset-0 opacity-[0.08]" style={{
+          backgroundImage: `url('/bg-pattern.png')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }} />
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="relative">
-              <div className="absolute -inset-4 bg-gradient-to-r from-blue-100 to-cyan-100 rounded-3xl blur-2xl opacity-60" />
-              <div className="relative bg-gradient-to-br from-blue-900 to-blue-800 rounded-3xl p-8 sm:p-12 text-white">
+              <div className="absolute -inset-4 bg-gradient-to-br from-slate-100 to-cyan-50 rounded-3xl blur-2xl opacity-80" />
+              <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl p-8 sm:p-12 text-white">
                 <div className="space-y-6">
                   <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full text-sm">
                     <Award size={14} />
@@ -255,7 +266,7 @@ export default function Home() {
                   <h3 className="text-3xl sm:text-4xl font-bold leading-tight">
                     Building Intelligent Systems for a Digital Future
                   </h3>
-                  <p className="text-blue-100 leading-relaxed">
+                  <p className="text-slate-300 leading-relaxed">
                     We combine cutting-edge AI technology with deep industry expertise to deliver transformative solutions that drive real business value.
                   </p>
                   <div className="grid grid-cols-2 gap-4 pt-4">
@@ -277,7 +288,7 @@ export default function Home() {
 
             <div className="space-y-8">
               <div>
-                <span className="text-sm font-semibold text-blue-600 uppercase tracking-wider">Who We Are</span>
+                <span className="text-sm font-semibold text-cyan-600 uppercase tracking-wider">Who We Are</span>
                 <h2 className="mt-3 text-4xl sm:text-5xl font-bold text-slate-900 leading-tight">
                   About Epigater Solutions
                 </h2>
@@ -303,7 +314,7 @@ export default function Home() {
                   { value: '24/7', label: 'Technical Support' }
                 ].map((stat, i) => (
                   <div key={i} className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                    <div className="text-2xl font-bold text-blue-900">{stat.value}</div>
+                    <div className="text-2xl font-bold text-slate-900">{stat.value}</div>
                     <div className="text-sm text-slate-500">{stat.label}</div>
                   </div>
                 ))}
@@ -313,14 +324,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Services Section */}
-      <section id="services" className="py-24 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden">
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent" />
+      {/* Services Section - Clean white with accent cards */}
+      <section id="services" className="py-24 bg-slate-50 relative overflow-hidden">
+        {/* Dot Pattern Background */}
+        <div className="absolute inset-0 opacity-[0.04]" style={{
+          backgroundImage: `radial-gradient(circle at 1px 1px, #0ea5e9 1px, transparent 0)`,
+          backgroundSize: '30px 30px'
+        }} />
         
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-700 rounded-full text-sm font-medium">
-              <Zap size={16} />
+            <span className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-slate-700 rounded-full text-sm font-medium shadow-sm">
+              <Zap size={16} className="text-cyan-600" />
               Our Services
             </span>
             <h2 className="mt-6 text-4xl sm:text-5xl font-bold text-slate-900">
@@ -336,49 +351,69 @@ export default function Home() {
               {
                 icon: Brain,
                 title: 'AI & Machine Learning',
-                description: 'Custom AI solutions including predictive analytics, natural language processing, computer vision, and intelligent automation systems tailored to your business needs.',
-                features: ['Predictive Analytics', 'NLP Solutions', 'Computer Vision', 'Process Automation']
+                description: 'Custom AI solutions including predictive analytics, natural language processing, computer vision, and intelligent automation systems.',
+                features: ['Predictive Analytics', 'NLP Solutions', 'Computer Vision', 'Process Automation'],
+                color: 'cyan'
               },
               {
                 icon: Cpu,
                 title: 'Enterprise Software',
-                description: 'Scalable enterprise applications including ERP systems, CRM platforms, business intelligence tools, and custom software development.',
-                features: ['ERP Systems', 'CRM Platforms', 'Business Intelligence', 'Custom Development']
+                description: 'Scalable enterprise applications including ERP systems, CRM platforms, business intelligence tools, and custom development.',
+                features: ['ERP Systems', 'CRM Platforms', 'Business Intelligence', 'Custom Development'],
+                color: 'slate'
               },
               {
                 icon: Shield,
                 title: 'Cybersecurity',
-                description: 'Comprehensive security solutions protecting your digital assets with advanced threat detection, vulnerability assessment, and incident response.',
-                features: ['Threat Detection', 'Security Audits', 'Data Protection', 'Incident Response']
+                description: 'Comprehensive security solutions protecting your digital assets with advanced threat detection and incident response.',
+                features: ['Threat Detection', 'Security Audits', 'Data Protection', 'Incident Response'],
+                color: 'emerald'
               },
               {
                 icon: CloudIcon,
                 title: 'Cloud Solutions',
-                description: 'Cloud architecture design, migration services, and managed cloud infrastructure ensuring scalability, reliability, and cost optimization.',
-                features: ['Cloud Migration', 'Architecture Design', 'Managed Services', 'DevOps']
+                description: 'Cloud architecture design, migration services, and managed cloud infrastructure ensuring scalability and reliability.',
+                features: ['Cloud Migration', 'Architecture Design', 'Managed Services', 'DevOps'],
+                color: 'blue'
               },
               {
                 icon: Sun,
                 title: 'Smart Energy',
-                description: 'IoT-enabled energy management systems, renewable energy integration, and smart grid solutions for sustainable operations.',
-                features: ['Energy Management', 'IoT Integration', 'Renewable Systems', 'Grid Optimization']
+                description: 'IoT-enabled energy management systems, renewable energy integration, and smart grid solutions.',
+                features: ['Energy Management', 'IoT Integration', 'Renewable Systems', 'Grid Optimization'],
+                color: 'amber'
               },
               {
                 icon: Factory,
                 title: 'Industrial Automation',
-                description: 'Industry 4.0 solutions including IoT sensors, PLC programming, SCADA systems, and manufacturing execution systems.',
-                features: ['IoT Sensors', 'PLC Programming', 'SCADA Systems', 'MES Solutions']
+                description: 'Industry 4.0 solutions including IoT sensors, PLC programming, SCADA systems, and manufacturing execution.',
+                features: ['IoT Sensors', 'PLC Programming', 'SCADA Systems', 'MES Solutions'],
+                color: 'violet'
               }
             ].map((service, index) => (
               <div 
                 key={index}
-                className="group relative bg-white rounded-3xl p-8 border border-slate-100 hover:border-blue-200 hover:shadow-2xl hover:shadow-blue-100/50 transition-all duration-500 hover:-translate-y-2"
+                className="group relative bg-white rounded-3xl p-8 border border-slate-200 hover:border-slate-300 hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-500 hover:-translate-y-2"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-50/0 to-cyan-50/0 group-hover:from-blue-50/50 group-hover:to-cyan-50/30 rounded-3xl transition-all duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-br from-transparent to-slate-50/50 group-hover:from-cyan-50/30 group-hover:to-transparent rounded-3xl transition-all duration-500 opacity-0 group-hover:opacity-100" />
                 
                 <div className="relative">
-                  <div className="inline-flex p-4 bg-gradient-to-br from-blue-100 to-cyan-100 rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
-                    <service.icon size={28} className="text-blue-700" />
+                  <div className={`inline-flex p-4 rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300 ${
+                    service.color === 'cyan' ? 'bg-cyan-100' :
+                    service.color === 'slate' ? 'bg-slate-100' :
+                    service.color === 'emerald' ? 'bg-emerald-100' :
+                    service.color === 'blue' ? 'bg-blue-100' :
+                    service.color === 'amber' ? 'bg-amber-100' :
+                    'bg-violet-100'
+                  }`}>
+                    <service.icon size={28} className={
+                      service.color === 'cyan' ? 'text-cyan-700' :
+                      service.color === 'slate' ? 'text-slate-700' :
+                      service.color === 'emerald' ? 'text-emerald-700' :
+                      service.color === 'blue' ? 'text-blue-700' :
+                      service.color === 'amber' ? 'text-amber-700' :
+                      'text-violet-700'
+                    } />
                   </div>
                   
                   <h3 className="text-xl font-bold text-slate-900 mb-3">{service.title}</h3>
@@ -399,11 +434,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Business Divisions */}
-      <section id="divisions" className="py-24 relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Business Divisions - With pattern background */}
+      <section id="divisions" className="py-24 relative overflow-hidden">
+        {/* Network Pattern Background */}
+        <div className="absolute inset-0 opacity-[0.06]" style={{
+          backgroundImage: `url('/bg-pattern.png')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }} />
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50 text-indigo-700 rounded-full text-sm font-medium">
+            <span className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 border border-slate-200 text-slate-700 rounded-full text-sm font-medium">
               <Layers size={16} />
               Business Divisions
             </span>
@@ -419,54 +461,54 @@ export default function Home() {
             {[
               {
                 icon: Brain,
-                color: 'from-violet-500 to-purple-600',
                 bgColor: 'bg-violet-50',
                 borderColor: 'border-violet-200',
+                textColor: 'text-violet-700',
                 title: 'Artificial Intelligence Division',
-                description: 'Developing and deploying AI models, machine learning pipelines, and intelligent automation solutions that transform business processes.',
+                description: 'Developing and deploying AI models, machine learning pipelines, and intelligent automation solutions.',
                 capabilities: ['Deep Learning', 'NLP & Conversational AI', 'Computer Vision', 'MLOps & Deployment']
               },
               {
                 icon: Cpu,
-                color: 'from-blue-500 to-blue-600',
-                bgColor: 'bg-blue-50',
-                borderColor: 'border-blue-200',
+                bgColor: 'bg-slate-100',
+                borderColor: 'border-slate-300',
+                textColor: 'text-slate-700',
                 title: 'Enterprise Software Division',
                 description: 'Building scalable software platforms, ERP systems, and business applications that drive operational excellence.',
                 capabilities: ['Enterprise Applications', 'System Integration', 'API Development', 'Quality Assurance']
               },
               {
                 icon: Globe,
-                color: 'from-cyan-500 to-teal-600',
                 bgColor: 'bg-cyan-50',
                 borderColor: 'border-cyan-200',
+                textColor: 'text-cyan-700',
                 title: 'Technology Integration Division',
                 description: 'Seamlessly connecting disparate systems, legacy modernization, and creating unified technology ecosystems.',
                 capabilities: ['System Integration', 'Legacy Modernization', 'Data Migration', 'Infrastructure Planning']
               },
               {
                 icon: Sun,
-                color: 'from-amber-500 to-orange-600',
                 bgColor: 'bg-amber-50',
                 borderColor: 'border-amber-200',
+                textColor: 'text-amber-700',
                 title: 'Smart Energy Division',
-                description: 'Delivering IoT-based energy monitoring, renewable energy solutions, and smart grid technologies for sustainability.',
+                description: 'Delivering IoT-based energy monitoring, renewable energy solutions, and smart grid technologies.',
                 capabilities: ['Energy Monitoring', 'Solar & Wind Integration', 'Smart Metering', 'Sustainability Consulting']
               },
               {
                 icon: Factory,
-                color: 'from-emerald-500 to-green-600',
                 bgColor: 'bg-emerald-50',
                 borderColor: 'border-emerald-200',
+                textColor: 'text-emerald-700',
                 title: 'Smart Manufacturing Division',
                 description: 'Implementing Industry 4.0 technologies, production optimization, and connected factory solutions.',
                 capabilities: ['IIoT Implementation', 'Production Analytics', 'Digital Twin', 'Quality Automation']
               },
               {
                 icon: BarChart3,
-                color: 'from-rose-500 to-pink-600',
                 bgColor: 'bg-rose-50',
                 borderColor: 'border-rose-200',
+                textColor: 'text-rose-700',
                 title: 'International Trading Division',
                 description: 'Facilitating global technology trade, equipment sourcing, and international market expansion services.',
                 capabilities: ['Equipment Sourcing', 'Import/Export', 'Supply Chain', 'Market Expansion']
@@ -477,8 +519,8 @@ export default function Home() {
                 className={`group relative ${division.bgColor} rounded-3xl p-8 border ${division.borderColor} hover:shadow-xl transition-all duration-300 cursor-pointer`}
               >
                 <div className="flex items-start gap-4 mb-4">
-                  <div className={`p-3 bg-gradient-to-br ${division.color} rounded-xl text-white`}>
-                    <division.icon size={24} />
+                  <div className={`p-3 bg-white rounded-xl shadow-sm`}>
+                    <division.icon size={24} className={division.textColor} />
                   </div>
                   <div className="flex-1">
                     <h3 className="text-lg font-bold text-slate-900">{division.title}</h3>
@@ -503,26 +545,31 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Why Choose Us */}
-      <section id="why-us" className="py-24 bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 relative overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, white 1px, transparent 0)`,
-            backgroundSize: '40px 40px'
-          }} />
-        </div>
+      {/* Why Choose Us - Dark section with dot pattern (like reference image) */}
+      <section id="why-us" className="py-24 bg-gradient-to-br from-slate-800 via-slate-800 to-slate-900 relative overflow-hidden">
+        {/* Subtle Dot Pattern - Like the reference image */}
+        <div className="absolute inset-0 opacity-[0.05]" style={{
+          backgroundImage: `radial-gradient(circle at 1px 1px, white 1px, transparent 0)`,
+          backgroundSize: '24px 24px'
+        }} />
         
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        {/* Network Pattern Overlay */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{
+          backgroundImage: `url('/bg-pattern.png')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }} />
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 text-cyan-300 rounded-full text-sm font-medium">
+            <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 text-cyan-400 rounded-full text-sm font-medium border border-white/10">
               <Target size={16} />
               Why Choose Us
             </span>
             <h2 className="mt-6 text-4xl sm:text-5xl font-bold text-white">
               The Epigater Advantage
             </h2>
-            <p className="mt-4 text-lg text-blue-200">
+            <p className="mt-4 text-lg text-slate-300">
               What sets us apart in delivering transformative technology solutions
             </p>
           </div>
@@ -551,11 +598,11 @@ export default function Home() {
               }
             ].map((item, index) => (
               <div key={index} className="group text-center">
-                <div className="inline-flex p-5 bg-white/10 backdrop-blur-sm rounded-2xl mb-6 group-hover:bg-white/20 transition-colors">
+                <div className="inline-flex p-5 bg-white/5 backdrop-blur-sm rounded-2xl mb-6 group-hover:bg-white/10 transition-colors border border-white/10">
                   <item.icon size={32} className="text-cyan-400" />
                 </div>
                 <h3 className="text-xl font-bold text-white mb-3">{item.title}</h3>
-                <p className="text-blue-200 leading-relaxed">{item.description}</p>
+                <p className="text-slate-400 leading-relaxed">{item.description}</p>
               </div>
             ))}
           </div>
@@ -571,12 +618,12 @@ export default function Home() {
                   { step: '04', title: 'Deployment & Support', desc: 'Smooth implementation and ongoing maintenance' }
                 ].map((phase, i) => (
                   <div key={i} className="flex gap-4 group">
-                    <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-xl flex items-center justify-center text-white font-bold">
+                    <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl flex items-center justify-center text-white font-bold">
                       {phase.step}
                     </div>
                     <div className="pt-1">
                       <h4 className="font-semibold text-white group-hover:text-cyan-300 transition-colors">{phase.title}</h4>
-                      <p className="text-sm text-blue-300">{phase.desc}</p>
+                      <p className="text-sm text-slate-400">{phase.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -590,10 +637,10 @@ export default function Home() {
                 { value: '35+', label: 'Technology Experts', sublabel: 'Dedicated team members' },
                 { value: '15+', label: 'Countries Served', sublabel: 'Global footprint' }
               ].map((stat, i) => (
-                <div key={i} className="p-6 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/10 text-center">
+                <div key={i} className="p-6 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 text-center">
                   <div className="text-4xl font-bold text-white mb-1">{stat.value}</div>
-                  <div className="font-medium text-cyan-300">{stat.label}</div>
-                  <div className="text-xs text-blue-300 mt-1">{stat.sublabel}</div>
+                  <div className="font-medium text-cyan-400">{stat.label}</div>
+                  <div className="text-xs text-slate-400 mt-1">{stat.sublabel}</div>
                 </div>
               ))}
             </div>
@@ -601,13 +648,20 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="py-24 relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Contact Section - Clean with subtle pattern */}
+      <section id="contact" className="py-24 relative overflow-hidden">
+        {/* Subtle Pattern Background */}
+        <div className="absolute inset-0 opacity-[0.06]" style={{
+          backgroundImage: `url('/bg-pattern.png')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }} />
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16">
             <div className="space-y-8">
               <div>
-                <span className="text-sm font-semibold text-blue-600 uppercase tracking-wider">Get In Touch</span>
+                <span className="text-sm font-semibold text-cyan-600 uppercase tracking-wider">Get In Touch</span>
                 <h2 className="mt-3 text-4xl sm:text-5xl font-bold text-slate-900">
                   Let&apos;s Build Something Amazing Together
                 </h2>
@@ -617,9 +671,9 @@ export default function Home() {
               </div>
 
               <div className="space-y-6">
-                <div className="flex items-start gap-4 p-6 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl">
+                <div className="flex items-start gap-4 p-6 bg-slate-50 rounded-2xl border border-slate-100">
                   <div className="p-3 bg-white rounded-xl shadow-sm">
-                    <Mail size={22} className="text-blue-600" />
+                    <Mail size={22} className="text-cyan-600" />
                   </div>
                   <div>
                     <h4 className="font-semibold text-slate-900">Email Us</h4>
@@ -628,9 +682,9 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4 p-6 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl">
+                <div className="flex items-start gap-4 p-6 bg-slate-50 rounded-2xl border border-slate-100">
                   <div className="p-3 bg-white rounded-xl shadow-sm">
-                    <Phone size={22} className="text-indigo-600" />
+                    <Phone size={22} className="text-cyan-600" />
                   </div>
                   <div>
                     <h4 className="font-semibold text-slate-900">Call Us</h4>
@@ -639,9 +693,9 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4 p-6 bg-gradient-to-r from-emerald-50 to-teal-50 rounded-2xl">
+                <div className="flex items-start gap-4 p-6 bg-slate-50 rounded-2xl border border-slate-100">
                   <div className="p-3 bg-white rounded-xl shadow-sm">
-                    <MapPin size={22} className="text-emerald-600" />
+                    <MapPin size={22} className="text-cyan-600" />
                   </div>
                   <div>
                     <h4 className="font-semibold text-slate-900">Visit Us</h4>
@@ -652,14 +706,14 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="bg-white rounded-3xl p-8 sm:p-10 shadow-xl shadow-slate-200/50 border border-slate-100">
+            <div className="bg-white rounded-3xl p-8 sm:p-10 shadow-xl shadow-slate-200/50 border border-slate-200">
               <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-2">First Name</label>
                     <input 
                       type="text" 
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all"
+                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all"
                       placeholder="John"
                     />
                   </div>
@@ -667,7 +721,7 @@ export default function Home() {
                     <label className="block text-sm font-medium text-slate-700 mb-2">Last Name</label>
                     <input 
                       type="text" 
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all"
+                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all"
                       placeholder="Doe"
                     />
                   </div>
@@ -677,7 +731,7 @@ export default function Home() {
                   <label className="block text-sm font-medium text-slate-700 mb-2">Email Address</label>
                   <input 
                     type="email" 
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all"
                     placeholder="john@company.com"
                   />
                 </div>
@@ -686,14 +740,14 @@ export default function Home() {
                   <label className="block text-sm font-medium text-slate-700 mb-2">Company</label>
                   <input 
                     type="text" 
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all"
                     placeholder="Your Company Name"
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Service Interest</label>
-                  <select className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white">
+                  <select className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all bg-white">
                     <option>Select a service...</option>
                     <option>AI & Machine Learning</option>
                     <option>Enterprise Software</option>
@@ -709,14 +763,14 @@ export default function Home() {
                   <label className="block text-sm font-medium text-slate-700 mb-2">Message</label>
                   <textarea 
                     rows={4}
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all resize-none"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all resize-none"
                     placeholder="Tell us about your project..."
                   />
                 </div>
 
                 <button 
                   type="submit"
-                  className="w-full py-4 bg-gradient-to-r from-blue-900 to-blue-800 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-blue-900/25 transition-all duration-300 flex items-center justify-center gap-2 group"
+                  className="w-full py-4 bg-gradient-to-r from-slate-800 to-slate-700 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-slate-400/25 transition-all duration-300 flex items-center justify-center gap-2 group"
                 >
                   Send Message
                   <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
@@ -747,7 +801,7 @@ export default function Home() {
                   <a 
                     key={social}
                     href="#" 
-                    className="w-10 h-10 bg-slate-800 hover:bg-blue-600 rounded-lg flex items-center justify-center transition-colors"
+                    className="w-10 h-10 bg-slate-800 hover:bg-cyan-600 rounded-lg flex items-center justify-center transition-colors"
                   >
                     <Globe size={18} />
                   </a>
