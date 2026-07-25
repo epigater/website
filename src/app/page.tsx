@@ -91,14 +91,29 @@ export default function Home() {
 
   return (
     <div 
-      className="min-h-screen flex flex-col"
-      style={{
-        backgroundImage: "url('/bg-pattern.png')",
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'repeat',
-        backgroundAttachment: 'fixed'
-      }}
+      className={`min-h-screen flex flex-col transition-colors duration-500 ${
+        isDark ? 'dark-theme' : ''
+      }`}
+      style={
+        isDark 
+          ? {
+              backgroundImage: [
+                `radial-gradient(circle at 1px 1px, rgba(148, 163, 184, 0.15) 1px, transparent 0)`,
+                `linear-gradient(rgba(30, 41, 59, 0.95), rgba(30, 41, 59, 0.95))`
+              ].join(', '),
+              backgroundSize: '40px 40px, cover',
+              backgroundPosition: 'center, center',
+              backgroundRepeat: 'repeat, no-repeat',
+              backgroundAttachment: 'fixed'
+            }
+          : {
+              backgroundImage: "url('/bg-pattern.png')",
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'repeat',
+              backgroundAttachment: 'fixed'
+            }
+      }
     >
       {/* Navigation */}
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -109,7 +124,13 @@ export default function Home() {
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             <div className="flex items-center gap-3">
-              <img src="/logo.png" alt="Epigater Solutions" className="h-12 w-auto" />
+              <img 
+                src="/logo.png" 
+                alt="Epigater Solutions" 
+                className={`h-12 w-auto transition-all duration-300 ${
+                  isDark ? 'brightness-0 invert' : ''
+                }`} 
+              />
               <div className="hidden sm:block">
                 <span className={`text-xl font-bold ${isDark ? 'bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent' : 'bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent'}`}>
                   EPIGATER
@@ -282,7 +303,9 @@ export default function Home() {
                 <img 
                   src="/logo.png" 
                   alt="Epigater Solutions Logo" 
-                  className="w-full max-w-lg mx-auto drop-shadow-2xl"
+                  className={`w-full max-w-lg mx-auto drop-shadow-2xl transition-all duration-300 ${
+                    isDark ? 'brightness-0 invert' : ''
+                  }`}
                 />
               </div>
               
