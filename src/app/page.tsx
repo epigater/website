@@ -98,10 +98,10 @@ export default function Home() {
         isDark 
           ? {
               backgroundImage: [
-                `radial-gradient(circle at 1px 1px, rgba(148, 163, 184, 0.15) 1px, transparent 0)`,
-                `linear-gradient(rgba(30, 41, 59, 0.95), rgba(30, 41, 59, 0.95))`
+                `url('/dark-bg-pattern.png')`,
+                `linear-gradient(rgba(15, 23, 42, 0.92), rgba(15, 23, 42, 0.92))`
               ].join(', '),
-              backgroundSize: '40px 40px, cover',
+              backgroundSize: 'cover, cover',
               backgroundPosition: 'center, center',
               backgroundRepeat: 'repeat, no-repeat',
               backgroundAttachment: 'fixed'
