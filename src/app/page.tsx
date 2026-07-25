@@ -828,9 +828,21 @@ export default function Home() {
             <div>
               <h4 className="font-semibold text-white mb-4">Services</h4>
               <ul className="space-y-3 text-slate-400">
-                {['AI & Machine Learning', 'Enterprise Software', 'Cybersecurity', 'Cloud Solutions', 'Smart Energy', 'Industrial Automation'].map((item) => (
-                  <li key={item}>
-                    <a href="#" className="hover:text-cyan-400 transition-colors">{item}</a>
+                {[
+                  { label: 'AI & Machine Learning', id: 'services' },
+                  { label: 'Enterprise Software', id: 'services' },
+                  { label: 'Cybersecurity', id: 'services' },
+                  { label: 'Cloud Solutions', id: 'services' },
+                  { label: 'Smart Energy', id: 'services' },
+                  { label: 'Industrial Automation', id: 'services' }
+                ].map((item) => (
+                  <li key={item.label}>
+                    <button 
+                      onClick={() => scrollToSection(item.id)}
+                      className="hover:text-cyan-400 transition-colors text-left"
+                    >
+                      {item.label}
+                    </button>
                   </li>
                 ))}
               </ul>
@@ -839,9 +851,25 @@ export default function Home() {
             <div>
               <h4 className="font-semibold text-white mb-4">Company</h4>
               <ul className="space-y-3 text-slate-400">
-                {['About Us', 'Careers', 'News & Insights', 'Contact', 'Privacy Policy', 'Terms of Service'].map((item) => (
-                  <li key={item}>
-                    <a href="#" className="hover:text-cyan-400 transition-colors">{item}</a>
+                {[
+                  { label: 'About Us', id: 'about' },
+                  { label: 'Divisions', id: 'divisions' },
+                  { label: 'Why Choose Us', id: 'why-us' },
+                  { label: 'Contact', id: 'contact' },
+                  { label: 'Careers', id: null, external: '#' },
+                  { label: 'Privacy Policy', id: null, external: '#' }
+                ].map((item) => (
+                  <li key={item.label}>
+                    {item.id ? (
+                      <button 
+                        onClick={() => scrollToSection(item.id)}
+                        className="hover:text-cyan-400 transition-colors text-left"
+                      >
+                        {item.label}
+                      </button>
+                    ) : (
+                      <a href={item.external} className="hover:text-cyan-400 transition-colors">{item.label}</a>
+                    )}
                   </li>
                 ))}
               </ul>

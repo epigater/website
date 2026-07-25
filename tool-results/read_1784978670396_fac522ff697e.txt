@@ -1,0 +1,873 @@
+     1→'use client'
+     2→
+     3→import { useState, useEffect } from 'react'
+     4→import { 
+     5→  Brain, 
+     6→  Cpu, 
+     7→  Shield, 
+     8→  Sun, 
+     9→  Factory, 
+    10→  Globe, 
+    11→  ArrowRight, 
+    12→  CheckCircle2, 
+    13→  Users, 
+    14→  Award, 
+    15→  TrendingUp,
+    16→  Menu,
+    17→  X,
+    18→  Mail,
+    19→  Phone,
+    20→  MapPin,
+    21→  ChevronRight,
+    22→  Sparkles,
+    23→  Zap,
+    24→  Lock,
+    25→  BarChart3,
+    26→  Layers,
+    27→  Target
+    28→} from 'lucide-react'
+    29→
+    30→export default function Home() {
+    31→  const [isScrolled, setIsScrolled] = useState(false)
+    32→  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+    33→  const [activeSection, setActiveSection] = useState('home')
+    34→
+    35→  useEffect(() => {
+    36→    const handleScroll = () => {
+    37→      setIsScrolled(window.scrollY > 50)
+    38→      
+    39→      const sections = ['home', 'about', 'services', 'divisions', 'why-us', 'contact']
+    40→      for (const section of sections.reverse()) {
+    41→        const element = document.getElementById(section)
+    42→        if (element && element.getBoundingClientRect().top <= 100) {
+    43→          setActiveSection(section)
+    44→          break
+    45→        }
+    46→      }
+    47→    }
+    48→    
+    49→    window.addEventListener('scroll', handleScroll)
+    50→    return () => window.removeEventListener('scroll', handleScroll)
+    51→  }, [])
+    52→
+    53→  const scrollToSection = (id: string) => {
+    54→    const element = document.getElementById(id)
+    55→    element?.scrollIntoView({ behavior: 'smooth' })
+    56→    setMobileMenuOpen(false)
+    57→  }
+    58→
+    59→  return (
+    60→    <div 
+    61→      className="min-h-screen flex flex-col"
+    62→      style={{
+    63→        backgroundImage: "url('/bg-pattern.png')",
+    64→        backgroundSize: 'cover',
+    65→        backgroundPosition: 'center',
+    66→        backgroundRepeat: 'repeat',
+    67→        backgroundAttachment: 'fixed'
+    68→      }}
+    69→    >
+    70→      {/* Navigation */}
+    71→      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+    72→        isScrolled ? 'bg-white/95 backdrop-blur-md shadow-lg shadow-slate-200/20' : 'bg-transparent'
+    73→      }`}>
+    74→        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    75→          <div className="flex items-center justify-between h-20">
+    76→            <div className="flex items-center gap-3">
+    77→              <img src="/logo.png" alt="Epigater Solutions" className="h-12 w-auto" />
+    78→              <div className="hidden sm:block">
+    79→                <span className="text-xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
+    80→                  EPIGATER
+    81→                </span>
+    82→                <span className="block text-xs font-medium text-slate-500 tracking-wider">SOLUTIONS</span>
+    83→              </div>
+    84→            </div>
+    85→            
+    86→            <div className="hidden md:flex items-center gap-8">
+    87→              {[
+    88→                { id: 'home', label: 'Home' },
+    89→                { id: 'about', label: 'About' },
+    90→                { id: 'services', label: 'Services' },
+    91→                { id: 'divisions', label: 'Divisions' },
+    92→                { id: 'why-us', label: 'Why Us' },
+    93→                { id: 'contact', label: 'Contact' }
+    94→              ].map((item) => (
+    95→                <button
+    96→                  key={item.id}
+    97→                  onClick={() => scrollToSection(item.id)}
+    98→                  className={`text-sm font-medium transition-colors relative group ${
+    99→                    activeSection === item.id ? 'text-slate-900' : 'text-slate-600 hover:text-slate-900'
+   100→                  }`}
+   101→                >
+   102→                  {item.label}
+   103→                  <span className={`absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-cyan-600 to-blue-600 transition-all duration-300 ${
+   104→                    activeSection === item.id ? 'w-full' : 'w-0 group-hover:w-full'
+   105→                  }`} />
+   106→                </button>
+   107→              ))}
+   108→              <button 
+   109→                onClick={() => scrollToSection('contact')}
+   110→                className="px-5 py-2.5 bg-gradient-to-r from-slate-800 to-slate-700 text-white rounded-full text-sm font-semibold hover:shadow-lg hover:shadow-slate-400/25 transition-all duration-300 hover:-translate-y-0.5"
+   111→              >
+   112→                Get Started
+   113→              </button>
+   114→            </div>
+   115→
+   116→            <button 
+   117→              className="md:hidden p-2 rounded-lg hover:bg-slate-100"
+   118→              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+   119→            >
+   120→              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+   121→            </button>
+   122→          </div>
+   123→        </nav>
+   124→
+   125→        {/* Mobile Menu */}
+   126→        {mobileMenuOpen && (
+   127→          <div className="md:hidden bg-white border-t border-slate-100 shadow-xl">
+   128→            <div className="px-4 py-6 space-y-4">
+   129→              {['home', 'about', 'services', 'divisions', 'why-us', 'contact'].map((item) => (
+   130→                <button
+   131→                  key={item}
+   132→                  onClick={() => scrollToSection(item)}
+   133→                  className="block w-full text-left px-4 py-3 rounded-xl text-slate-700 hover:bg-slate-50 hover:text-slate-900 font-medium capitalize transition-colors"
+   134→                >
+   135→                  {item.replace('-', ' ')}
+   136→                </button>
+   137→              ))}
+   138→            </div>
+   139→          </div>
+   140→        )}
+   141→      </header>
+   142→
+   143→      {/* Hero Section */}
+   144→      <section id="home" className="relative min-h-screen flex items-center overflow-hidden pt-20">
+   145→        {/* Light overlay for readability */}
+   146→        <div className="absolute inset-0 bg-gradient-to-br from-white/70 via-white/65 to-cyan-50/50" />
+   147→
+   148→        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+   149→          <div className="grid lg:grid-cols-2 gap-16 items-center">
+   150→            <div className="space-y-8">
+   151→              <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/90 backdrop-blur-sm border border-slate-200 rounded-full shadow-sm">
+   152→                <Sparkles size={16} className="text-cyan-600" />
+   153→                <span className="text-sm font-medium text-slate-700">Welcome to Epigater</span>
+   154→              </div>
+   155→              
+   156→              {/* HEADLINE - Exactly 2 Lines */}
+   157→              <h1 className="text-4xl sm:text-5xl lg:text-[3rem] xl:text-[3.25rem] font-bold leading-[1.2]">
+   158→                <span className="bg-gradient-to-r from-cyan-700 via-blue-700 to-slate-800 bg-clip-text text-transparent whitespace-nowrap pr-2">
+   159→                  Intelligence Without
+   160→                </span>
+   161→                <br />
+   162→                <span className="text-slate-900">Limits</span>
+   163→              </h1>
+   164→              
+   165→              <p className="text-lg text-slate-600 leading-relaxed max-w-xl">
+   166→                AI-driven solutions that empower organizations to operate more efficiently, securely, and sustainably.
+   167→              </p>
+   168→
+   169→              <div className="flex flex-wrap gap-4">
+   170→                <button 
+   171→                  onClick={() => scrollToSection('contact')}
+   172→                  className="group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-slate-800 to-slate-700 text-white rounded-full font-semibold hover:shadow-xl hover:shadow-slate-400/25 transition-all duration-300 hover:-translate-y-1"
+   173→                >
+   174→                  Explore Solutions
+   175→                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+   176→                </button>
+   177→                <button 
+   178→                  onClick={() => scrollToSection('about')}
+   179→                  className="inline-flex items-center gap-2 px-8 py-4 bg-white text-slate-800 rounded-full font-semibold border border-slate-200 hover:border-slate-300 hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+   180→                >
+   181→                  Learn More
+   182→                </button>
+   183→              </div>
+   184→
+   185→              <div className="flex items-center gap-8 pt-4">
+   186→                <div className="text-center">
+   187→                  <div className="text-3xl font-bold text-slate-900">150+</div>
+   188→                  <div className="text-sm text-slate-500">Projects Delivered</div>
+   189→                </div>
+   190→                <div className="w-px h-12 bg-slate-200" />
+   191→                <div className="text-center">
+   192→                  <div className="text-3xl font-bold text-slate-900">98%</div>
+   193→                  <div className="text-sm text-slate-500">Client Satisfaction</div>
+   194→                </div>
+   195→                <div className="w-px h-12 bg-slate-200" />
+   196→                <div className="text-center">
+   197→                  <div className="text-3xl font-bold text-slate-900">24/7</div>
+   198→                  <div className="text-sm text-slate-500">Support Available</div>
+   199→                </div>
+   200→              </div>
+   201→            </div>
+   202→
+   203→            <div className="relative hidden lg:block">
+   204→              <div className="relative z-10">
+   205→                <img 
+   206→                  src="/logo.png" 
+   207→                  alt="Epigater Solutions Logo" 
+   208→                  className="w-full max-w-lg mx-auto drop-shadow-2xl"
+   209→                />
+   210→              </div>
+   211→              
+   212→              {/* Floating Cards */}
+   213→              <div className="absolute top-10 -left-10 p-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl shadow-slate-200/50 animate-bounce" style={{ animationDuration: '3s' }}>
+   214→                <div className="flex items-center gap-3">
+   215→                  <div className="p-2 bg-emerald-100 rounded-xl">
+   216→                    <TrendingUp size={20} className="text-emerald-600" />
+   217→                  </div>
+   218→                  <div>
+   219→                    <div className="text-sm font-semibold text-slate-800">Growth Rate</div>
+   220→                    <div className="text-lg font-bold text-emerald-600">+47%</div>
+   221→                  </div>
+   222→                </div>
+   223→              </div>
+   224→
+   225→              <div className="absolute bottom-20 -right-5 p-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl shadow-slate-200/50 animate-bounce" style={{ animationDuration: '4s' }}>
+   226→                <div className="flex items-center gap-3">
+   227→                  <div className="p-2 bg-cyan-100 rounded-xl">
+   228→                    <Brain size={20} className="text-cyan-600" />
+   229→                  </div>
+   230→                  <div>
+   231→                    <div className="text-sm font-semibold text-slate-800">AI Powered</div>
+   232→                    <div className="text-lg font-bold text-cyan-600">Solutions</div>
+   233→                  </div>
+   234→                </div>
+   235→              </div>
+   236→            </div>
+   237→          </div>
+   238→        </div>
+   239→      </section>
+   240→
+   241→      {/* About Section */}
+   242→      <section id="about" className="py-24 relative overflow-hidden">
+   243→        <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/75 to-slate-50/85" />
+   244→        
+   245→        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   246→          <div className="grid lg:grid-cols-2 gap-16 items-center">
+   247→            <div className="relative">
+   248→              <div className="absolute -inset-4 bg-gradient-to-br from-slate-100 to-cyan-50 rounded-3xl blur-2xl opacity-80" />
+   249→              <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl p-8 sm:p-12 text-white">
+   250→                <div className="space-y-6">
+   251→                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full text-sm">
+   252→                    <Award size={14} />
+   253→                    Since 2020
+   254→                  </div>
+   255→                  <h3 className="text-3xl sm:text-4xl font-bold leading-tight">
+   256→                    Building Intelligent Systems for a Digital Future
+   257→                  </h3>
+   258→                  <p className="text-slate-300 leading-relaxed">
+   259→                    We combine cutting-edge AI technology with deep industry expertise to deliver transformative solutions that drive real business value.
+   260→                  </p>
+   261→                  <div className="grid grid-cols-2 gap-4 pt-4">
+   262→                    {[
+   263→                      { icon: Brain, label: 'AI & Machine Learning' },
+   264→                      { icon: Shield, label: 'Cybersecurity' },
+   265→                      { icon: Cpu, label: 'Enterprise Software' },
+   266→                      { icon: Sun, label: 'Smart Energy' }
+   267→                    ].map((item, i) => (
+   268→                      <div key={i} className="flex items-center gap-3 p-3 bg-white/10 rounded-xl">
+   269→                        <item.icon size={20} className="text-cyan-400" />
+   270→                        <span className="text-sm">{item.label}</span>
+   271→                      </div>
+   272→                    ))}
+   273→                  </div>
+   274→                </div>
+   275→              </div>
+   276→            </div>
+   277→
+   278→            <div className="space-y-8">
+   279→              <div>
+   280→                <span className="text-sm font-semibold text-cyan-600 uppercase tracking-wider">Who We Are</span>
+   281→                <h2 className="mt-3 text-4xl sm:text-5xl font-bold text-slate-900 leading-tight">
+   282→                  About Epigater Solutions
+   283→                </h2>
+   284→              </div>
+   285→
+   286→              <div className="space-y-4 text-slate-600 leading-relaxed">
+   287→                <p>
+   288→                  <strong className="text-slate-900">Epigater Solutions</strong> is an AI-driven technology, engineering and international trading company focused on developing, integrating and implementing intelligent systems that enable organizations to operate more efficiently, securely and sustainably.
+   289→                </p>
+   290→                <p>
+   291→                  We design and deliver AI-enhanced software applications, enterprise resource planning systems, business automation platforms, mobile applications, cloud solutions, cybersecurity systems, data infrastructure, smart energy technologies, industrial automation solutions and integrated digital platforms.
+   292→                </p>
+   293→                <p>
+   294→                  Our unique strength lies in combining artificial intelligence, software engineering, infrastructure integration, smart energy, industrial technology and international trade under one coordinated corporate structure.
+   295→                </p>
+   296→              </div>
+   297→
+   298→              <div className="grid grid-cols-2 gap-6 pt-4">
+   299→                {[
+   300→                  { value: '6+', label: 'Core Business Divisions' },
+   301→                  { value: 'Global', label: 'Market Reach' },
+   302→                  { value: 'End-to-End', label: 'Solution Delivery' },
+   303→                  { value: '24/7', label: 'Technical Support' }
+   304→                ].map((stat, i) => (
+   305→                  <div key={i} className="p-4 bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-100 shadow-sm">
+   306→                    <div className="text-2xl font-bold text-slate-900">{stat.value}</div>
+   307→                    <div className="text-sm text-slate-500">{stat.label}</div>
+   308→                  </div>
+   309→                ))}
+   310→              </div>
+   311→            </div>
+   312→          </div>
+   313→        </div>
+   314→      </section>
+   315→
+   316→      {/* Services Section */}
+   317→      <section id="services" className="py-24 relative overflow-hidden">
+   318→        <div className="absolute inset-0 bg-gradient-to-b from-slate-50/75 via-white/82 to-slate-50/78" />
+   319→        
+   320→        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   321→          <div className="text-center max-w-3xl mx-auto mb-16">
+   322→            <span className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-slate-700 rounded-full text-sm font-medium shadow-sm">
+   323→              <Zap size={16} className="text-cyan-600" />
+   324→              Our Services
+   325→            </span>
+   326→            <h2 className="mt-6 text-4xl sm:text-5xl font-bold text-slate-900">
+   327→              Comprehensive Technology Solutions
+   328→            </h2>
+   329→            <p className="mt-4 text-lg text-slate-600">
+   330→              End-to-end services designed to transform your organization through intelligent technology integration
+   331→            </p>
+   332→          </div>
+   333→
+   334→          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+   335→            {[
+   336→              {
+   337→                icon: Brain,
+   338→                title: 'AI & Machine Learning',
+   339→                description: 'Custom AI solutions including predictive analytics, natural language processing, computer vision, and intelligent automation systems.',
+   340→                features: ['Predictive Analytics', 'NLP Solutions', 'Computer Vision', 'Process Automation'],
+   341→                color: 'cyan'
+   342→              },
+   343→              {
+   344→                icon: Cpu,
+   345→                title: 'Enterprise Software',
+   346→                description: 'Scalable enterprise applications including ERP systems, CRM platforms, business intelligence tools, and custom development.',
+   347→                features: ['ERP Systems', 'CRM Platforms', 'Business Intelligence', 'Custom Development'],
+   348→                color: 'slate'
+   349→              },
+   350→              {
+   351→                icon: Shield,
+   352→                title: 'Cybersecurity',
+   353→                description: 'Comprehensive security solutions protecting your digital assets with advanced threat detection and incident response.',
+   354→                features: ['Threat Detection', 'Security Audits', 'Data Protection', 'Incident Response'],
+   355→                color: 'emerald'
+   356→              },
+   357→              {
+   358→                icon: CloudIcon,
+   359→                title: 'Cloud Solutions',
+   360→                description: 'Cloud architecture design, migration services, and managed cloud infrastructure ensuring scalability and reliability.',
+   361→                features: ['Cloud Migration', 'Architecture Design', 'Managed Services', 'DevOps'],
+   362→                color: 'blue'
+   363→              },
+   364→              {
+   365→                icon: Sun,
+   366→                title: 'Smart Energy',
+   367→                description: 'IoT-enabled energy management systems, renewable energy integration, and smart grid solutions.',
+   368→                features: ['Energy Management', 'IoT Integration', 'Renewable Systems', 'Grid Optimization'],
+   369→                color: 'amber'
+   370→              },
+   371→              {
+   372→                icon: Factory,
+   373→                title: 'Industrial Automation',
+   374→                description: 'Industry 4.0 solutions including IoT sensors, PLC programming, SCADA systems, and manufacturing execution.',
+   375→                features: ['IoT Sensors', 'PLC Programming', 'SCADA Systems', 'MES Solutions'],
+   376→                color: 'violet'
+   377→              }
+   378→            ].map((service, index) => (
+   379→              <div 
+   380→                key={index}
+   381→                className="group relative bg-white/90 backdrop-blur-sm rounded-3xl p-8 border border-slate-200 hover:border-slate-300 hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-500 hover:-translate-y-2"
+   382→              >
+   383→                <div className="absolute inset-0 bg-gradient-to-br from-transparent to-slate-50/50 group-hover:from-cyan-50/30 group-hover:to-transparent rounded-3xl transition-all duration-500 opacity-0 group-hover:opacity-100" />
+   384→                
+   385→                <div className="relative">
+   386→                  <div className={`inline-flex p-4 rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300 ${
+   387→                    service.color === 'cyan' ? 'bg-cyan-100' :
+   388→                    service.color === 'slate' ? 'bg-slate-100' :
+   389→                    service.color === 'emerald' ? 'bg-emerald-100' :
+   390→                    service.color === 'blue' ? 'bg-blue-100' :
+   391→                    service.color === 'amber' ? 'bg-amber-100' :
+   392→                    'bg-violet-100'
+   393→                  }`}>
+   394→                    <service.icon size={28} className={
+   395→                      service.color === 'cyan' ? 'text-cyan-700' :
+   396→                      service.color === 'slate' ? 'text-slate-700' :
+   397→                      service.color === 'emerald' ? 'text-emerald-700' :
+   398→                      service.color === 'blue' ? 'text-blue-700' :
+   399→                      service.color === 'amber' ? 'text-amber-700' :
+   400→                      'text-violet-700'
+   401→                    } />
+   402→                  </div>
+   403→                  
+   404→                  <h3 className="text-xl font-bold text-slate-900 mb-3">{service.title}</h3>
+   405→                  <p className="text-slate-600 mb-6 leading-relaxed">{service.description}</p>
+   406→                  
+   407→                  <ul className="space-y-2">
+   408→                    {service.features.map((feature, i) => (
+   409→                      <li key={i} className="flex items-center gap-2 text-sm text-slate-600">
+   410→                        <CheckCircle2 size={16} className="text-emerald-500 flex-shrink-0" />
+   411→                        {feature}
+   412→                      </li>
+   413→                    ))}
+   414→                  </ul>
+   415→                </div>
+   416→              </div>
+   417→            ))}
+   418→          </div>
+   419→        </div>
+   420→      </section>
+   421→
+   422→      {/* Business Divisions */}
+   423→      <section id="divisions" className="py-24 relative overflow-hidden">
+   424→        <div className="absolute inset-0 bg-gradient-to-b from-white/72 via-white/78 to-slate-50/82" />
+   425→        
+   426→        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   427→          <div className="text-center max-w-3xl mx-auto mb-16">
+   428→            <span className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 border border-slate-200 text-slate-700 rounded-full text-sm font-medium">
+   429→              <Layers size={16} />
+   430→              Business Divisions
+   431→            </span>
+   432→            <h2 className="mt-6 text-4xl sm:text-5xl font-bold text-slate-900">
+   433→              Six Pillars of Excellence
+   434→            </h2>
+   435→            <p className="mt-4 text-lg text-slate-600">
+   436→              Our integrated divisions work together to deliver comprehensive solutions across technology domains
+   437→            </p>
+   438→          </div>
+   439→
+   440→          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+   441→            {[
+   442→              {
+   443→                icon: Brain,
+   444→                bgColor: 'bg-violet-50',
+   445→                borderColor: 'border-violet-200',
+   446→                textColor: 'text-violet-700',
+   447→                title: 'Artificial Intelligence Division',
+   448→                description: 'Developing and deploying AI models, machine learning pipelines, and intelligent automation solutions.',
+   449→                capabilities: ['Deep Learning', 'NLP & Conversational AI', 'Computer Vision', 'MLOps & Deployment']
+   450→              },
+   451→              {
+   452→                icon: Cpu,
+   453→                bgColor: 'bg-slate-100',
+   454→                borderColor: 'border-slate-300',
+   455→                textColor: 'text-slate-700',
+   456→                title: 'Enterprise Software Division',
+   457→                description: 'Building scalable software platforms, ERP systems, and business applications that drive operational excellence.',
+   458→                capabilities: ['Enterprise Applications', 'System Integration', 'API Development', 'Quality Assurance']
+   459→              },
+   460→              {
+   461→                icon: Globe,
+   462→                bgColor: 'bg-cyan-50',
+   463→                borderColor: 'border-cyan-200',
+   464→                textColor: 'text-cyan-700',
+   465→                title: 'Technology Integration Division',
+   466→                description: 'Seamlessly connecting disparate systems, legacy modernization, and creating unified technology ecosystems.',
+   467→                capabilities: ['System Integration', 'Legacy Modernization', 'Data Migration', 'Infrastructure Planning']
+   468→              },
+   469→              {
+   470→                icon: Sun,
+   471→                bgColor: 'bg-amber-50',
+   472→                borderColor: 'border-amber-200',
+   473→                textColor: 'text-amber-700',
+   474→                title: 'Smart Energy Division',
+   475→                description: 'Delivering IoT-based energy monitoring, renewable energy solutions, and smart grid technologies.',
+   476→                capabilities: ['Energy Monitoring', 'Solar & Wind Integration', 'Smart Metering', 'Sustainability Consulting']
+   477→              },
+   478→              {
+   479→                icon: Factory,
+   480→                bgColor: 'bg-emerald-50',
+   481→                borderColor: 'border-emerald-200',
+   482→                textColor: 'text-emerald-700',
+   483→                title: 'Smart Manufacturing Division',
+   484→                description: 'Implementing Industry 4.0 technologies, production optimization, and connected factory solutions.',
+   485→                capabilities: ['IIoT Implementation', 'Production Analytics', 'Digital Twin', 'Quality Automation']
+   486→              },
+   487→              {
+   488→                icon: BarChart3,
+   489→                bgColor: 'bg-rose-50',
+   490→                borderColor: 'border-rose-200',
+   491→                textColor: 'text-rose-700',
+   492→                title: 'International Trading Division',
+   493→                description: 'Facilitating global technology trade, equipment sourcing, and international market expansion services.',
+   494→                capabilities: ['Equipment Sourcing', 'Import/Export', 'Supply Chain', 'Market Expansion']
+   495→              }
+   496→            ].map((division, index) => (
+   497→              <div 
+   498→                key={index}
+   499→                className={`group relative ${division.bgColor} rounded-3xl p-8 border ${division.borderColor} hover:shadow-xl transition-all duration-300 cursor-pointer backdrop-blur-sm`}
+   500→              >
+   501→                <div className="flex items-start gap-4 mb-4">
+   502→                  <div className={`p-3 bg-white rounded-xl shadow-sm`}>
+   503→                    <division.icon size={24} className={division.textColor} />
+   504→                  </div>
+   505→                  <div className="flex-1">
+   506→                    <h3 className="text-lg font-bold text-slate-900">{division.title}</h3>
+   507→                  </div>
+   508→                </div>
+   509→                
+   510→                <p className="text-slate-600 text-sm leading-relaxed mb-4">{division.description}</p>
+   511→                
+   512→                <div className="flex flex-wrap gap-2">
+   513→                  {division.capabilities.map((cap, i) => (
+   514→                    <span 
+   515→                      key={i}
+   516→                      className="px-3 py-1 bg-white/80 rounded-full text-xs font-medium text-slate-700"
+   517→                    >
+   518→                      {cap}
+   519→                    </span>
+   520→                  ))}
+   521→                </div>
+   522→              </div>
+   523→            ))}
+   524→          </div>
+   525→        </div>
+   526→      </section>
+   527→
+   528→      {/* Why Choose Us - Dark section with dot pattern */}
+   529→      <section id="why-us" className="py-24 bg-gradient-to-br from-slate-800 via-slate-800 to-slate-900 relative overflow-hidden">
+   530→        {/* Visible Dot Pattern */}
+   531→        <div className="absolute inset-0 opacity-[0.08]" style={{
+   532→          backgroundImage: `radial-gradient(circle at 1px 1px, white 1px, transparent 0)`,
+   533→          backgroundSize: '24px 24px'
+   534→        }} />
+   535→        
+   536→        {/* Network Pattern Overlay */}
+   537→        <div 
+   538→          className="absolute inset-0 opacity-[0.06]"
+   539→          style={{
+   540→            backgroundImage: `url('/bg-pattern.png')`,
+   541→            backgroundSize: 'cover',
+   542→            backgroundPosition: 'center'
+   543→          }}
+   544→        />
+   545→        
+   546→        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   547→          <div className="text-center max-w-3xl mx-auto mb-16">
+   548→            <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 text-cyan-400 rounded-full text-sm font-medium border border-white/10">
+   549→              <Target size={16} />
+   550→              Why Choose Us
+   551→            </span>
+   552→            <h2 className="mt-6 text-4xl sm:text-5xl font-bold text-white">
+   553→              The Epigater Advantage
+   554→            </h2>
+   555→            <p className="mt-4 text-lg text-slate-300">
+   556→              What sets us apart in delivering transformative technology solutions
+   557→            </p>
+   558→          </div>
+   559→
+   560→          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+   561→            {[
+   562→              {
+   563→                icon: Lock,
+   564→                title: 'Integrated Approach',
+   565→                description: 'Single vendor providing end-to-end solutions from strategy to implementation and support.'
+   566→              },
+   567→              {
+   568→                icon: Users,
+   569→                title: 'Expert Team',
+   570→                description: 'Multidisciplinary professionals with deep expertise across all technology domains.'
+   571→              },
+   572→              {
+   573→                icon: Zap,
+   574→                title: 'Innovation First',
+   575→                description: 'Cutting-edge AI and automation technologies that keep you ahead of competition.'
+   576→              },
+   577→              {
+   578→                icon: Globe,
+   579→                title: 'Global Reach',
+   580→                description: 'International presence enabling seamless cross-border project delivery.'
+   581→              }
+   582→            ].map((item, index) => (
+   583→              <div key={index} className="group text-center">
+   584→                <div className="inline-flex p-5 bg-white/5 backdrop-blur-sm rounded-2xl mb-6 group-hover:bg-white/10 transition-colors border border-white/10">
+   585→                  <item.icon size={32} className="text-cyan-400" />
+   586→                </div>
+   587→                <h3 className="text-xl font-bold text-white mb-3">{item.title}</h3>
+   588→                <p className="text-slate-400 leading-relaxed">{item.description}</p>
+   589→              </div>
+   590→            ))}
+   591→          </div>
+   592→
+   593→          <div className="mt-20 grid lg:grid-cols-2 gap-12 items-center">
+   594→            <div>
+   595→              <h3 className="text-3xl font-bold text-white mb-6">Our Delivery Methodology</h3>
+   596→              <div className="space-y-6">
+   597→                {[
+   598→                  { step: '01', title: 'Discovery & Analysis', desc: 'Understanding your business challenges and objectives' },
+   599→                  { step: '02', title: 'Strategy & Design', desc: 'Creating tailored solution architecture and roadmap' },
+   600→                  { step: '03', title: 'Development & Testing', desc: 'Agile development with rigorous quality assurance' },
+   601→                  { step: '04', title: 'Deployment & Support', desc: 'Smooth implementation and ongoing maintenance' }
+   602→                ].map((phase, i) => (
+   603→                  <div key={i} className="flex gap-4 group">
+   604→                    <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl flex items-center justify-center text-white font-bold">
+   605→                      {phase.step}
+   606→                    </div>
+   607→                    <div className="pt-1">
+   608→                      <h4 className="font-semibold text-white group-hover:text-cyan-300 transition-colors">{phase.title}</h4>
+   609→                      <p className="text-sm text-slate-400">{phase.desc}</p>
+   610→                    </div>
+   611→                  </div>
+   612→                ))}
+   613→              </div>
+   614→            </div>
+   615→
+   616→            <div className="grid grid-cols-2 gap-6">
+   617→              {[
+   618→                { value: '150+', label: 'Projects Completed', sublabel: 'Across 6 industries' },
+   619→                { value: '98%', label: 'Client Retention', sublabel: 'Long-term partnerships' },
+   620→                { value: '35+', label: 'Technology Experts', sublabel: 'Dedicated team members' },
+   621→                { value: '15+', label: 'Countries Served', sublabel: 'Global footprint' }
+   622→              ].map((stat, i) => (
+   623→                <div key={i} className="p-6 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 text-center">
+   624→                  <div className="text-4xl font-bold text-white mb-1">{stat.value}</div>
+   625→                  <div className="font-medium text-cyan-400">{stat.label}</div>
+   626→                  <div className="text-xs text-slate-400 mt-1">{stat.sublabel}</div>
+   627→                </div>
+   628→              ))}
+   629→            </div>
+   630→          </div>
+   631→        </div>
+   632→      </section>
+   633→
+   634→      {/* Contact Section - WITH UPDATED INFO */}
+   635→      <section id="contact" className="py-24 relative overflow-hidden">
+   636→        <div className="absolute inset-0 bg-gradient-to-b from-white/72 via-white/78 to-slate-50/82" />
+   637→        
+   638→        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   639→          <div className="grid lg:grid-cols-2 gap-16">
+   640→            <div className="space-y-8">
+   641→              <div>
+   642→                <span className="text-sm font-semibold text-cyan-600 uppercase tracking-wider">Get In Touch</span>
+   643→                <h2 className="mt-3 text-4xl sm:text-5xl font-bold text-slate-900">
+   644→                  Let&apos;s Build Something Amazing Together
+   645→                </h2>
+   646→                <p className="mt-4 text-lg text-slate-600">
+   647→                  Ready to transform your organization with intelligent technology? Contact us to discuss your project requirements.
+   648→                </p>
+   649→              </div>
+   650→
+   651→              <div className="space-y-6">
+   652→                {/* UPDATED: Email */}
+   653→                <div className="flex items-start gap-4 p-6 bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-100 shadow-sm">
+   654→                  <div className="p-3 bg-white rounded-xl shadow-sm">
+   655→                    <Mail size={22} className="text-cyan-600" />
+   656→                  </div>
+   657→                  <div>
+   658→                    <h4 className="font-semibold text-slate-900">Email Us</h4>
+   659→                    <p className="text-slate-600">contact@epigater.com</p>
+   660→                    <p className="text-sm text-slate-500">We respond within 24 hours</p>
+   661→                  </div>
+   662→                </div>
+   663→
+   664→                {/* UPDATED: Phone */}
+   665→                <div className="flex items-start gap-4 p-6 bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-100 shadow-sm">
+   666→                  <div className="p-3 bg-white rounded-xl shadow-sm">
+   667→                    <Phone size={22} className="text-cyan-600" />
+   668→                  </div>
+   669→                  <div>
+   670→                    <h4 className="font-semibold text-slate-900">Call Us</h4>
+   671→                    <p className="text-slate-600">+251 966 131 415</p>
+   672→                    <p className="text-sm text-slate-500">Mon-Fri, 9am-6pm EAT</p>
+   673→                  </div>
+   674→                </div>
+   675→
+   676→                {/* UPDATED: Address */}
+   677→                <div className="flex items-start gap-4 p-6 bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-100 shadow-sm">
+   678→                  <div className="p-3 bg-white rounded-xl shadow-sm">
+   679→                    <MapPin size={22} className="text-cyan-600" />
+   680→                  </div>
+   681→                  <div>
+   682→                    <h4 className="font-semibold text-slate-900">Visit Us</h4>
+   683→                    <p className="text-slate-600">Bole, Addis Ababa, Ethiopia</p>
+   684→                    <p className="text-sm text-slate-500">Main Office Location</p>
+   685→                  </div>
+   686→                </div>
+   687→
+   688→                {/* NEW: Website */}
+   689→                <div className="flex items-start gap-4 p-6 bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-100 shadow-sm">
+   690→                  <div className="p-3 bg-white rounded-xl shadow-sm">
+   691→                    <Globe size={22} className="text-cyan-600" />
+   692→                  </div>
+   693→                  <div>
+   694→                    <h4 className="font-semibold text-slate-900">Website</h4>
+   695→                    <a href="https://epigater.com" target="_blank" rel="noopener noreferrer" className="text-cyan-600 hover:text-cyan-700 transition-colors">
+   696→                      epigater.com
+   697→                    </a>
+   698→                    <p className="text-sm text-slate-500">Learn more about us online</p>
+   699→                  </div>
+   700→                </div>
+   701→
+   702→                {/* NEW: General Manager Info */}
+   703→                <div className="flex items-start gap-4 p-6 bg-gradient-to-r from-cyan-50 to-blue-50 rounded-2xl border border-cyan-100">
+   704→                  <div className="p-3 bg-white rounded-xl shadow-sm">
+   705→                    <Users size={22} className="text-cyan-600" />
+   706→                  </div>
+   707→                  <div>
+   708→                    <h4 className="font-semibold text-slate-900">General Manager</h4>
+   709→                    <p className="text-slate-600">Hailay Weldegebriel</p>
+   710→                    <p className="text-sm text-slate-500">Direct contact available upon request</p>
+   711→                  </div>
+   712→                </div>
+   713→              </div>
+   714→            </div>
+   715→
+   716→            <div className="bg-white/90 backdrop-blur-sm rounded-3xl p-8 sm:p-10 shadow-xl shadow-slate-200/50 border border-slate-200">
+   717→              <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+   718→                <div className="grid sm:grid-cols-2 gap-6">
+   719→                  <div>
+   720→                    <label className="block text-sm font-medium text-slate-700 mb-2">First Name</label>
+   721→                    <input 
+   722→                      type="text" 
+   723→                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all bg-white/80"
+   724→                      placeholder="John"
+   725→                    />
+   726→                  </div>
+   727→                  <div>
+   728→                    <label className="block text-sm font-medium text-slate-700 mb-2">Last Name</label>
+   729→                    <input 
+   730→                      type="text" 
+   731→                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all bg-white/80"
+   732→                      placeholder="Doe"
+   733→                    />
+   734→                  </div>
+   735→                </div>
+   736→
+   737→                <div>
+   738→                  <label className="block text-sm font-medium text-slate-700 mb-2">Email Address</label>
+   739→                  <input 
+   740→                    type="email" 
+   741→                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all bg-white/80"
+   742→                    placeholder="john@company.com"
+   743→                  />
+   744→                </div>
+   745→
+   746→                <div>
+   747→                  <label className="block text-sm font-medium text-slate-700 mb-2">Company</label>
+   748→                  <input 
+   749→                    type="text" 
+   750→                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all bg-white/80"
+   751→                    placeholder="Your Company Name"
+   752→                  />
+   753→                </div>
+   754→
+   755→                <div>
+   756→                  <label className="block text-sm font-medium text-slate-700 mb-2">Service Interest</label>
+   757→                  <select className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all bg-white/80">
+   758→                    <option>Select a service...</option>
+   759→                    <option>AI & Machine Learning</option>
+   760→                    <option>Enterprise Software</option>
+   761→                    <option>Cybersecurity</option>
+   762→                    <option>Cloud Solutions</option>
+   763→                    <option>Smart Energy</option>
+   764→                    <option>Industrial Automation</option>
+   765→                    <option>Other</option>
+   766→                  </select>
+   767→                </div>
+   768→
+   769→                <div>
+   770→                  <label className="block text-sm font-medium text-slate-700 mb-2">Message</label>
+   771→                  <textarea 
+   772→                    rows={4}
+   773→                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all resize-none bg-white/80"
+   774→                    placeholder="Tell us about your project..."
+   775→                  />
+   776→                </div>
+   777→
+   778→                <button 
+   779→                  type="submit"
+   780→                  className="w-full py-4 bg-gradient-to-r from-slate-800 to-slate-700 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-slate-400/25 transition-all duration-300 flex items-center justify-center gap-2 group"
+   781→                >
+   782→                  Send Message
+   783→                  <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
+   784→                </button>
+   785→              </form>
+   786→            </div>
+   787→          </div>
+   788→        </div>
+   789→      </section>
+   790→
+   791→      {/* Footer - Updated with correct info */}
+   792→      <footer className="bg-slate-900 text-white py-16 mt-auto">
+   793→        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   794→          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
+   795→            <div className="lg:col-span-2">
+   796→              <div className="flex items-center gap-3 mb-6">
+   797→                <img src="/logo.png" alt="Epigater Solutions" className="h-12 w-auto brightness-0 invert" />
+   798→                <div>
+   799→                  <span className="text-xl font-bold">EPIGATER</span>
+   800→                  <span className="block text-xs text-slate-400 tracking-wider">SOLUTIONS</span>
+   801→                </div>
+   802→              </div>
+   803→              <p className="text-slate-400 max-w-md leading-relaxed">
+   804→                Intelligence Without Limits. Transforming organizations through AI-driven technology solutions that enable efficient, secure, and sustainable operations.
+   805→              </p>
+   806→              
+   807→              {/* Footer Contact Info */}
+   808→              <div className="mt-6 space-y-2 text-sm text-slate-400">
+   809→                <p><strong className="text-white">Location:</strong> Bole, Addis Ababa, Ethiopia</p>
+   810→                <p><strong className="text-white">Phone:</strong> +251 966 131 415</p>
+   811→                <p><strong className="text-white">Email:</strong> contact@epigater.com</p>
+   812→                <p><strong className="text-white">Website:</strong> <a href="https://epigater.com" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:text-cyan-300">epigater.com</a></p>
+   813→              </div>
+   814→              
+   815→              <div className="flex gap-4 mt-6">
+   816→                <a href="https://epigater.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-slate-800 hover:bg-cyan-600 rounded-lg flex items-center justify-center transition-colors">
+   817→                  <Globe size={18} />
+   818→                </a>
+   819→                <a href="mailto:contact@epigater.com" className="w-10 h-10 bg-slate-800 hover:bg-cyan-600 rounded-lg flex items-center justify-center transition-colors">
+   820→                  <Mail size={18} />
+   821→                </a>
+   822→                <a href="tel:+251966131415" className="w-10 h-10 bg-slate-800 hover:bg-cyan-600 rounded-lg flex items-center justify-center transition-colors">
+   823→                  <Phone size={18} />
+   824→                </a>
+   825→              </div>
+   826→            </div>
+   827→
+   828→            <div>
+   829→              <h4 className="font-semibold text-white mb-4">Services</h4>
+   830→              <ul className="space-y-3 text-slate-400">
+   831→                {['AI & Machine Learning', 'Enterprise Software', 'Cybersecurity', 'Cloud Solutions', 'Smart Energy', 'Industrial Automation'].map((item) => (
+   832→                  <li key={item}>
+   833→                    <a href="#" className="hover:text-cyan-400 transition-colors">{item}</a>
+   834→                  </li>
+   835→                ))}
+   836→              </ul>
+   837→            </div>
+   838→
+   839→            <div>
+   840→              <h4 className="font-semibold text-white mb-4">Company</h4>
+   841→              <ul className="space-y-3 text-slate-400">
+   842→                {['About Us', 'Careers', 'News & Insights', 'Contact', 'Privacy Policy', 'Terms of Service'].map((item) => (
+   843→                  <li key={item}>
+   844→                    <a href="#" className="hover:text-cyan-400 transition-colors">{item}</a>
+   845→                  </li>
+   846→                ))}
+   847→              </ul>
+   848→            </div>
+   849→          </div>
+   850→
+   851→          <div className="border-t border-slate-800 mt-12 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+   852→            <p className="text-slate-500 text-sm">
+   853→              © 2026 Epigater Solutions. All rights reserved.
+   854→            </p>
+   855→            <p className="text-slate-500 text-sm">
+   856→              Hailay Weldegebriel, General Manager
+   857→            </p>
+   858→          </div>
+   859→        </div>
+   860→      </footer>
+   861→    </div>
+   862→  )
+   863→}
+   864→
+   865→// Additional Icons
+   866→function CloudIcon(props: React.SVGProps<SVGSVGElement>) {
+   867→  return (
+   868→    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+   869→      <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>
+   870→    </svg>
+   871→  )
+   872→}
+   873→
