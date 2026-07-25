@@ -6,6 +6,7 @@ import {
   Cpu, 
   Shield, 
   Sun, 
+  Moon,
   Factory, 
   Globe, 
   ArrowRight, 
@@ -31,6 +32,27 @@ export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('home')
+  const [isDark, setIsDark] = useState(false)
+
+  useEffect(() => {
+    // Check localStorage first, then system preference
+    const savedTheme = localStorage.getItem('epigater-theme')
+    if (savedTheme) {
+      setIsDark(savedTheme === 'dark')
+    } else {
+      setIsDark(window.matchMedia('(prefers-color-scheme: dark)').matches)
+    }
+  }, [])
+
+  useEffect(() => {
+    // Save preference and update document class
+    localStorage.setItem('epigater-theme', isDark ? 'dark' : 'light')
+    if (isDark) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+  }, [isDark])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -56,6 +78,10 @@ export default function Home() {
     setMobileMenuOpen(false)
   }
 
+  const toggleTheme = () => {
+    setIsDark(!isDark)
+  }
+
   return (
     <div 
       className="min-h-screen flex flex-col"
@@ -69,21 +95,23 @@ export default function Home() {
     >
       {/* Navigation */}
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-white/95 backdrop-blur-md shadow-lg shadow-slate-200/20' : 'bg-transparent'
+        isScrolled 
+          ? (isDark ? 'bg-slate-900/95 backdrop-blur-md shadow-lg shadow-black/20' : 'bg-white/95 backdrop-blur-md shadow-lg shadow-slate-200/20')
+          : 'bg-transparent'
       }`}>
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             <div className="flex items-center gap-3">
               <img src="/logo.png" alt="Epigater Solutions" className="h-12 w-auto" />
               <div className="hidden sm:block">
-                <span className="text-xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
+                <span className={`text-xl font-bold ${isDark ? 'bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent' : 'bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent'}`}>
                   EPIGATER
                 </span>
-                <span className="block text-xs font-medium text-slate-500 tracking-wider">SOLUTIONS</span>
+                <span className={`block text-xs font-medium tracking-wider ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>SOLUTIONS</span>
               </div>
             </div>
             
-            <div className="hidden md:flex items-center gap-8">
+            <div className="hidden md:flex items-center gap-6">
               {[
                 { id: 'home', label: 'Home' },
                 { id: 'about', label: 'About' },
@@ -96,15 +124,31 @@ export default function Home() {
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
                   className={`text-sm font-medium transition-colors relative group ${
-                    activeSection === item.id ? 'text-slate-900' : 'text-slate-600 hover:text-slate-900'
+                    activeSection === item.id 
+                      ? (isDark ? 'text-white' : 'text-slate-900') 
+                      : (isDark ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-slate-900')
                   }`}
                 >
                   {item.label}
-                  <span className={`absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-cyan-600 to-blue-600 transition-all duration-300 ${
+                  <span className={`absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-cyan-500 to-blue-500 transition-all duration-300 ${
                     activeSection === item.id ? 'w-full' : 'w-0 group-hover:w-full'
                   }`} />
                 </button>
               ))}
+              
+              {/* Theme Toggle Button */}
+              <button
+                onClick={toggleTheme}
+                className={`p-2.5 rounded-xl transition-all duration-300 ${
+                  isDark 
+                    ? 'bg-slate-800 hover:bg-slate-700 text-yellow-400 hover:text-yellow-300' 
+                    : 'bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900'
+                }`}
+                aria-label="Toggle theme"
+              >
+                {isDark ? <Sun size={20} /> : <Moon size={20} />}
+              </button>
+              
               <button 
                 onClick={() => scrollToSection('contact')}
                 className="px-5 py-2.5 bg-gradient-to-r from-slate-800 to-slate-700 text-white rounded-full text-sm font-semibold hover:shadow-lg hover:shadow-slate-400/25 transition-all duration-300 hover:-translate-y-0.5"
@@ -113,24 +157,40 @@ export default function Home() {
               </button>
             </div>
 
-            <button 
-              className="md:hidden p-2 rounded-lg hover:bg-slate-100"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+            <div className="flex md:hidden items-center gap-2">
+              {/* Mobile Theme Toggle */}
+              <button
+                onClick={toggleTheme}
+                className={`p-2 rounded-lg transition-colors ${
+                  isDark ? 'text-yellow-400' : 'text-slate-600'
+                }`}
+                aria-label="Toggle theme"
+              >
+                {isDark ? <Sun size={20} /> : <Moon size={20} />}
+              </button>
+              <button 
+                className={`p-2 rounded-lg ${isDark ? 'hover:bg-slate-800' : 'hover:bg-slate-100'}`}
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              >
+                {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
           </div>
         </nav>
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-white border-t border-slate-100 shadow-xl">
+          <div className={`md:hidden border-t shadow-xl ${isDark ? 'bg-slate-900 border-slate-700' : 'bg-white border-slate-100'}`}>
             <div className="px-4 py-6 space-y-4">
               {['home', 'about', 'services', 'divisions', 'why-us', 'contact'].map((item) => (
                 <button
                   key={item}
                   onClick={() => scrollToSection(item)}
-                  className="block w-full text-left px-4 py-3 rounded-xl text-slate-700 hover:bg-slate-50 hover:text-slate-900 font-medium capitalize transition-colors"
+                  className={`block w-full text-left px-4 py-3 rounded-xl font-medium capitalize transition-colors ${
+                    isDark 
+                      ? 'text-slate-300 hover:bg-slate-800 hover:text-white' 
+                      : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900'
+                  }`}
                 >
                   {item.replace('-', ' ')}
                 </button>
@@ -142,27 +202,33 @@ export default function Home() {
 
       {/* Hero Section */}
       <section id="home" className="relative min-h-screen flex items-center overflow-hidden pt-20">
-        {/* Light overlay for readability */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white/70 via-white/65 to-cyan-50/50" />
+        {/* Overlay for readability - changes based on theme */}
+        <div className={`absolute inset-0 ${
+          isDark 
+            ? 'bg-gradient-to-br from-slate-900/85 via-slate-900/80 to-slate-800/85' 
+            : 'bg-gradient-to-br from-white/70 via-white/65 to-cyan-50/50'
+        }`} />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-8">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/90 backdrop-blur-sm border border-slate-200 rounded-full shadow-sm">
-                <Sparkles size={16} className="text-cyan-600" />
-                <span className="text-sm font-medium text-slate-700">Welcome to Epigater</span>
+              <div className={`inline-flex items-center gap-2 px-4 py-2 backdrop-blur-sm border rounded-full shadow-sm ${
+                isDark ? 'bg-slate-800/90 border-slate-700' : 'bg-white/90 border-slate-200'
+              }`}>
+                <Sparkles size={16} className="text-cyan-500" />
+                <span className={`text-sm font-medium ${isDark ? 'text-slate-200' : 'text-slate-700'}`}>Welcome to Epigater</span>
               </div>
               
               {/* HEADLINE - Exactly 2 Lines */}
               <h1 className="text-4xl sm:text-5xl lg:text-[3rem] xl:text-[3.25rem] font-bold leading-[1.2]">
-                <span className="bg-gradient-to-r from-cyan-700 via-blue-700 to-slate-800 bg-clip-text text-transparent whitespace-nowrap pr-2">
+                <span className={`${isDark ? 'bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-300' : 'bg-gradient-to-r from-cyan-700 via-blue-700 to-slate-800'} bg-clip-text text-transparent whitespace-nowrap pr-2`}>
                   Intelligence Without
                 </span>
                 <br />
-                <span className="text-slate-900">Limits</span>
+                <span className={isDark ? 'text-white' : 'text-slate-900'}>Limits</span>
               </h1>
               
-              <p className="text-lg text-slate-600 leading-relaxed max-w-xl">
+              <p className={`text-lg leading-relaxed max-w-xl ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
                 AI-driven solutions that empower organizations to operate more efficiently, securely, and sustainably.
               </p>
 
@@ -176,7 +242,11 @@ export default function Home() {
                 </button>
                 <button 
                   onClick={() => scrollToSection('about')}
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-white text-slate-800 rounded-full font-semibold border border-slate-200 hover:border-slate-300 hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+                  className={`inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold border transition-all duration-300 hover:-translate-y-1 ${
+                    isDark 
+                      ? 'bg-slate-800 text-white border-slate-600 hover:border-slate-500 hover:bg-slate-700' 
+                      : 'bg-white text-slate-800 border-slate-200 hover:border-slate-300 hover:shadow-lg'
+                  }`}
                 >
                   Learn More
                 </button>
@@ -184,18 +254,18 @@ export default function Home() {
 
               <div className="flex items-center gap-8 pt-4">
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-slate-900">150+</div>
-                  <div className="text-sm text-slate-500">Projects Delivered</div>
+                  <div className={`text-3xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>150+</div>
+                  <div className={`text-sm ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Projects Delivered</div>
                 </div>
-                <div className="w-px h-12 bg-slate-200" />
+                <div className={`w-px h-12 ${isDark ? 'bg-slate-600' : 'bg-slate-200'}`} />
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-slate-900">98%</div>
-                  <div className="text-sm text-slate-500">Client Satisfaction</div>
+                  <div className={`text-3xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>98%</div>
+                  <div className={`text-sm ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Client Satisfaction</div>
                 </div>
-                <div className="w-px h-12 bg-slate-200" />
+                <div className={`w-px h-12 ${isDark ? 'bg-slate-600' : 'bg-slate-200'}`} />
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-slate-900">24/7</div>
-                  <div className="text-sm text-slate-500">Support Available</div>
+                  <div className={`text-3xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>24/7</div>
+                  <div className={`text-sm ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Support Available</div>
                 </div>
               </div>
             </div>
@@ -210,26 +280,26 @@ export default function Home() {
               </div>
               
               {/* Floating Cards */}
-              <div className="absolute top-10 -left-10 p-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl shadow-slate-200/50 animate-bounce" style={{ animationDuration: '3s' }}>
+              <div className={`absolute top-10 -left-10 p-4 backdrop-blur-sm rounded-2xl shadow-xl animate-bounce ${isDark ? 'bg-slate-800/95 shadow-black/30' : 'bg-white/95 shadow-slate-200/50'}`} style={{ animationDuration: '3s' }}>
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-emerald-100 rounded-xl">
-                    <TrendingUp size={20} className="text-emerald-600" />
+                  <div className={`p-2 rounded-xl ${isDark ? 'bg-emerald-900/50' : 'bg-emerald-100'}`}>
+                    <TrendingUp size={20} className="text-emerald-500" />
                   </div>
                   <div>
-                    <div className="text-sm font-semibold text-slate-800">Growth Rate</div>
-                    <div className="text-lg font-bold text-emerald-600">+47%</div>
+                    <div className={`text-sm font-semibold ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>Growth Rate</div>
+                    <div className="text-lg font-bold text-emerald-500">+47%</div>
                   </div>
                 </div>
               </div>
 
-              <div className="absolute bottom-20 -right-5 p-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl shadow-slate-200/50 animate-bounce" style={{ animationDuration: '4s' }}>
+              <div className={`absolute bottom-20 -right-5 p-4 backdrop-blur-sm rounded-2xl shadow-xl animate-bounce ${isDark ? 'bg-slate-800/95 shadow-black/30' : 'bg-white/95 shadow-slate-200/50'}`} style={{ animationDuration: '4s' }}>
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-cyan-100 rounded-xl">
-                    <Brain size={20} className="text-cyan-600" />
+                  <div className={`p-2 rounded-xl ${isDark ? 'bg-cyan-900/50' : 'bg-cyan-100'}`}>
+                    <Brain size={20} className="text-cyan-500" />
                   </div>
                   <div>
-                    <div className="text-sm font-semibold text-slate-800">AI Powered</div>
-                    <div className="text-lg font-bold text-cyan-600">Solutions</div>
+                    <div className={`text-sm font-semibold ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>AI Powered</div>
+                    <div className="text-lg font-bold text-cyan-500">Solutions</div>
                   </div>
                 </div>
               </div>
@@ -240,13 +310,17 @@ export default function Home() {
 
       {/* About Section */}
       <section id="about" className="py-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/75 to-slate-50/85" />
+        <div className={`absolute inset-0 ${
+          isDark 
+            ? 'bg-gradient-to-b from-slate-900/80 via-slate-900/85 to-slate-800/90' 
+            : 'bg-gradient-to-b from-white/70 via-white/75 to-slate-50/85'
+        }`} />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="relative">
-              <div className="absolute -inset-4 bg-gradient-to-br from-slate-100 to-cyan-50 rounded-3xl blur-2xl opacity-80" />
-              <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl p-8 sm:p-12 text-white">
+              <div className={`absolute -inset-4 rounded-3xl blur-2xl opacity-80 ${isDark ? 'bg-gradient-to-br from-slate-700 to-cyan-900/30' : 'bg-gradient-to-br from-slate-100 to-cyan-50'}`} />
+              <div className={`relative rounded-3xl p-8 sm:p-12 text-white ${isDark ? 'bg-gradient-to-br from-slate-800 to-slate-900' : 'bg-gradient-to-br from-slate-800 to-slate-900'}`}>
                 <div className="space-y-6">
                   <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full text-sm">
                     <Award size={14} />
@@ -277,15 +351,15 @@ export default function Home() {
 
             <div className="space-y-8">
               <div>
-                <span className="text-sm font-semibold text-cyan-600 uppercase tracking-wider">Who We Are</span>
-                <h2 className="mt-3 text-4xl sm:text-5xl font-bold text-slate-900 leading-tight">
+                <span className={`text-sm font-semibold uppercase tracking-wider ${isDark ? 'text-cyan-400' : 'text-cyan-600'}`}>Who We Are</span>
+                <h2 className={`mt-3 text-4xl sm:text-5xl font-bold leading-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
                   About Epigater Solutions
                 </h2>
               </div>
 
-              <div className="space-y-4 text-slate-600 leading-relaxed">
+              <div className={`space-y-4 leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
                 <p>
-                  <strong className="text-slate-900">Epigater Solutions</strong> is an AI-driven technology, engineering and international trading company focused on developing, integrating and implementing intelligent systems that enable organizations to operate more efficiently, securely and sustainably.
+                  <strong className={isDark ? 'text-white' : 'text-slate-900'}>Epigater Solutions</strong> is an AI-driven technology, engineering and international trading company focused on developing, integrating and implementing intelligent systems that enable organizations to operate more efficiently, securely and sustainably.
                 </p>
                 <p>
                   We design and deliver AI-enhanced software applications, enterprise resource planning systems, business automation platforms, mobile applications, cloud solutions, cybersecurity systems, data infrastructure, smart energy technologies, industrial automation solutions and integrated digital platforms.
@@ -302,9 +376,11 @@ export default function Home() {
                   { value: 'End-to-End', label: 'Solution Delivery' },
                   { value: '24/7', label: 'Technical Support' }
                 ].map((stat, i) => (
-                  <div key={i} className="p-4 bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-100 shadow-sm">
-                    <div className="text-2xl font-bold text-slate-900">{stat.value}</div>
-                    <div className="text-sm text-slate-500">{stat.label}</div>
+                  <div key={i} className={`p-4 backdrop-blur-sm rounded-2xl border shadow-sm ${
+                    isDark ? 'bg-slate-800/80 border-slate-700' : 'bg-white/80 border-slate-100'
+                  }`}>
+                    <div className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>{stat.value}</div>
+                    <div className={`text-sm ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>{stat.label}</div>
                   </div>
                 ))}
               </div>
@@ -315,18 +391,24 @@ export default function Home() {
 
       {/* Services Section */}
       <section id="services" className="py-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-50/75 via-white/82 to-slate-50/78" />
+        <div className={`absolute inset-0 ${
+          isDark 
+            ? 'bg-gradient-to-b from-slate-900/80 via-slate-900/85 to-slate-800/88' 
+            : 'bg-gradient-to-b from-slate-50/75 via-white/82 to-slate-50/78'
+        }`} />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-slate-700 rounded-full text-sm font-medium shadow-sm">
-              <Zap size={16} className="text-cyan-600" />
+            <span className={`inline-flex items-center gap-2 px-4 py-2 border rounded-full text-sm font-medium shadow-sm ${
+              isDark ? 'bg-slate-800/90 border-slate-700 text-slate-200' : 'bg-white border-slate-200 text-slate-700'
+            }`}>
+              <Zap size={16} className="text-cyan-500" />
               Our Services
             </span>
-            <h2 className="mt-6 text-4xl sm:text-5xl font-bold text-slate-900">
+            <h2 className={`mt-6 text-4xl sm:text-5xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
               Comprehensive Technology Solutions
             </h2>
-            <p className="mt-4 text-lg text-slate-600">
+            <p className={`mt-4 text-lg ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
               End-to-end services designed to transform your organization through intelligent technology integration
             </p>
           </div>
@@ -378,35 +460,43 @@ export default function Home() {
             ].map((service, index) => (
               <div 
                 key={index}
-                className="group relative bg-white/90 backdrop-blur-sm rounded-3xl p-8 border border-slate-200 hover:border-slate-300 hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-500 hover:-translate-y-2"
+                className={`group relative backdrop-blur-sm rounded-3xl p-8 transition-all duration-500 hover:-translate-y-2 ${
+                  isDark 
+                    ? 'bg-slate-800/80 border border-slate-700 hover:border-slate-600 hover:shadow-xl hover:shadow-black/30' 
+                    : 'bg-white/90 border border-slate-200 hover:border-slate-300 hover:shadow-xl hover:shadow-slate-200/50'
+                }`}
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-transparent to-slate-50/50 group-hover:from-cyan-50/30 group-hover:to-transparent rounded-3xl transition-all duration-500 opacity-0 group-hover:opacity-100" />
+                <div className={`absolute inset-0 rounded-3xl transition-all duration-500 opacity-0 group-hover:opacity-100 ${
+                  isDark 
+                    ? 'bg-gradient-to-br from-transparent to-cyan-900/20' 
+                    : 'bg-gradient-to-br from-transparent to-slate-50/50'
+                }`} />
                 
                 <div className="relative">
                   <div className={`inline-flex p-4 rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300 ${
-                    service.color === 'cyan' ? 'bg-cyan-100' :
-                    service.color === 'slate' ? 'bg-slate-100' :
-                    service.color === 'emerald' ? 'bg-emerald-100' :
-                    service.color === 'blue' ? 'bg-blue-100' :
-                    service.color === 'amber' ? 'bg-amber-100' :
-                    'bg-violet-100'
+                    service.color === 'cyan' ? (isDark ? 'bg-cyan-900/40' : 'bg-cyan-100') :
+                    service.color === 'slate' ? (isDark ? 'bg-slate-700' : 'bg-slate-100') :
+                    service.color === 'emerald' ? (isDark ? 'bg-emerald-900/40' : 'bg-emerald-100') :
+                    service.color === 'blue' ? (isDark ? 'bg-blue-900/40' : 'bg-blue-100') :
+                    service.color === 'amber' ? (isDark ? 'bg-amber-900/40' : 'bg-amber-100') :
+                    (isDark ? 'bg-violet-900/40' : 'bg-violet-100')
                   }`}>
                     <service.icon size={28} className={
-                      service.color === 'cyan' ? 'text-cyan-700' :
-                      service.color === 'slate' ? 'text-slate-700' :
-                      service.color === 'emerald' ? 'text-emerald-700' :
-                      service.color === 'blue' ? 'text-blue-700' :
-                      service.color === 'amber' ? 'text-amber-700' :
-                      'text-violet-700'
+                      service.color === 'cyan' ? 'text-cyan-500' :
+                      service.color === 'slate' ? (isDark ? 'text-slate-300' : 'text-slate-700') :
+                      service.color === 'emerald' ? 'text-emerald-500' :
+                      service.color === 'blue' ? 'text-blue-500' :
+                      service.color === 'amber' ? 'text-amber-500' :
+                      'text-violet-500'
                     } />
                   </div>
                   
-                  <h3 className="text-xl font-bold text-slate-900 mb-3">{service.title}</h3>
-                  <p className="text-slate-600 mb-6 leading-relaxed">{service.description}</p>
+                  <h3 className={`text-xl font-bold mb-3 ${isDark ? 'text-white' : 'text-slate-900'}`}>{service.title}</h3>
+                  <p className={`mb-6 leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>{service.description}</p>
                   
                   <ul className="space-y-2">
                     {service.features.map((feature, i) => (
-                      <li key={i} className="flex items-center gap-2 text-sm text-slate-600">
+                      <li key={i} className={`flex items-center gap-2 text-sm ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                         <CheckCircle2 size={16} className="text-emerald-500 flex-shrink-0" />
                         {feature}
                       </li>
@@ -421,18 +511,24 @@ export default function Home() {
 
       {/* Business Divisions */}
       <section id="divisions" className="py-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-white/72 via-white/78 to-slate-50/82" />
+        <div className={`absolute inset-0 ${
+          isDark 
+            ? 'bg-gradient-to-b from-slate-900/82 via-slate-900/85 to-slate-800/88' 
+            : 'bg-gradient-to-b from-white/72 via-white/78 to-slate-50/82'
+        }`} />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 border border-slate-200 text-slate-700 rounded-full text-sm font-medium">
+            <span className={`inline-flex items-center gap-2 px-4 py-2 border rounded-full text-sm font-medium ${
+              isDark ? 'bg-slate-800/90 border-slate-700 text-slate-200' : 'bg-slate-100 border-slate-200 text-slate-700'
+            }`}>
               <Layers size={16} />
               Business Divisions
             </span>
-            <h2 className="mt-6 text-4xl sm:text-5xl font-bold text-slate-900">
+            <h2 className={`mt-6 text-4xl sm:text-5xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
               Six Pillars of Excellence
             </h2>
-            <p className="mt-4 text-lg text-slate-600">
+            <p className={`mt-4 text-lg ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
               Our integrated divisions work together to deliver comprehensive solutions across technology domains
             </p>
           </div>
@@ -441,54 +537,54 @@ export default function Home() {
             {[
               {
                 icon: Brain,
-                bgColor: 'bg-violet-50',
-                borderColor: 'border-violet-200',
-                textColor: 'text-violet-700',
+                bgColor: isDark ? 'bg-violet-900/30' : 'bg-violet-50',
+                borderColor: isDark ? 'border-violet-800' : 'border-violet-200',
+                textColor: isDark ? 'text-violet-400' : 'text-violet-700',
                 title: 'Artificial Intelligence Division',
                 description: 'Developing and deploying AI models, machine learning pipelines, and intelligent automation solutions.',
                 capabilities: ['Deep Learning', 'NLP & Conversational AI', 'Computer Vision', 'MLOps & Deployment']
               },
               {
                 icon: Cpu,
-                bgColor: 'bg-slate-100',
-                borderColor: 'border-slate-300',
-                textColor: 'text-slate-700',
+                bgColor: isDark ? 'bg-slate-800' : 'bg-slate-100',
+                borderColor: isDark ? 'border-slate-600' : 'border-slate-300',
+                textColor: isDark ? 'text-slate-300' : 'text-slate-700',
                 title: 'Enterprise Software Division',
                 description: 'Building scalable software platforms, ERP systems, and business applications that drive operational excellence.',
                 capabilities: ['Enterprise Applications', 'System Integration', 'API Development', 'Quality Assurance']
               },
               {
                 icon: Globe,
-                bgColor: 'bg-cyan-50',
-                borderColor: 'border-cyan-200',
-                textColor: 'text-cyan-700',
+                bgColor: isDark ? 'bg-cyan-900/30' : 'bg-cyan-50',
+                borderColor: isDark ? 'border-cyan-800' : 'border-cyan-200',
+                textColor: isDark ? 'text-cyan-400' : 'text-cyan-700',
                 title: 'Technology Integration Division',
                 description: 'Seamlessly connecting disparate systems, legacy modernization, and creating unified technology ecosystems.',
                 capabilities: ['System Integration', 'Legacy Modernization', 'Data Migration', 'Infrastructure Planning']
               },
               {
                 icon: Sun,
-                bgColor: 'bg-amber-50',
-                borderColor: 'border-amber-200',
-                textColor: 'text-amber-700',
+                bgColor: isDark ? 'bg-amber-900/30' : 'bg-amber-50',
+                borderColor: isDark ? 'border-amber-800' : 'border-amber-200',
+                textColor: isDark ? 'text-amber-400' : 'text-amber-700',
                 title: 'Smart Energy Division',
                 description: 'Delivering IoT-based energy monitoring, renewable energy solutions, and smart grid technologies.',
                 capabilities: ['Energy Monitoring', 'Solar & Wind Integration', 'Smart Metering', 'Sustainability Consulting']
               },
               {
                 icon: Factory,
-                bgColor: 'bg-emerald-50',
-                borderColor: 'border-emerald-200',
-                textColor: 'text-emerald-700',
+                bgColor: isDark ? 'bg-emerald-900/30' : 'bg-emerald-50',
+                borderColor: isDark ? 'border-emerald-800' : 'border-emerald-200',
+                textColor: isDark ? 'text-emerald-400' : 'text-emerald-700',
                 title: 'Smart Manufacturing Division',
                 description: 'Implementing Industry 4.0 technologies, production optimization, and connected factory solutions.',
                 capabilities: ['IIoT Implementation', 'Production Analytics', 'Digital Twin', 'Quality Automation']
               },
               {
                 icon: BarChart3,
-                bgColor: 'bg-rose-50',
-                borderColor: 'border-rose-200',
-                textColor: 'text-rose-700',
+                bgColor: isDark ? 'bg-rose-900/30' : 'bg-rose-50',
+                borderColor: isDark ? 'border-rose-800' : 'border-rose-200',
+                textColor: isDark ? 'text-rose-400' : 'text-rose-700',
                 title: 'International Trading Division',
                 description: 'Facilitating global technology trade, equipment sourcing, and international market expansion services.',
                 capabilities: ['Equipment Sourcing', 'Import/Export', 'Supply Chain', 'Market Expansion']
@@ -496,24 +592,26 @@ export default function Home() {
             ].map((division, index) => (
               <div 
                 key={index}
-                className={`group relative ${division.bgColor} rounded-3xl p-8 border ${division.borderColor} hover:shadow-xl transition-all duration-300 cursor-pointer backdrop-blur-sm`}
+                className={`group relative ${division.bgColor} rounded-3xl p-8 border hover:shadow-xl transition-all duration-300 cursor-pointer backdrop-blur-sm ${division.borderColor}`}
               >
                 <div className="flex items-start gap-4 mb-4">
-                  <div className={`p-3 bg-white rounded-xl shadow-sm`}>
+                  <div className={`p-3 rounded-xl shadow-sm ${isDark ? 'bg-slate-800' : 'bg-white'}`}>
                     <division.icon size={24} className={division.textColor} />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-lg font-bold text-slate-900">{division.title}</h3>
+                    <h3 className={`text-lg font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>{division.title}</h3>
                   </div>
                 </div>
                 
-                <p className="text-slate-600 text-sm leading-relaxed mb-4">{division.description}</p>
+                <p className={`text-sm leading-relaxed mb-4 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>{division.description}</p>
                 
                 <div className="flex flex-wrap gap-2">
                   {division.capabilities.map((cap, i) => (
                     <span 
                       key={i}
-                      className="px-3 py-1 bg-white/80 rounded-full text-xs font-medium text-slate-700"
+                      className={`px-3 py-1 rounded-full text-xs font-medium ${
+                        isDark ? 'bg-slate-800/80 text-slate-300' : 'bg-white/80 text-slate-700'
+                      }`}
                     >
                       {cap}
                     </span>
@@ -633,128 +731,168 @@ export default function Home() {
 
       {/* Contact Section - WITH UPDATED INFO */}
       <section id="contact" className="py-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-white/72 via-white/78 to-slate-50/82" />
+        <div className={`absolute inset-0 ${
+          isDark 
+            ? 'bg-gradient-to-b from-slate-900/82 via-slate-900/85 to-slate-800/88' 
+            : 'bg-gradient-to-b from-white/72 via-white/78 to-slate-50/82'
+        }`} />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16">
             <div className="space-y-8">
               <div>
-                <span className="text-sm font-semibold text-cyan-600 uppercase tracking-wider">Get In Touch</span>
-                <h2 className="mt-3 text-4xl sm:text-5xl font-bold text-slate-900">
+                <span className={`text-sm font-semibold uppercase tracking-wider ${isDark ? 'text-cyan-400' : 'text-cyan-600'}`}>Get In Touch</span>
+                <h2 className={`mt-3 text-4xl sm:text-5xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
                   Let&apos;s Build Something Amazing Together
                 </h2>
-                <p className="mt-4 text-lg text-slate-600">
+                <p className={`mt-4 text-lg ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
                   Ready to transform your organization with intelligent technology? Contact us to discuss your project requirements.
                 </p>
               </div>
 
               <div className="space-y-6">
-                {/* UPDATED: Email */}
-                <div className="flex items-start gap-4 p-6 bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-100 shadow-sm">
-                  <div className="p-3 bg-white rounded-xl shadow-sm">
-                    <Mail size={22} className="text-cyan-600" />
+                {/* Email */}
+                <div className={`flex items-start gap-4 p-6 backdrop-blur-sm rounded-2xl border shadow-sm ${
+                  isDark ? 'bg-slate-800/80 border-slate-700' : 'bg-white/80 border-slate-100'
+                }`}>
+                  <div className={`p-3 rounded-xl shadow-sm ${isDark ? 'bg-slate-700' : 'bg-white'}`}>
+                    <Mail size={22} className="text-cyan-500" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-slate-900">Email Us</h4>
-                    <p className="text-slate-600">contact@epigater.com</p>
-                    <p className="text-sm text-slate-500">We respond within 24 hours</p>
+                    <h4 className={`font-semibold ${isDark ? 'text-white' : 'text-slate-900'}`}>Email Us</h4>
+                    <p className={`${isDark ? 'text-slate-300' : 'text-slate-600'}`}>contact@epigater.com</p>
+                    <p className={`text-sm ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>We respond within 24 hours</p>
                   </div>
                 </div>
 
-                {/* UPDATED: Phone */}
-                <div className="flex items-start gap-4 p-6 bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-100 shadow-sm">
-                  <div className="p-3 bg-white rounded-xl shadow-sm">
-                    <Phone size={22} className="text-cyan-600" />
+                {/* Phone */}
+                <div className={`flex items-start gap-4 p-6 backdrop-blur-sm rounded-2xl border shadow-sm ${
+                  isDark ? 'bg-slate-800/80 border-slate-700' : 'bg-white/80 border-slate-100'
+                }`}>
+                  <div className={`p-3 rounded-xl shadow-sm ${isDark ? 'bg-slate-700' : 'bg-white'}`}>
+                    <Phone size={22} className="text-cyan-500" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-slate-900">Call Us</h4>
-                    <p className="text-slate-600">+251 966 131 415</p>
-                    <p className="text-sm text-slate-500">Mon-Fri, 9am-6pm EAT</p>
+                    <h4 className={`font-semibold ${isDark ? 'text-white' : 'text-slate-900'}`}>Call Us</h4>
+                    <p className={`${isDark ? 'text-slate-300' : 'text-slate-600'}`}>+251 966 131 415</p>
+                    <p className={`text-sm ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>Mon-Fri, 9am-6pm EAT</p>
                   </div>
                 </div>
 
-                {/* UPDATED: Address */}
-                <div className="flex items-start gap-4 p-6 bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-100 shadow-sm">
-                  <div className="p-3 bg-white rounded-xl shadow-sm">
-                    <MapPin size={22} className="text-cyan-600" />
+                {/* Address */}
+                <div className={`flex items-start gap-4 p-6 backdrop-blur-sm rounded-2xl border shadow-sm ${
+                  isDark ? 'bg-slate-800/80 border-slate-700' : 'bg-white/80 border-slate-100'
+                }`}>
+                  <div className={`p-3 rounded-xl shadow-sm ${isDark ? 'bg-slate-700' : 'bg-white'}`}>
+                    <MapPin size={22} className="text-cyan-500" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-slate-900">Visit Us</h4>
-                    <p className="text-slate-600">Bole, Addis Ababa, Ethiopia</p>
-                    <p className="text-sm text-slate-500">Main Office Location</p>
+                    <h4 className={`font-semibold ${isDark ? 'text-white' : 'text-slate-900'}`}>Visit Us</h4>
+                    <p className={`${isDark ? 'text-slate-300' : 'text-slate-600'}`}>Bole, Addis Ababa, Ethiopia</p>
+                    <p className={`text-sm ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>Main Office Location</p>
                   </div>
                 </div>
 
-                {/* NEW: Website */}
-                <div className="flex items-start gap-4 p-6 bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-100 shadow-sm">
-                  <div className="p-3 bg-white rounded-xl shadow-sm">
-                    <Globe size={22} className="text-cyan-600" />
+                {/* Website */}
+                <div className={`flex items-start gap-4 p-6 backdrop-blur-sm rounded-2xl border shadow-sm ${
+                  isDark ? 'bg-slate-800/80 border-slate-700' : 'bg-white/80 border-slate-100'
+                }`}>
+                  <div className={`p-3 rounded-xl shadow-sm ${isDark ? 'bg-slate-700' : 'bg-white'}`}>
+                    <Globe size={22} className="text-cyan-500" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-slate-900">Website</h4>
-                    <a href="https://epigater.com" target="_blank" rel="noopener noreferrer" className="text-cyan-600 hover:text-cyan-700 transition-colors">
+                    <h4 className={`font-semibold ${isDark ? 'text-white' : 'text-slate-900'}`}>Website</h4>
+                    <a href="https://epigater.com" target="_blank" rel="noopener noreferrer" className="text-cyan-500 hover:text-cyan-400 transition-colors">
                       epigater.com
                     </a>
-                    <p className="text-sm text-slate-500">Learn more about us online</p>
+                    <p className={`text-sm ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>Learn more about us online</p>
                   </div>
                 </div>
 
-                {/* NEW: General Manager Info */}
-                <div className="flex items-start gap-4 p-6 bg-gradient-to-r from-cyan-50 to-blue-50 rounded-2xl border border-cyan-100">
-                  <div className="p-3 bg-white rounded-xl shadow-sm">
-                    <Users size={22} className="text-cyan-600" />
+                {/* General Manager Info */}
+                <div className={`flex items-start gap-4 p-6 rounded-2xl border ${
+                  isDark 
+                    ? 'bg-gradient-to-r from-cyan-900/30 to-blue-900/30 border-cyan-800' 
+                    : 'bg-gradient-to-r from-cyan-50 to-blue-50 border-cyan-100'
+                }`}>
+                  <div className={`p-3 rounded-xl shadow-sm ${isDark ? 'bg-slate-700' : 'bg-white'}`}>
+                    <Users size={22} className="text-cyan-500" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-slate-900">General Manager</h4>
-                    <p className="text-slate-600">Hailay Weldegebriel</p>
-                    <p className="text-sm text-slate-500">Direct contact available upon request</p>
+                    <h4 className={`font-semibold ${isDark ? 'text-white' : 'text-slate-900'}`}>General Manager</h4>
+                    <p className={`${isDark ? 'text-slate-300' : 'text-slate-600'}`}>Hailay Weldegebriel</p>
+                    <p className={`text-sm ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>Direct contact available upon request</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white/90 backdrop-blur-sm rounded-3xl p-8 sm:p-10 shadow-xl shadow-slate-200/50 border border-slate-200">
+            <div className={`backdrop-blur-sm rounded-3xl p-8 sm:p-10 border ${
+              isDark 
+                ? 'bg-slate-800/90 shadow-xl shadow-black/20 border-slate-700' 
+                : 'bg-white/90 shadow-xl shadow-slate-200/50 border-slate-200'
+            }`}>
               <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">First Name</label>
+                    <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>First Name</label>
                     <input 
                       type="text" 
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all bg-white/80"
+                      className={`w-full px-4 py-3 rounded-xl border outline-none transition-all ${
+                        isDark 
+                          ? 'bg-slate-700/50 border-slate-600 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 text-white placeholder:text-slate-500' 
+                          : 'bg-white/80 border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20'
+                      }`}
                       placeholder="John"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Last Name</label>
+                    <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Last Name</label>
                     <input 
                       type="text" 
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all bg-white/80"
+                      className={`w-full px-4 py-3 rounded-xl border outline-none transition-all ${
+                        isDark 
+                          ? 'bg-slate-700/50 border-slate-600 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 text-white placeholder:text-slate-500' 
+                          : 'bg-white/80 border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20'
+                      }`}
                       placeholder="Doe"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Email Address</label>
+                  <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Email Address</label>
                   <input 
                     type="email" 
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all bg-white/80"
+                    className={`w-full px-4 py-3 rounded-xl border outline-none transition-all ${
+                      isDark 
+                        ? 'bg-slate-700/50 border-slate-600 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 text-white placeholder:text-slate-500' 
+                        : 'bg-white/80 border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20'
+                    }`}
                     placeholder="john@company.com"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Company</label>
+                  <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Company</label>
                   <input 
                     type="text" 
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all bg-white/80"
+                    className={`w-full px-4 py-3 rounded-xl border outline-none transition-all ${
+                      isDark 
+                        ? 'bg-slate-700/50 border-slate-600 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 text-white placeholder:text-slate-500' 
+                        : 'bg-white/80 border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20'
+                    }`}
                     placeholder="Your Company Name"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Service Interest</label>
-                  <select className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all bg-white/80">
+                  <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Service Interest</label>
+                  <select className={`w-full px-4 py-3 rounded-xl border outline-none transition-all ${
+                    isDark 
+                      ? 'bg-slate-700/50 border-slate-600 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 text-white' 
+                      : 'bg-white/80 border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20'
+                  }`}>
                     <option>Select a service...</option>
                     <option>AI & Machine Learning</option>
                     <option>Enterprise Software</option>
@@ -767,10 +905,14 @@ export default function Home() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Message</label>
+                  <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Message</label>
                   <textarea 
                     rows={4}
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all resize-none bg-white/80"
+                    className={`w-full px-4 py-3 rounded-xl border outline-none resize-none transition-all ${
+                      isDark 
+                        ? 'bg-slate-700/50 border-slate-600 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 text-white placeholder:text-slate-500' 
+                        : 'bg-white/80 border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20'
+                    }`}
                     placeholder="Tell us about your project..."
                   />
                 </div>
