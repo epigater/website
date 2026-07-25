@@ -1,0 +1,1106 @@
+     1→'use client'
+     2→
+     3→import { useState, useEffect } from 'react'
+     4→import { 
+     5→  Brain, 
+     6→  Cpu, 
+     7→  Shield, 
+     8→  Sun, 
+     9→  Moon,
+    10→  Factory, 
+    11→  Globe, 
+    12→  ArrowRight, 
+    13→  ArrowUp,
+    14→  CheckCircle2, 
+    15→  Users, 
+    16→  Award, 
+    17→  TrendingUp,
+    18→  Menu,
+    19→  X,
+    20→  Mail,
+    21→  Phone,
+    22→  MapPin,
+    23→  ChevronRight,
+    24→  Sparkles,
+    25→  Zap,
+    26→  Lock,
+    27→  BarChart3,
+    28→  Layers,
+    29→  Target
+    30→} from 'lucide-react'
+    31→
+    32→export default function Home() {
+    33→  const [isScrolled, setIsScrolled] = useState(false)
+    34→  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+    35→  const [activeSection, setActiveSection] = useState('home')
+    36→  const [isDark, setIsDark] = useState(false)
+    37→  const [showBackToTop, setShowBackToTop] = useState(false)
+    38→
+    39→  useEffect(() => {
+    40→    // Check localStorage first, then system preference
+    41→    const savedTheme = localStorage.getItem('epigater-theme')
+    42→    if (savedTheme) {
+    43→      setIsDark(savedTheme === 'dark')
+    44→    } else {
+    45→      setIsDark(window.matchMedia('(prefers-color-scheme: dark)').matches)
+    46→    }
+    47→  }, [])
+    48→
+    49→  useEffect(() => {
+    50→    // Save preference and update document class
+    51→    localStorage.setItem('epigater-theme', isDark ? 'dark' : 'light')
+    52→    if (isDark) {
+    53→      document.documentElement.classList.add('dark')
+    54→    } else {
+    55→      document.documentElement.classList.remove('dark')
+    56→    }
+    57→  }, [isDark])
+    58→
+    59→  useEffect(() => {
+    60→    const handleScroll = () => {
+    61→      setIsScrolled(window.scrollY > 50)
+    62→      setShowBackToTop(window.scrollY > 400)
+    63→      
+    64→      const sections = ['home', 'about', 'services', 'divisions', 'why-us', 'contact']
+    65→      for (const section of sections.reverse()) {
+    66→        const element = document.getElementById(section)
+    67→        if (element && element.getBoundingClientRect().top <= 100) {
+    68→          setActiveSection(section)
+    69→          break
+    70→        }
+    71→      }
+    72→    }
+    73→    
+    74→    window.addEventListener('scroll', handleScroll)
+    75→    return () => window.removeEventListener('scroll', handleScroll)
+    76→  }, [])
+    77→
+    78→  const scrollToSection = (id: string) => {
+    79→    const element = document.getElementById(id)
+    80→    element?.scrollIntoView({ behavior: 'smooth' })
+    81→    setMobileMenuOpen(false)
+    82→  }
+    83→
+    84→  const toggleTheme = () => {
+    85→    setIsDark(!isDark)
+    86→  }
+    87→
+    88→  const scrollToTop = () => {
+    89→    window.scrollTo({ top: 0, behavior: 'smooth' })
+    90→  }
+    91→
+    92→  return (
+    93→    <div 
+    94→      className={`min-h-screen flex flex-col transition-colors duration-500 ${
+    95→        isDark ? 'dark-theme' : ''
+    96→      }`}
+    97→      style={
+    98→        isDark 
+    99→          ? {
+   100→              backgroundImage: [
+   101→                `url('/dark-bg-pattern.png')`,
+   102→                `linear-gradient(rgba(15, 23, 42, 0.92), rgba(15, 23, 42, 0.92))`
+   103→              ].join(', '),
+   104→              backgroundSize: 'cover, cover',
+   105→              backgroundPosition: 'center, center',
+   106→              backgroundRepeat: 'repeat, no-repeat',
+   107→              backgroundAttachment: 'fixed'
+   108→            }
+   109→          : {
+   110→              backgroundImage: "url('/bg-pattern.png')",
+   111→              backgroundSize: 'cover',
+   112→              backgroundPosition: 'center',
+   113→              backgroundRepeat: 'repeat',
+   114→              backgroundAttachment: 'fixed'
+   115→            }
+   116→      }
+   117→    >
+   118→      {/* Navigation */}
+   119→      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+   120→        isScrolled 
+   121→          ? (isDark ? 'bg-slate-900/95 backdrop-blur-md shadow-lg shadow-black/20' : 'bg-white/95 backdrop-blur-md shadow-lg shadow-slate-200/20')
+   122→          : 'bg-transparent'
+   123→      }`}>
+   124→        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   125→          <div className="flex items-center justify-between h-20">
+   126→            <div className="flex items-center gap-3">
+   127→              <img 
+   128→                src="/logo.png" 
+   129→                alt="Epigater Solutions" 
+   130→                className={`h-12 w-auto transition-all duration-300 ${
+   131→                  isDark ? 'brightness-0 invert' : ''
+   132→                }`} 
+   133→              />
+   134→              <div className="hidden sm:block">
+   135→                <span className={`text-xl font-bold ${isDark ? 'bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent' : 'bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent'}`}>
+   136→                  EPIGATER
+   137→                </span>
+   138→                <span className={`block text-xs font-medium tracking-wider ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>SOLUTIONS</span>
+   139→              </div>
+   140→            </div>
+   141→            
+   142→            <div className="hidden md:flex items-center gap-4">
+   143→              {[
+   144→                { id: 'home', label: 'Home' },
+   145→                { id: 'about', label: 'About' },
+   146→                { id: 'services', label: 'Services' },
+   147→                { id: 'divisions', label: 'Divisions' },
+   148→                { id: 'why-us', label: 'Why Us' },
+   149→                { id: 'contact', label: 'Contact' }
+   150→              ].map((item) => (
+   151→                <button
+   152→                  key={item.id}
+   153→                  onClick={() => scrollToSection(item.id)}
+   154→                  className={`text-sm font-medium transition-all duration-300 relative group py-2 ${
+   155→                    activeSection === item.id 
+   156→                      ? (isDark ? 'text-white' : 'text-slate-900') 
+   157→                      : (isDark ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-slate-900')
+   158→                  } hover:shadow-lg hover:shadow-cyan-500/20 hover:-translate-y-0.5 rounded-lg px-2`}
+   159→                >
+   160→                  {item.label}
+   161→                  <span className={`absolute -bottom-0 left-0 h-0.5 bg-gradient-to-r from-cyan-500 to-blue-500 transition-all duration-300 ${
+   162→                    activeSection === item.id ? 'w-full' : 'w-0 group-hover:w-full'
+   163→                  }`} />
+   164→                </button>
+   165→              ))}
+   166→              
+   167→              {/* Theme Toggle Button */}
+   168→              <button
+   169→                onClick={toggleTheme}
+   170→                className={`p-2.5 rounded-xl transition-all duration-300 ${
+   171→                  isDark 
+   172→                    ? 'bg-slate-800 hover:bg-slate-700 text-yellow-400 hover:text-yellow-300' 
+   173→                    : 'bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900'
+   174→                }`}
+   175→                aria-label="Toggle theme"
+   176→              >
+   177→                {isDark ? <Sun size={20} /> : <Moon size={20} />}
+   178→              </button>
+   179→              
+   180→              <button 
+   181→                onClick={() => scrollToSection('contact')}
+   182→                className="px-5 py-2.5 bg-gradient-to-r from-slate-800 to-slate-700 text-white rounded-full text-sm font-semibold hover:shadow-xl hover:shadow-slate-500/40 hover:-translate-y-1 transition-all duration-300"
+   183→              >
+   184→                Get Started
+   185→              </button>
+   186→            </div>
+   187→
+   188→            <div className="flex md:hidden items-center gap-2">
+   189→              {/* Mobile Theme Toggle */}
+   190→              <button
+   191→                onClick={toggleTheme}
+   192→                className={`p-2 rounded-lg transition-colors ${
+   193→                  isDark ? 'text-yellow-400' : 'text-slate-600'
+   194→                }`}
+   195→                aria-label="Toggle theme"
+   196→              >
+   197→                {isDark ? <Sun size={20} /> : <Moon size={20} />}
+   198→              </button>
+   199→              <button 
+   200→                className={`p-2 rounded-lg ${isDark ? 'hover:bg-slate-800' : 'hover:bg-slate-100'}`}
+   201→                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+   202→              >
+   203→                {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+   204→              </button>
+   205→            </div>
+   206→          </div>
+   207→        </nav>
+   208→
+   209→        {/* Mobile Menu with Animation */}
+   210→        <div 
+   211→          className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+   212→            mobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 border-t-0'
+   213→          }`}
+   214→        >
+   215→          <div className={`${isDark ? 'bg-slate-900/98 backdrop-blur-lg border-slate-700' : 'bg-white/98 backdrop-blur-lg border-slate-100'} border-t shadow-2xl`}>
+   216→            <div className="px-4 py-4 space-y-1">
+   217→              {['home', 'about', 'services', 'divisions', 'why-us', 'contact'].map((item, index) => (
+   218→                <button
+   219→                  key={item}
+   220→                  onClick={() => scrollToSection(item)}
+   221→                  className={`block w-full text-left px-4 py-3 rounded-xl font-medium capitalize transition-all duration-200 transform ${
+   222→                    isDark 
+   223→                      ? 'text-slate-300 hover:bg-slate-800 hover:text-white hover:translate-x-2' 
+   224→                      : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900 hover:translate-x-2'
+   225→                  } ${mobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}
+   226→                  style={{
+   227→                    transitionDelay: mobileMenuOpen ? `${index * 50}ms` : '0ms'
+   228→                  }}
+   229→                >
+   230→                  {item.replace('-', ' ')}
+   231→                </button>
+   232→              ))}
+   233→            </div>
+   234→          </div>
+   235→        </div>
+   236→      </header>
+   237→
+   238→      {/* Hero Section */}
+   239→      <section id="home" className="relative min-h-screen flex items-center overflow-hidden pt-20">
+   240→        {/* Overlay for readability - changes based on theme */}
+   241→        <div className={`absolute inset-0 ${
+   242→          isDark 
+   243→            ? 'bg-gradient-to-br from-slate-900/85 via-slate-900/80 to-slate-800/85' 
+   244→            : 'bg-gradient-to-br from-white/70 via-white/65 to-cyan-50/50'
+   245→        }`} />
+   246→
+   247→        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+   248→          <div className="grid lg:grid-cols-2 gap-16 items-center">
+   249→            <div className="space-y-8">
+   250→              <div className={`inline-flex items-center gap-2 px-4 py-2 backdrop-blur-sm border rounded-full shadow-sm ${
+   251→                isDark ? 'bg-slate-800/90 border-slate-700' : 'bg-white/90 border-slate-200'
+   252→              }`}>
+   253→                <Sparkles size={16} className="text-cyan-500" />
+   254→                <span className={`text-sm font-medium ${isDark ? 'text-slate-200' : 'text-slate-700'}`}>Welcome to Epigater</span>
+   255→              </div>
+   256→              
+   257→              {/* HEADLINE - Exactly 2 Lines */}
+   258→              <h1 className="text-4xl sm:text-5xl lg:text-[3rem] xl:text-[3.25rem] font-bold leading-[1.2]">
+   259→                <span className={`${isDark ? 'bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-300' : 'bg-gradient-to-r from-cyan-700 via-blue-700 to-slate-800'} bg-clip-text text-transparent whitespace-nowrap pr-2`}>
+   260→                  Intelligence Without
+   261→                </span>
+   262→                <br />
+   263→                <span className={isDark ? 'text-white' : 'text-slate-900'}>Limits</span>
+   264→              </h1>
+   265→              
+   266→              <p className={`text-lg leading-relaxed max-w-xl ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
+   267→                AI-driven solutions that empower organizations to operate more efficiently, securely, and sustainably.
+   268→              </p>
+   269→
+   270→              <div className="flex flex-wrap gap-4">
+   271→                <button 
+   272→                  onClick={() => scrollToSection('contact')}
+   273→                  className="group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-slate-800 to-slate-700 text-white rounded-full font-semibold hover:shadow-xl hover:shadow-slate-400/25 transition-all duration-300 hover:-translate-y-1"
+   274→                >
+   275→                  Explore Solutions
+   276→                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+   277→                </button>
+   278→                <button 
+   279→                  onClick={() => scrollToSection('about')}
+   280→                  className={`inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold border transition-all duration-300 hover:-translate-y-1 ${
+   281→                    isDark 
+   282→                      ? 'bg-slate-800 text-white border-slate-600 hover:border-slate-500 hover:bg-slate-700' 
+   283→                      : 'bg-white text-slate-800 border-slate-200 hover:border-slate-300 hover:shadow-lg'
+   284→                  }`}
+   285→                >
+   286→                  Learn More
+   287→                </button>
+   288→              </div>
+   289→
+   290→              <div className="flex items-center gap-8 pt-4">
+   291→                <div className="text-center">
+   292→                  <div className={`text-3xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>150+</div>
+   293→                  <div className={`text-sm ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Projects Delivered</div>
+   294→                </div>
+   295→                <div className={`w-px h-12 ${isDark ? 'bg-slate-600' : 'bg-slate-200'}`} />
+   296→                <div className="text-center">
+   297→                  <div className={`text-3xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>98%</div>
+   298→                  <div className={`text-sm ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Client Satisfaction</div>
+   299→                </div>
+   300→                <div className={`w-px h-12 ${isDark ? 'bg-slate-600' : 'bg-slate-200'}`} />
+   301→                <div className="text-center">
+   302→                  <div className={`text-3xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>24/7</div>
+   303→                  <div className={`text-sm ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Support Available</div>
+   304→                </div>
+   305→              </div>
+   306→            </div>
+   307→
+   308→            <div className="relative hidden lg:block">
+   309→              <div className="relative z-10">
+   310→                <img 
+   311→                  src="/logo.png" 
+   312→                  alt="Epigater Solutions Logo" 
+   313→                  className={`w-full max-w-lg mx-auto drop-shadow-2xl transition-all duration-300 ${
+   314→                    isDark ? 'brightness-0 invert' : ''
+   315→                  }`}
+   316→                />
+   317→              </div>
+   318→              
+   319→              {/* Floating Cards */}
+   320→              <div className={`absolute top-10 -left-10 p-4 backdrop-blur-sm rounded-2xl shadow-xl animate-bounce ${isDark ? 'bg-slate-800/95 shadow-black/30' : 'bg-white/95 shadow-slate-200/50'}`} style={{ animationDuration: '3s' }}>
+   321→                <div className="flex items-center gap-3">
+   322→                  <div className={`p-2 rounded-xl ${isDark ? 'bg-emerald-900/50' : 'bg-emerald-100'}`}>
+   323→                    <TrendingUp size={20} className="text-emerald-500" />
+   324→                  </div>
+   325→                  <div>
+   326→                    <div className={`text-sm font-semibold ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>Growth Rate</div>
+   327→                    <div className="text-lg font-bold text-emerald-500">+47%</div>
+   328→                  </div>
+   329→                </div>
+   330→              </div>
+   331→
+   332→              <div className={`absolute bottom-20 -right-5 p-4 backdrop-blur-sm rounded-2xl shadow-xl animate-bounce ${isDark ? 'bg-slate-800/95 shadow-black/30' : 'bg-white/95 shadow-slate-200/50'}`} style={{ animationDuration: '4s' }}>
+   333→                <div className="flex items-center gap-3">
+   334→                  <div className={`p-2 rounded-xl ${isDark ? 'bg-cyan-900/50' : 'bg-cyan-100'}`}>
+   335→                    <Brain size={20} className="text-cyan-500" />
+   336→                  </div>
+   337→                  <div>
+   338→                    <div className={`text-sm font-semibold ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>AI Powered</div>
+   339→                    <div className="text-lg font-bold text-cyan-500">Solutions</div>
+   340→                  </div>
+   341→                </div>
+   342→              </div>
+   343→            </div>
+   344→          </div>
+   345→        </div>
+   346→      </section>
+   347→
+   348→      {/* About Section */}
+   349→      <section id="about" className="py-24 relative overflow-hidden">
+   350→        <div className={`absolute inset-0 ${
+   351→          isDark 
+   352→            ? 'bg-gradient-to-b from-slate-900/80 via-slate-900/85 to-slate-800/90' 
+   353→            : 'bg-gradient-to-b from-white/70 via-white/75 to-slate-50/85'
+   354→        }`} />
+   355→        
+   356→        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   357→          <div className="grid lg:grid-cols-2 gap-16 items-center">
+   358→            <div className="relative">
+   359→              <div className={`absolute -inset-4 rounded-3xl blur-2xl opacity-80 ${isDark ? 'bg-gradient-to-br from-slate-700 to-cyan-900/30' : 'bg-gradient-to-br from-slate-100 to-cyan-50'}`} />
+   360→              <div className={`relative rounded-3xl p-8 sm:p-12 text-white ${isDark ? 'bg-gradient-to-br from-slate-800 to-slate-900' : 'bg-gradient-to-br from-slate-800 to-slate-900'}`}>
+   361→                <div className="space-y-6">
+   362→                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full text-sm">
+   363→                    <Award size={14} />
+   364→                    Since 2020
+   365→                  </div>
+   366→                  <h3 className="text-3xl sm:text-4xl font-bold leading-tight">
+   367→                    Building Intelligent Systems for a Digital Future
+   368→                  </h3>
+   369→                  <p className="text-slate-300 leading-relaxed">
+   370→                    We combine cutting-edge AI technology with deep industry expertise to deliver transformative solutions that drive real business value.
+   371→                  </p>
+   372→                  <div className="grid grid-cols-2 gap-4 pt-4">
+   373→                    {[
+   374→                      { icon: Brain, label: 'AI & Machine Learning' },
+   375→                      { icon: Shield, label: 'Cybersecurity' },
+   376→                      { icon: Cpu, label: 'Enterprise Software' },
+   377→                      { icon: Sun, label: 'Smart Energy' }
+   378→                    ].map((item, i) => (
+   379→                      <div key={i} className="flex items-center gap-3 p-3 bg-white/10 rounded-xl">
+   380→                        <item.icon size={20} className="text-cyan-400" />
+   381→                        <span className="text-sm">{item.label}</span>
+   382→                      </div>
+   383→                    ))}
+   384→                  </div>
+   385→                </div>
+   386→              </div>
+   387→            </div>
+   388→
+   389→            <div className="space-y-8">
+   390→              <div>
+   391→                <span className={`text-sm font-semibold uppercase tracking-wider ${isDark ? 'text-cyan-400' : 'text-cyan-600'}`}>Who We Are</span>
+   392→                <h2 className={`mt-3 text-4xl sm:text-5xl font-bold leading-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+   393→                  About Epigater Solutions
+   394→                </h2>
+   395→              </div>
+   396→
+   397→              <div className={`space-y-4 leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
+   398→                <p>
+   399→                  <strong className={isDark ? 'text-white' : 'text-slate-900'}>Epigater Solutions</strong> is an AI-driven technology, engineering and international trading company focused on developing, integrating and implementing intelligent systems that enable organizations to operate more efficiently, securely and sustainably.
+   400→                </p>
+   401→                <p>
+   402→                  We design and deliver AI-enhanced software applications, enterprise resource planning systems, business automation platforms, mobile applications, cloud solutions, cybersecurity systems, data infrastructure, smart energy technologies, industrial automation solutions and integrated digital platforms.
+   403→                </p>
+   404→                <p>
+   405→                  Our unique strength lies in combining artificial intelligence, software engineering, infrastructure integration, smart energy, industrial technology and international trade under one coordinated corporate structure.
+   406→                </p>
+   407→              </div>
+   408→
+   409→              <div className="grid grid-cols-2 gap-6 pt-4">
+   410→                {[
+   411→                  { value: '6+', label: 'Core Business Divisions' },
+   412→                  { value: 'Global', label: 'Market Reach' },
+   413→                  { value: 'End-to-End', label: 'Solution Delivery' },
+   414→                  { value: '24/7', label: 'Technical Support' }
+   415→                ].map((stat, i) => (
+   416→                  <div key={i} className={`p-4 backdrop-blur-sm rounded-2xl border shadow-sm ${
+   417→                    isDark ? 'bg-slate-800/80 border-slate-700' : 'bg-white/80 border-slate-100'
+   418→                  }`}>
+   419→                    <div className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>{stat.value}</div>
+   420→                    <div className={`text-sm ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>{stat.label}</div>
+   421→                  </div>
+   422→                ))}
+   423→              </div>
+   424→            </div>
+   425→          </div>
+   426→        </div>
+   427→      </section>
+   428→
+   429→      {/* Services Section */}
+   430→      <section id="services" className="py-24 relative overflow-hidden">
+   431→        <div className={`absolute inset-0 ${
+   432→          isDark 
+   433→            ? 'bg-gradient-to-b from-slate-900/80 via-slate-900/85 to-slate-800/88' 
+   434→            : 'bg-gradient-to-b from-slate-50/75 via-white/82 to-slate-50/78'
+   435→        }`} />
+   436→        
+   437→        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   438→          <div className="text-center max-w-3xl mx-auto mb-16">
+   439→            <span className={`inline-flex items-center gap-2 px-4 py-2 border rounded-full text-sm font-medium shadow-sm ${
+   440→              isDark ? 'bg-slate-800/90 border-slate-700 text-slate-200' : 'bg-white border-slate-200 text-slate-700'
+   441→            }`}>
+   442→              <Zap size={16} className="text-cyan-500" />
+   443→              Our Services
+   444→            </span>
+   445→            <h2 className={`mt-6 text-4xl sm:text-5xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
+   446→              Comprehensive Technology Solutions
+   447→            </h2>
+   448→            <p className={`mt-4 text-lg ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
+   449→              End-to-end services designed to transform your organization through intelligent technology integration
+   450→            </p>
+   451→          </div>
+   452→
+   453→          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+   454→            {[
+   455→              {
+   456→                icon: Brain,
+   457→                title: 'AI & Machine Learning',
+   458→                description: 'Custom AI solutions including predictive analytics, natural language processing, computer vision, and intelligent automation systems.',
+   459→                features: ['Predictive Analytics', 'NLP Solutions', 'Computer Vision', 'Process Automation'],
+   460→                color: 'cyan'
+   461→              },
+   462→              {
+   463→                icon: Cpu,
+   464→                title: 'Enterprise Software',
+   465→                description: 'Scalable enterprise applications including ERP systems, CRM platforms, business intelligence tools, and custom development.',
+   466→                features: ['ERP Systems', 'CRM Platforms', 'Business Intelligence', 'Custom Development'],
+   467→                color: 'slate'
+   468→              },
+   469→              {
+   470→                icon: Shield,
+   471→                title: 'Cybersecurity',
+   472→                description: 'Comprehensive security solutions protecting your digital assets with advanced threat detection and incident response.',
+   473→                features: ['Threat Detection', 'Security Audits', 'Data Protection', 'Incident Response'],
+   474→                color: 'emerald'
+   475→              },
+   476→              {
+   477→                icon: CloudIcon,
+   478→                title: 'Cloud Solutions',
+   479→                description: 'Cloud architecture design, migration services, and managed cloud infrastructure ensuring scalability and reliability.',
+   480→                features: ['Cloud Migration', 'Architecture Design', 'Managed Services', 'DevOps'],
+   481→                color: 'blue'
+   482→              },
+   483→              {
+   484→                icon: Sun,
+   485→                title: 'Smart Energy',
+   486→                description: 'IoT-enabled energy management systems, renewable energy integration, and smart grid solutions.',
+   487→                features: ['Energy Management', 'IoT Integration', 'Renewable Systems', 'Grid Optimization'],
+   488→                color: 'amber'
+   489→              },
+   490→              {
+   491→                icon: Factory,
+   492→                title: 'Industrial Automation',
+   493→                description: 'Industry 4.0 solutions including IoT sensors, PLC programming, SCADA systems, and manufacturing execution.',
+   494→                features: ['IoT Sensors', 'PLC Programming', 'SCADA Systems', 'MES Solutions'],
+   495→                color: 'violet'
+   496→              }
+   497→            ].map((service, index) => (
+   498→              <div 
+   499→                key={index}
+   500→                className={`group relative backdrop-blur-sm rounded-3xl p-8 transition-all duration-500 hover:-translate-y-2 ${
+   501→                  isDark 
+   502→                    ? 'bg-slate-800/80 border border-slate-700 hover:border-slate-600 hover:shadow-xl hover:shadow-black/30' 
+   503→                    : 'bg-white/90 border border-slate-200 hover:border-slate-300 hover:shadow-xl hover:shadow-slate-200/50'
+   504→                }`}
+   505→              >
+   506→                <div className={`absolute inset-0 rounded-3xl transition-all duration-500 opacity-0 group-hover:opacity-100 ${
+   507→                  isDark 
+   508→                    ? 'bg-gradient-to-br from-transparent to-cyan-900/20' 
+   509→                    : 'bg-gradient-to-br from-transparent to-slate-50/50'
+   510→                }`} />
+   511→                
+   512→                <div className="relative">
+   513→                  <div className={`inline-flex p-4 rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300 ${
+   514→                    service.color === 'cyan' ? (isDark ? 'bg-cyan-900/40' : 'bg-cyan-100') :
+   515→                    service.color === 'slate' ? (isDark ? 'bg-slate-700' : 'bg-slate-100') :
+   516→                    service.color === 'emerald' ? (isDark ? 'bg-emerald-900/40' : 'bg-emerald-100') :
+   517→                    service.color === 'blue' ? (isDark ? 'bg-blue-900/40' : 'bg-blue-100') :
+   518→                    service.color === 'amber' ? (isDark ? 'bg-amber-900/40' : 'bg-amber-100') :
+   519→                    (isDark ? 'bg-violet-900/40' : 'bg-violet-100')
+   520→                  }`}>
+   521→                    <service.icon size={28} className={
+   522→                      service.color === 'cyan' ? 'text-cyan-500' :
+   523→                      service.color === 'slate' ? (isDark ? 'text-slate-300' : 'text-slate-700') :
+   524→                      service.color === 'emerald' ? 'text-emerald-500' :
+   525→                      service.color === 'blue' ? 'text-blue-500' :
+   526→                      service.color === 'amber' ? 'text-amber-500' :
+   527→                      'text-violet-500'
+   528→                    } />
+   529→                  </div>
+   530→                  
+   531→                  <h3 className={`text-xl font-bold mb-3 ${isDark ? 'text-white' : 'text-slate-900'}`}>{service.title}</h3>
+   532→                  <p className={`mb-6 leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>{service.description}</p>
+   533→                  
+   534→                  <ul className="space-y-2">
+   535→                    {service.features.map((feature, i) => (
+   536→                      <li key={i} className={`flex items-center gap-2 text-sm ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+   537→                        <CheckCircle2 size={16} className="text-emerald-500 flex-shrink-0" />
+   538→                        {feature}
+   539→                      </li>
+   540→                    ))}
+   541→                  </ul>
+   542→                </div>
+   543→              </div>
+   544→            ))}
+   545→          </div>
+   546→        </div>
+   547→      </section>
+   548→
+   549→      {/* Business Divisions */}
+   550→      <section id="divisions" className="py-24 relative overflow-hidden">
+   551→        <div className={`absolute inset-0 ${
+   552→          isDark 
+   553→            ? 'bg-gradient-to-b from-slate-900/82 via-slate-900/85 to-slate-800/88' 
+   554→            : 'bg-gradient-to-b from-white/72 via-white/78 to-slate-50/82'
+   555→        }`} />
+   556→        
+   557→        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   558→          <div className="text-center max-w-3xl mx-auto mb-16">
+   559→            <span className={`inline-flex items-center gap-2 px-4 py-2 border rounded-full text-sm font-medium ${
+   560→              isDark ? 'bg-slate-800/90 border-slate-700 text-slate-200' : 'bg-slate-100 border-slate-200 text-slate-700'
+   561→            }`}>
+   562→              <Layers size={16} />
+   563→              Business Divisions
+   564→            </span>
+   565→            <h2 className={`mt-6 text-4xl sm:text-5xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
+   566→              Six Pillars of Excellence
+   567→            </h2>
+   568→            <p className={`mt-4 text-lg ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
+   569→              Our integrated divisions work together to deliver comprehensive solutions across technology domains
+   570→            </p>
+   571→          </div>
+   572→
+   573→          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+   574→            {[
+   575→              {
+   576→                icon: Brain,
+   577→                bgColor: isDark ? 'bg-violet-900/30' : 'bg-violet-50',
+   578→                borderColor: isDark ? 'border-violet-800' : 'border-violet-200',
+   579→                textColor: isDark ? 'text-violet-400' : 'text-violet-700',
+   580→                title: 'Artificial Intelligence Division',
+   581→                description: 'Developing and deploying AI models, machine learning pipelines, and intelligent automation solutions.',
+   582→                capabilities: ['Deep Learning', 'NLP & Conversational AI', 'Computer Vision', 'MLOps & Deployment']
+   583→              },
+   584→              {
+   585→                icon: Cpu,
+   586→                bgColor: isDark ? 'bg-slate-800' : 'bg-slate-100',
+   587→                borderColor: isDark ? 'border-slate-600' : 'border-slate-300',
+   588→                textColor: isDark ? 'text-slate-300' : 'text-slate-700',
+   589→                title: 'Enterprise Software Division',
+   590→                description: 'Building scalable software platforms, ERP systems, and business applications that drive operational excellence.',
+   591→                capabilities: ['Enterprise Applications', 'System Integration', 'API Development', 'Quality Assurance']
+   592→              },
+   593→              {
+   594→                icon: Globe,
+   595→                bgColor: isDark ? 'bg-cyan-900/30' : 'bg-cyan-50',
+   596→                borderColor: isDark ? 'border-cyan-800' : 'border-cyan-200',
+   597→                textColor: isDark ? 'text-cyan-400' : 'text-cyan-700',
+   598→                title: 'Technology Integration Division',
+   599→                description: 'Seamlessly connecting disparate systems, legacy modernization, and creating unified technology ecosystems.',
+   600→                capabilities: ['System Integration', 'Legacy Modernization', 'Data Migration', 'Infrastructure Planning']
+   601→              },
+   602→              {
+   603→                icon: Sun,
+   604→                bgColor: isDark ? 'bg-amber-900/30' : 'bg-amber-50',
+   605→                borderColor: isDark ? 'border-amber-800' : 'border-amber-200',
+   606→                textColor: isDark ? 'text-amber-400' : 'text-amber-700',
+   607→                title: 'Smart Energy Division',
+   608→                description: 'Delivering IoT-based energy monitoring, renewable energy solutions, and smart grid technologies.',
+   609→                capabilities: ['Energy Monitoring', 'Solar & Wind Integration', 'Smart Metering', 'Sustainability Consulting']
+   610→              },
+   611→              {
+   612→                icon: Factory,
+   613→                bgColor: isDark ? 'bg-emerald-900/30' : 'bg-emerald-50',
+   614→                borderColor: isDark ? 'border-emerald-800' : 'border-emerald-200',
+   615→                textColor: isDark ? 'text-emerald-400' : 'text-emerald-700',
+   616→                title: 'Smart Manufacturing Division',
+   617→                description: 'Implementing Industry 4.0 technologies, production optimization, and connected factory solutions.',
+   618→                capabilities: ['IIoT Implementation', 'Production Analytics', 'Digital Twin', 'Quality Automation']
+   619→              },
+   620→              {
+   621→                icon: BarChart3,
+   622→                bgColor: isDark ? 'bg-rose-900/30' : 'bg-rose-50',
+   623→                borderColor: isDark ? 'border-rose-800' : 'border-rose-200',
+   624→                textColor: isDark ? 'text-rose-400' : 'text-rose-700',
+   625→                title: 'International Trading Division',
+   626→                description: 'Facilitating global technology trade, equipment sourcing, and international market expansion services.',
+   627→                capabilities: ['Equipment Sourcing', 'Import/Export', 'Supply Chain', 'Market Expansion']
+   628→              }
+   629→            ].map((division, index) => (
+   630→              <div 
+   631→                key={index}
+   632→                className={`group relative ${division.bgColor} rounded-3xl p-8 border hover:shadow-xl transition-all duration-300 cursor-pointer backdrop-blur-sm ${division.borderColor}`}
+   633→              >
+   634→                <div className="flex items-start gap-4 mb-4">
+   635→                  <div className={`p-3 rounded-xl shadow-sm ${isDark ? 'bg-slate-800' : 'bg-white'}`}>
+   636→                    <division.icon size={24} className={division.textColor} />
+   637→                  </div>
+   638→                  <div className="flex-1">
+   639→                    <h3 className={`text-lg font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>{division.title}</h3>
+   640→                  </div>
+   641→                </div>
+   642→                
+   643→                <p className={`text-sm leading-relaxed mb-4 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>{division.description}</p>
+   644→                
+   645→                <div className="flex flex-wrap gap-2">
+   646→                  {division.capabilities.map((cap, i) => (
+   647→                    <span 
+   648→                      key={i}
+   649→                      className={`px-3 py-1 rounded-full text-xs font-medium ${
+   650→                        isDark ? 'bg-slate-800/80 text-slate-300' : 'bg-white/80 text-slate-700'
+   651→                      }`}
+   652→                    >
+   653→                      {cap}
+   654→                    </span>
+   655→                  ))}
+   656→                </div>
+   657→              </div>
+   658→            ))}
+   659→          </div>
+   660→        </div>
+   661→      </section>
+   662→
+   663→      {/* Why Choose Us - Dark section with dot pattern */}
+   664→      <section id="why-us" className="py-24 bg-gradient-to-br from-slate-800 via-slate-800 to-slate-900 relative overflow-hidden">
+   665→        {/* Visible Dot Pattern */}
+   666→        <div className="absolute inset-0 opacity-[0.08]" style={{
+   667→          backgroundImage: `radial-gradient(circle at 1px 1px, white 1px, transparent 0)`,
+   668→          backgroundSize: '24px 24px'
+   669→        }} />
+   670→        
+   671→        {/* Network Pattern Overlay */}
+   672→        <div 
+   673→          className="absolute inset-0 opacity-[0.06]"
+   674→          style={{
+   675→            backgroundImage: `url('/bg-pattern.png')`,
+   676→            backgroundSize: 'cover',
+   677→            backgroundPosition: 'center'
+   678→          }}
+   679→        />
+   680→        
+   681→        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   682→          <div className="text-center max-w-3xl mx-auto mb-16">
+   683→            <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 text-cyan-400 rounded-full text-sm font-medium border border-white/10">
+   684→              <Target size={16} />
+   685→              Why Choose Us
+   686→            </span>
+   687→            <h2 className="mt-6 text-4xl sm:text-5xl font-bold text-white">
+   688→              The Epigater Advantage
+   689→            </h2>
+   690→            <p className="mt-4 text-lg text-slate-300">
+   691→              What sets us apart in delivering transformative technology solutions
+   692→            </p>
+   693→          </div>
+   694→
+   695→          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+   696→            {[
+   697→              {
+   698→                icon: Lock,
+   699→                title: 'Integrated Approach',
+   700→                description: 'Single vendor providing end-to-end solutions from strategy to implementation and support.'
+   701→              },
+   702→              {
+   703→                icon: Users,
+   704→                title: 'Expert Team',
+   705→                description: 'Multidisciplinary professionals with deep expertise across all technology domains.'
+   706→              },
+   707→              {
+   708→                icon: Zap,
+   709→                title: 'Innovation First',
+   710→                description: 'Cutting-edge AI and automation technologies that keep you ahead of competition.'
+   711→              },
+   712→              {
+   713→                icon: Globe,
+   714→                title: 'Global Reach',
+   715→                description: 'International presence enabling seamless cross-border project delivery.'
+   716→              }
+   717→            ].map((item, index) => (
+   718→              <div key={index} className="group text-center">
+   719→                <div className="inline-flex p-5 bg-white/5 backdrop-blur-sm rounded-2xl mb-6 group-hover:bg-white/10 transition-colors border border-white/10">
+   720→                  <item.icon size={32} className="text-cyan-400" />
+   721→                </div>
+   722→                <h3 className="text-xl font-bold text-white mb-3">{item.title}</h3>
+   723→                <p className="text-slate-400 leading-relaxed">{item.description}</p>
+   724→              </div>
+   725→            ))}
+   726→          </div>
+   727→
+   728→          <div className="mt-20 grid lg:grid-cols-2 gap-12 items-center">
+   729→            <div>
+   730→              <h3 className="text-3xl font-bold text-white mb-6">Our Delivery Methodology</h3>
+   731→              <div className="space-y-6">
+   732→                {[
+   733→                  { step: '01', title: 'Discovery & Analysis', desc: 'Understanding your business challenges and objectives' },
+   734→                  { step: '02', title: 'Strategy & Design', desc: 'Creating tailored solution architecture and roadmap' },
+   735→                  { step: '03', title: 'Development & Testing', desc: 'Agile development with rigorous quality assurance' },
+   736→                  { step: '04', title: 'Deployment & Support', desc: 'Smooth implementation and ongoing maintenance' }
+   737→                ].map((phase, i) => (
+   738→                  <div key={i} className="flex gap-4 group">
+   739→                    <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl flex items-center justify-center text-white font-bold">
+   740→                      {phase.step}
+   741→                    </div>
+   742→                    <div className="pt-1">
+   743→                      <h4 className="font-semibold text-white group-hover:text-cyan-300 transition-colors">{phase.title}</h4>
+   744→                      <p className="text-sm text-slate-400">{phase.desc}</p>
+   745→                    </div>
+   746→                  </div>
+   747→                ))}
+   748→              </div>
+   749→            </div>
+   750→
+   751→            <div className="grid grid-cols-2 gap-6">
+   752→              {[
+   753→                { value: '150+', label: 'Projects Completed', sublabel: 'Across 6 industries' },
+   754→                { value: '98%', label: 'Client Retention', sublabel: 'Long-term partnerships' },
+   755→                { value: '35+', label: 'Technology Experts', sublabel: 'Dedicated team members' },
+   756→                { value: '15+', label: 'Countries Served', sublabel: 'Global footprint' }
+   757→              ].map((stat, i) => (
+   758→                <div key={i} className="p-6 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 text-center">
+   759→                  <div className="text-4xl font-bold text-white mb-1">{stat.value}</div>
+   760→                  <div className="font-medium text-cyan-400">{stat.label}</div>
+   761→                  <div className="text-xs text-slate-400 mt-1">{stat.sublabel}</div>
+   762→                </div>
+   763→              ))}
+   764→            </div>
+   765→          </div>
+   766→        </div>
+   767→      </section>
+   768→
+   769→      {/* Contact Section - WITH UPDATED INFO */}
+   770→      <section id="contact" className="py-24 relative overflow-hidden">
+   771→        <div className={`absolute inset-0 ${
+   772→          isDark 
+   773→            ? 'bg-gradient-to-b from-slate-900/82 via-slate-900/85 to-slate-800/88' 
+   774→            : 'bg-gradient-to-b from-white/72 via-white/78 to-slate-50/82'
+   775→        }`} />
+   776→        
+   777→        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   778→          <div className="grid lg:grid-cols-2 gap-16">
+   779→            <div className="space-y-8">
+   780→              <div>
+   781→                <span className={`text-sm font-semibold uppercase tracking-wider ${isDark ? 'text-cyan-400' : 'text-cyan-600'}`}>Get In Touch</span>
+   782→                <h2 className={`mt-3 text-4xl sm:text-5xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
+   783→                  Let&apos;s Build Something Amazing Together
+   784→                </h2>
+   785→                <p className={`mt-4 text-lg ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
+   786→                  Ready to transform your organization with intelligent technology? Contact us to discuss your project requirements.
+   787→                </p>
+   788→              </div>
+   789→
+   790→              <div className="space-y-6">
+   791→                {/* Email */}
+   792→                <div className={`flex items-start gap-4 p-6 backdrop-blur-sm rounded-2xl border shadow-sm ${
+   793→                  isDark ? 'bg-slate-800/80 border-slate-700' : 'bg-white/80 border-slate-100'
+   794→                }`}>
+   795→                  <div className={`p-3 rounded-xl shadow-sm ${isDark ? 'bg-slate-700' : 'bg-white'}`}>
+   796→                    <Mail size={22} className="text-cyan-500" />
+   797→                  </div>
+   798→                  <div>
+   799→                    <h4 className={`font-semibold ${isDark ? 'text-white' : 'text-slate-900'}`}>Email Us</h4>
+   800→                    <p className={`${isDark ? 'text-slate-300' : 'text-slate-600'}`}>contact@epigater.com</p>
+   801→                    <p className={`text-sm ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>We respond within 24 hours</p>
+   802→                  </div>
+   803→                </div>
+   804→
+   805→                {/* Phone */}
+   806→                <div className={`flex items-start gap-4 p-6 backdrop-blur-sm rounded-2xl border shadow-sm ${
+   807→                  isDark ? 'bg-slate-800/80 border-slate-700' : 'bg-white/80 border-slate-100'
+   808→                }`}>
+   809→                  <div className={`p-3 rounded-xl shadow-sm ${isDark ? 'bg-slate-700' : 'bg-white'}`}>
+   810→                    <Phone size={22} className="text-cyan-500" />
+   811→                  </div>
+   812→                  <div>
+   813→                    <h4 className={`font-semibold ${isDark ? 'text-white' : 'text-slate-900'}`}>Call Us</h4>
+   814→                    <p className={`${isDark ? 'text-slate-300' : 'text-slate-600'}`}>+251 966 131 415</p>
+   815→                    <p className={`text-sm ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>Mon-Fri, 9am-6pm EAT</p>
+   816→                  </div>
+   817→                </div>
+   818→
+   819→                {/* Address */}
+   820→                <div className={`flex items-start gap-4 p-6 backdrop-blur-sm rounded-2xl border shadow-sm ${
+   821→                  isDark ? 'bg-slate-800/80 border-slate-700' : 'bg-white/80 border-slate-100'
+   822→                }`}>
+   823→                  <div className={`p-3 rounded-xl shadow-sm ${isDark ? 'bg-slate-700' : 'bg-white'}`}>
+   824→                    <MapPin size={22} className="text-cyan-500" />
+   825→                  </div>
+   826→                  <div>
+   827→                    <h4 className={`font-semibold ${isDark ? 'text-white' : 'text-slate-900'}`}>Visit Us</h4>
+   828→                    <p className={`${isDark ? 'text-slate-300' : 'text-slate-600'}`}>Bole, Addis Ababa, Ethiopia</p>
+   829→                    <p className={`text-sm ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>Main Office Location</p>
+   830→                  </div>
+   831→                </div>
+   832→
+   833→                {/* Website */}
+   834→                <div className={`flex items-start gap-4 p-6 backdrop-blur-sm rounded-2xl border shadow-sm ${
+   835→                  isDark ? 'bg-slate-800/80 border-slate-700' : 'bg-white/80 border-slate-100'
+   836→                }`}>
+   837→                  <div className={`p-3 rounded-xl shadow-sm ${isDark ? 'bg-slate-700' : 'bg-white'}`}>
+   838→                    <Globe size={22} className="text-cyan-500" />
+   839→                  </div>
+   840→                  <div>
+   841→                    <h4 className={`font-semibold ${isDark ? 'text-white' : 'text-slate-900'}`}>Website</h4>
+   842→                    <a href="https://epigater.com" target="_blank" rel="noopener noreferrer" className="text-cyan-500 hover:text-cyan-400 transition-colors">
+   843→                      epigater.com
+   844→                    </a>
+   845→                    <p className={`text-sm ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>Learn more about us online</p>
+   846→                  </div>
+   847→                </div>
+   848→
+   849→                {/* General Manager Info */}
+   850→                <div className={`flex items-start gap-4 p-6 rounded-2xl border ${
+   851→                  isDark 
+   852→                    ? 'bg-gradient-to-r from-cyan-900/30 to-blue-900/30 border-cyan-800' 
+   853→                    : 'bg-gradient-to-r from-cyan-50 to-blue-50 border-cyan-100'
+   854→                }`}>
+   855→                  <div className={`p-3 rounded-xl shadow-sm ${isDark ? 'bg-slate-700' : 'bg-white'}`}>
+   856→                    <Users size={22} className="text-cyan-500" />
+   857→                  </div>
+   858→                  <div>
+   859→                    <h4 className={`font-semibold ${isDark ? 'text-white' : 'text-slate-900'}`}>General Manager</h4>
+   860→                    <p className={`${isDark ? 'text-slate-300' : 'text-slate-600'}`}>Hailay Weldegebriel</p>
+   861→                    <p className={`text-sm ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>Direct contact available upon request</p>
+   862→                  </div>
+   863→                </div>
+   864→              </div>
+   865→            </div>
+   866→
+   867→            <div className={`backdrop-blur-sm rounded-3xl p-8 sm:p-10 border ${
+   868→              isDark 
+   869→                ? 'bg-slate-800/90 shadow-xl shadow-black/20 border-slate-700' 
+   870→                : 'bg-white/90 shadow-xl shadow-slate-200/50 border-slate-200'
+   871→            }`}>
+   872→              <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+   873→                <div className="grid sm:grid-cols-2 gap-6">
+   874→                  <div>
+   875→                    <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>First Name</label>
+   876→                    <input 
+   877→                      type="text" 
+   878→                      className={`w-full px-4 py-3 rounded-xl border outline-none transition-all ${
+   879→                        isDark 
+   880→                          ? 'bg-slate-700/50 border-slate-600 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 text-white placeholder:text-slate-500' 
+   881→                          : 'bg-white/80 border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20'
+   882→                      }`}
+   883→                      placeholder="John"
+   884→                    />
+   885→                  </div>
+   886→                  <div>
+   887→                    <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Last Name</label>
+   888→                    <input 
+   889→                      type="text" 
+   890→                      className={`w-full px-4 py-3 rounded-xl border outline-none transition-all ${
+   891→                        isDark 
+   892→                          ? 'bg-slate-700/50 border-slate-600 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 text-white placeholder:text-slate-500' 
+   893→                          : 'bg-white/80 border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20'
+   894→                      }`}
+   895→                      placeholder="Doe"
+   896→                    />
+   897→                  </div>
+   898→                </div>
+   899→
+   900→                <div>
+   901→                  <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Email Address</label>
+   902→                  <input 
+   903→                    type="email" 
+   904→                    className={`w-full px-4 py-3 rounded-xl border outline-none transition-all ${
+   905→                      isDark 
+   906→                        ? 'bg-slate-700/50 border-slate-600 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 text-white placeholder:text-slate-500' 
+   907→                        : 'bg-white/80 border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20'
+   908→                    }`}
+   909→                    placeholder="john@company.com"
+   910→                  />
+   911→                </div>
+   912→
+   913→                <div>
+   914→                  <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Company</label>
+   915→                  <input 
+   916→                    type="text" 
+   917→                    className={`w-full px-4 py-3 rounded-xl border outline-none transition-all ${
+   918→                      isDark 
+   919→                        ? 'bg-slate-700/50 border-slate-600 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 text-white placeholder:text-slate-500' 
+   920→                        : 'bg-white/80 border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20'
+   921→                    }`}
+   922→                    placeholder="Your Company Name"
+   923→                  />
+   924→                </div>
+   925→
+   926→                <div>
+   927→                  <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Service Interest</label>
+   928→                  <select className={`w-full px-4 py-3 rounded-xl border outline-none transition-all ${
+   929→                    isDark 
+   930→                      ? 'bg-slate-700/50 border-slate-600 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 text-white' 
+   931→                      : 'bg-white/80 border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20'
+   932→                  }`}>
+   933→                    <option>Select a service...</option>
+   934→                    <option>AI & Machine Learning</option>
+   935→                    <option>Enterprise Software</option>
+   936→                    <option>Cybersecurity</option>
+   937→                    <option>Cloud Solutions</option>
+   938→                    <option>Smart Energy</option>
+   939→                    <option>Industrial Automation</option>
+   940→                    <option>Other</option>
+   941→                  </select>
+   942→                </div>
+   943→
+   944→                <div>
+   945→                  <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Message</label>
+   946→                  <textarea 
+   947→                    rows={4}
+   948→                    className={`w-full px-4 py-3 rounded-xl border outline-none resize-none transition-all ${
+   949→                      isDark 
+   950→                        ? 'bg-slate-700/50 border-slate-600 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 text-white placeholder:text-slate-500' 
+   951→                        : 'bg-white/80 border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20'
+   952→                    }`}
+   953→                    placeholder="Tell us about your project..."
+   954→                  />
+   955→                </div>
+   956→
+   957→                <button 
+   958→                  type="submit"
+   959→                  className="w-full py-4 bg-gradient-to-r from-slate-800 to-slate-700 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-slate-400/25 transition-all duration-300 flex items-center justify-center gap-2 group"
+   960→                >
+   961→                  Send Message
+   962→                  <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
+   963→                </button>
+   964→              </form>
+   965→            </div>
+   966→          </div>
+   967→        </div>
+   968→      </section>
+   969→
+   970→      {/* Footer - Updated with correct info */}
+   971→      <footer className="bg-slate-900 text-white py-16 mt-auto">
+   972→        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   973→          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
+   974→            <div className="lg:col-span-2">
+   975→              <div className="flex items-center gap-3 mb-6">
+   976→                <img src="/logo.png" alt="Epigater Solutions" className="h-12 w-auto brightness-0 invert" />
+   977→                <div>
+   978→                  <span className="text-xl font-bold">EPIGATER</span>
+   979→                  <span className="block text-xs text-slate-400 tracking-wider">SOLUTIONS</span>
+   980→                </div>
+   981→              </div>
+   982→              <p className="text-slate-400 max-w-md leading-relaxed">
+   983→                Intelligence Without Limits. Transforming organizations through AI-driven technology solutions that enable efficient, secure, and sustainable operations.
+   984→              </p>
+   985→              
+   986→              {/* Footer Contact Info */}
+   987→              <div className="mt-6 space-y-2 text-sm text-slate-400">
+   988→                <p><strong className="text-white">Location:</strong> Bole, Addis Ababa, Ethiopia</p>
+   989→                <p><strong className="text-white">Phone:</strong> +251 966 131 415</p>
+   990→                <p><strong className="text-white">Email:</strong> contact@epigater.com</p>
+   991→                <p><strong className="text-white">Website:</strong> <a href="https://epigater.com" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:text-cyan-300">epigater.com</a></p>
+   992→              </div>
+   993→              
+   994→              <div className="flex gap-4 mt-6">
+   995→                <a href="https://epigater.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-slate-800 hover:bg-cyan-600 rounded-lg flex items-center justify-center transition-colors">
+   996→                  <Globe size={18} />
+   997→                </a>
+   998→                <a href="mailto:contact@epigater.com" className="w-10 h-10 bg-slate-800 hover:bg-cyan-600 rounded-lg flex items-center justify-center transition-colors">
+   999→                  <Mail size={18} />
+  1000→                </a>
+  1001→                <a href="tel:+251966131415" className="w-10 h-10 bg-slate-800 hover:bg-cyan-600 rounded-lg flex items-center justify-center transition-colors">
+  1002→                  <Phone size={18} />
+  1003→                </a>
+  1004→              </div>
+  1005→            </div>
+  1006→
+  1007→            <div>
+  1008→              <h4 className="font-semibold text-white mb-4">Services</h4>
+  1009→              <ul className="space-y-3 text-slate-400">
+  1010→                {[
+  1011→                  { label: 'AI & Machine Learning', id: 'services' },
+  1012→                  { label: 'Enterprise Software', id: 'services' },
+  1013→                  { label: 'Cybersecurity', id: 'services' },
+  1014→                  { label: 'Cloud Solutions', id: 'services' },
+  1015→                  { label: 'Smart Energy', id: 'services' },
+  1016→                  { label: 'Industrial Automation', id: 'services' }
+  1017→                ].map((item) => (
+  1018→                  <li key={item.label}>
+  1019→                    <a 
+  1020→                      href={`#${item.id}`}
+  1021→                      onClick={(e) => { e.preventDefault(); scrollToSection(item.id); }}
+  1022→                      className="hover:text-cyan-400 transition-colors"
+  1023→                    >
+  1024→                      {item.label}
+  1025→                    </a>
+  1026→                  </li>
+  1027→                ))}
+  1028→              </ul>
+  1029→            </div>
+  1030→
+  1031→            <div>
+  1032→              <h4 className="font-semibold text-white mb-4">Company</h4>
+  1033→              <ul className="space-y-3 text-slate-400">
+  1034→                {[
+  1035→                  { label: 'About Us', id: 'about' },
+  1036→                  { label: 'Divisions', id: 'divisions' },
+  1037→                  { label: 'Why Choose Us', id: 'why-us' },
+  1038→                  { label: 'Contact', id: 'contact' },
+  1039→                  { label: 'Careers', external: '#' },
+  1040→                  { label: 'Privacy Policy', external: '#' }
+  1041→                ].map((item) => (
+  1042→                  <li key={item.label}>
+  1043→                    {'id' in item && item.id ? (
+  1044→                      <a 
+  1045→                        href={`#${item.id}`}
+  1046→                        onClick={(e) => { e.preventDefault(); scrollToSection(item.id!); }}
+  1047→                        className="hover:text-cyan-400 transition-colors"
+  1048→                      >
+  1049→                        {item.label}
+  1050→                      </a>
+  1051→                    ) : (
+  1052→                      <a href={item.external} className="hover:text-cyan-400 transition-colors">{item.label}</a>
+  1053→                    )}
+  1054→                  </li>
+  1055→                ))}
+  1056→              </ul>
+  1057→            </div>
+  1058→          </div>
+  1059→
+  1060→          <div className="border-t border-slate-800 mt-12 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+  1061→            <p className="text-slate-500 text-sm">
+  1062→              © 2026 Epigater Solutions. All rights reserved.
+  1063→            </p>
+  1064→            <p className="text-slate-500 text-sm">
+  1065→              Hailay Weldegebriel, General Manager
+  1066→            </p>
+  1067→          </div>
+  1068→        </div>
+  1069→      </footer>
+  1070→
+  1071→      {/* Back to Top Button */}
+  1072→      <button
+  1073→        onClick={scrollToTop}
+  1074→        className={`fixed bottom-8 right-8 z-50 p-4 rounded-full shadow-lg transition-all duration-300 transform ${
+  1075→          showBackToTop 
+  1076→            ? 'opacity-100 translate-y-0' 
+  1077→            : 'opacity-0 translate-y-12 pointer-events-none'
+  1078→        } ${
+  1079→          isDark 
+  1080→            ? 'bg-cyan-600 hover:bg-cyan-500 text-white shadow-cyan-600/30' 
+  1081→            : 'bg-slate-800 hover:bg-slate-700 text-white shadow-slate-400/30'
+  1082→        } hover:scale-110 group`}
+  1083→        aria-label="Back to top"
+  1084→      >
+  1085→        <ArrowUp size={22} className="group-hover:-translate-y-0.5 transition-transform" />
+  1086→        
+  1087→        {/* Tooltip */}
+  1088→        <span className={`absolute right-full mr-3 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none ${
+  1089→          isDark ? 'bg-slate-700 text-white' : 'bg-slate-800 text-white'
+  1090→        }`}>
+  1091→          Back to top
+  1092→        </span>
+  1093→      </button>
+  1094→    </div>
+  1095→  )
+  1096→}
+  1097→
+  1098→// Additional Icons
+  1099→function CloudIcon(props: React.SVGProps<SVGSVGElement>) {
+  1100→  return (
+  1101→    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+  1102→      <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>
+  1103→    </svg>
+  1104→  )
+  1105→}
+  1106→

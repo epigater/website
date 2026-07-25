@@ -35,6 +35,18 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState('home')
   const [isDark, setIsDark] = useState(false)
   const [showBackToTop, setShowBackToTop] = useState(false)
+  
+  // Contact form state
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    company: '',
+    service: '',
+    message: ''
+  })
+  const [formStatus, setFormStatus] = useState('idle') // idle | submitting | success | error
+  const [formMessage, setFormMessage] = useState('')
 
   useEffect(() => {
     // Check localStorage first, then system preference
@@ -79,6 +91,63 @@ export default function Home() {
     const element = document.getElementById(id)
     element?.scrollIntoView({ behavior: 'smooth' })
     setMobileMenuOpen(false)
+  }
+
+  // Contact form handlers
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setFormData(prev => ({ ...prev, [name]: value }))
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    // Basic validation
+    if (!formData.firstName || !formData.email || !formData.message) {
+      setFormStatus('error')
+      setFormMessage('Please fill in all required fields.')
+      return
+    }
+
+    setFormStatus('submitting')
+    setFormMessage('')
+
+    try {
+      const response = await fetch('/contact.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams(formData).toString()
+      })
+
+      const result = await response.json()
+
+      if (result.success) {
+        setFormStatus('success')
+        setFormMessage(result.message || 'Message sent successfully!')
+        // Reset form
+        setFormData({
+          firstName: '',
+          lastName: '',
+          email: '',
+          company: '',
+          service: '',
+          message: ''
+        })
+      } else {
+        setFormStatus('error')
+        setFormMessage(result.error || 'Something went wrong. Please try again.')
+      }
+    } catch (error) {
+      setFormStatus('error')
+      setFormMessage('Network error. Please check your connection and try again.')
+    }
+  }
+
+  const resetForm = () => {
+    setFormStatus('idle')
+    setFormMessage('')
   }
 
   const toggleTheme = () => {
@@ -869,24 +938,63 @@ export default function Home() {
                 ? 'bg-slate-800/90 shadow-xl shadow-black/20 border-slate-700' 
                 : 'bg-white/90 shadow-xl shadow-slate-200/50 border-slate-200'
             }`}>
-              <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+              <form className="space-y-6" onSubmit={handleSubmit}>
+                {/* Success/Error Messages */}
+                {formStatus === 'success' && (
+                  <div className="p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-xl">
+                    <p className="text-emerald-600 font-medium flex items-center gap-2">
+                      <CheckCircle2 size={18} />
+                      {formMessage}
+                    </p>
+                    <button 
+                      type="button"
+                      onClick={resetForm}
+                      className="mt-2 text-sm text-emerald-600 hover:text-emerald-700 underline"
+                    >
+                      Send another message
+                    </button>
+                  </div>
+                )}
+
+                {formStatus === 'error' && (
+                  <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-xl">
+                    <p className="text-red-600 font-medium">{formMessage}</p>
+                    <button 
+                      type="button"
+                      onClick={resetForm}
+                      className="mt-2 text-sm text-red-600 hover:text-red-700 underline"
+                    >
+                      Dismiss
+                    </button>
+                  </div>
+                )}
+
+                {formStatus !== 'success' && (
+                <>
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div>
-                    <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>First Name</label>
+                    <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>First Name *</label>
                     <input 
                       type="text" 
+                      name="firstName"
+                      value={formData.firstName}
+                      onChange={handleInputChange}
                       className={`w-full px-4 py-3 rounded-xl border outline-none transition-all ${
                         isDark 
                           ? 'bg-slate-700/50 border-slate-600 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 text-white placeholder:text-slate-500' 
                           : 'bg-white/80 border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20'
                       }`}
                       placeholder="John"
+                      required
                     />
                   </div>
                   <div>
                     <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Last Name</label>
                     <input 
                       type="text" 
+                      name="lastName"
+                      value={formData.lastName}
+                      onChange={handleInputChange}
                       className={`w-full px-4 py-3 rounded-xl border outline-none transition-all ${
                         isDark 
                           ? 'bg-slate-700/50 border-slate-600 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 text-white placeholder:text-slate-500' 
@@ -898,15 +1006,19 @@ export default function Home() {
                 </div>
 
                 <div>
-                  <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Email Address</label>
+                  <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Email Address *</label>
                   <input 
                     type="email" 
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
                     className={`w-full px-4 py-3 rounded-xl border outline-none transition-all ${
                       isDark 
                         ? 'bg-slate-700/50 border-slate-600 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 text-white placeholder:text-slate-500' 
                         : 'bg-white/80 border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20'
                     }`}
                     placeholder="john@company.com"
+                    required
                   />
                 </div>
 
@@ -914,6 +1026,9 @@ export default function Home() {
                   <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Company</label>
                   <input 
                     type="text" 
+                    name="company"
+                    value={formData.company}
+                    onChange={handleInputChange}
                     className={`w-full px-4 py-3 rounded-xl border outline-none transition-all ${
                       isDark 
                         ? 'bg-slate-700/50 border-slate-600 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 text-white placeholder:text-slate-500' 
@@ -925,42 +1040,62 @@ export default function Home() {
 
                 <div>
                   <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Service Interest</label>
-                  <select className={`w-full px-4 py-3 rounded-xl border outline-none transition-all ${
-                    isDark 
-                      ? 'bg-slate-700/50 border-slate-600 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 text-white' 
-                      : 'bg-white/80 border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20'
-                  }`}>
-                    <option>Select a service...</option>
-                    <option>AI & Machine Learning</option>
-                    <option>Enterprise Software</option>
-                    <option>Cybersecurity</option>
-                    <option>Cloud Solutions</option>
-                    <option>Smart Energy</option>
-                    <option>Industrial Automation</option>
-                    <option>Other</option>
+                  <select 
+                    name="service"
+                    value={formData.service}
+                    onChange={handleInputChange}
+                    className={`w-full px-4 py-3 rounded-xl border outline-none transition-all ${
+                      isDark 
+                        ? 'bg-slate-700/50 border-slate-600 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 text-white' 
+                        : 'bg-white/80 border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20'
+                    }`}>
+                    <option value="">Select a service...</option>
+                    <option value="AI & Machine Learning">AI & Machine Learning</option>
+                    <option value="Enterprise Software">Enterprise Software</option>
+                    <option value="Cybersecurity">Cybersecurity</option>
+                    <option value="Cloud Solutions">Cloud Solutions</option>
+                    <option value="Smart Energy">Smart Energy</option>
+                    <option value="Industrial Automation">Industrial Automation</option>
+                    <option value="Other">Other</option>
                   </select>
                 </div>
 
                 <div>
-                  <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Message</label>
+                  <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Message *</label>
                   <textarea 
                     rows={4}
+                    name="message"
+                    value={formData.message}
+                    onChange={handleInputChange}
                     className={`w-full px-4 py-3 rounded-xl border outline-none resize-none transition-all ${
                       isDark 
                         ? 'bg-slate-700/50 border-slate-600 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 text-white placeholder:text-slate-500' 
                         : 'bg-white/80 border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20'
                     }`}
                     placeholder="Tell us about your project..."
+                    required
                   />
                 </div>
 
                 <button 
                   type="submit"
-                  className="w-full py-4 bg-gradient-to-r from-slate-800 to-slate-700 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-slate-400/25 transition-all duration-300 flex items-center justify-center gap-2 group"
+                  disabled={formStatus === 'submitting'}
+                  className="w-full py-4 bg-gradient-to-r from-slate-800 to-slate-700 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-slate-400/25 transition-all duration-300 flex items-center justify-center gap-2 group disabled:opacity-70 disabled:cursor-not-allowed"
                 >
-                  Send Message
-                  <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                  {formStatus === 'submitting' ? (
+                    <>
+                      <span className="animate-spin inline-block w-5 h-5 border-2 border-white border-t-transparent rounded-full"></span>
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      Send Message
+                      <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                    </>
+                  )}
                 </button>
+                </>
+                )}
               </form>
             </div>
           </div>
