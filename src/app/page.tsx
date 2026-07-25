@@ -139,7 +139,7 @@ export default function Home() {
               </div>
             </div>
             
-            <div className="hidden md:flex items-center gap-6">
+            <div className="hidden md:flex items-center gap-4">
               {[
                 { id: 'home', label: 'Home' },
                 { id: 'about', label: 'About' },
@@ -151,14 +151,14 @@ export default function Home() {
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
-                  className={`text-sm font-medium transition-colors relative group ${
+                  className={`text-sm font-medium transition-all duration-300 relative group py-2 ${
                     activeSection === item.id 
                       ? (isDark ? 'text-white' : 'text-slate-900') 
                       : (isDark ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-slate-900')
-                  }`}
+                  } hover:shadow-lg hover:shadow-cyan-500/20 hover:-translate-y-0.5 rounded-lg px-2`}
                 >
                   {item.label}
-                  <span className={`absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-cyan-500 to-blue-500 transition-all duration-300 ${
+                  <span className={`absolute -bottom-0 left-0 h-0.5 bg-gradient-to-r from-cyan-500 to-blue-500 transition-all duration-300 ${
                     activeSection === item.id ? 'w-full' : 'w-0 group-hover:w-full'
                   }`} />
                 </button>
@@ -179,7 +179,7 @@ export default function Home() {
               
               <button 
                 onClick={() => scrollToSection('contact')}
-                className="px-5 py-2.5 bg-gradient-to-r from-slate-800 to-slate-700 text-white rounded-full text-sm font-semibold hover:shadow-lg hover:shadow-slate-400/25 transition-all duration-300 hover:-translate-y-0.5"
+                className="px-5 py-2.5 bg-gradient-to-r from-slate-800 to-slate-700 text-white rounded-full text-sm font-semibold hover:shadow-xl hover:shadow-slate-500/40 hover:-translate-y-1 transition-all duration-300"
               >
                 Get Started
               </button>
@@ -206,26 +206,33 @@ export default function Home() {
           </div>
         </nav>
 
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div className={`md:hidden border-t shadow-xl ${isDark ? 'bg-slate-900 border-slate-700' : 'bg-white border-slate-100'}`}>
-            <div className="px-4 py-6 space-y-4">
-              {['home', 'about', 'services', 'divisions', 'why-us', 'contact'].map((item) => (
+        {/* Mobile Menu with Animation */}
+        <div 
+          className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+            mobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 border-t-0'
+          }`}
+        >
+          <div className={`${isDark ? 'bg-slate-900/98 backdrop-blur-lg border-slate-700' : 'bg-white/98 backdrop-blur-lg border-slate-100'} border-t shadow-2xl`}>
+            <div className="px-4 py-4 space-y-1">
+              {['home', 'about', 'services', 'divisions', 'why-us', 'contact'].map((item, index) => (
                 <button
                   key={item}
                   onClick={() => scrollToSection(item)}
-                  className={`block w-full text-left px-4 py-3 rounded-xl font-medium capitalize transition-colors ${
+                  className={`block w-full text-left px-4 py-3 rounded-xl font-medium capitalize transition-all duration-200 transform ${
                     isDark 
-                      ? 'text-slate-300 hover:bg-slate-800 hover:text-white' 
-                      : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900'
-                  }`}
+                      ? 'text-slate-300 hover:bg-slate-800 hover:text-white hover:translate-x-2' 
+                      : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900 hover:translate-x-2'
+                  } ${mobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}
+                  style={{
+                    transitionDelay: mobileMenuOpen ? `${index * 50}ms` : '0ms'
+                  }}
                 >
                   {item.replace('-', ' ')}
                 </button>
               ))}
             </div>
           </div>
-        )}
+        </div>
       </header>
 
       {/* Hero Section */}
