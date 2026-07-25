@@ -57,7 +57,16 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div 
+      className="min-h-screen flex flex-col"
+      style={{
+        backgroundImage: "url('/bg-pattern.png')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'repeat',
+        backgroundAttachment: 'fixed'
+      }}
+    >
       {/* Navigation */}
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled ? 'bg-white/95 backdrop-blur-md shadow-lg shadow-slate-200/20' : 'bg-transparent'
@@ -131,20 +140,10 @@ export default function Home() {
         )}
       </header>
 
-      {/* Hero Section - WITH VISIBLE BACKGROUND PATTERN */}
-      <section 
-        id="home" 
-        className="relative min-h-screen flex items-center overflow-hidden pt-20"
-        style={{
-          backgroundImage: "url('/bg-pattern.png')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'repeat',
-          backgroundAttachment: 'fixed'
-        }}
-      >
+      {/* Hero Section */}
+      <section id="home" className="relative min-h-screen flex items-center overflow-hidden pt-20">
         {/* Light overlay for readability */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white/75 via-white/70 to-cyan-50/50" />
+        <div className="absolute inset-0 bg-gradient-to-br from-white/70 via-white/65 to-cyan-50/50" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -154,13 +153,11 @@ export default function Home() {
                 <span className="text-sm font-medium text-slate-700">Welcome to Epigater</span>
               </div>
               
-              {/* SMALLER HEADLINE - Reduced from text-7xl to text-5xl */}
-              <h1 className="text-4xl sm:text-5xl lg:text-5xl font-bold leading-[1.15]">
-                <span className="bg-gradient-to-r from-cyan-700 via-blue-700 to-slate-800 bg-clip-text text-transparent">
-                  Intelligence
+              {/* HEADLINE - Exactly 2 Lines */}
+              <h1 className="text-4xl sm:text-5xl lg:text-[3rem] xl:text-[3.25rem] font-bold leading-[1.2]">
+                <span className="bg-gradient-to-r from-cyan-700 via-blue-700 to-slate-800 bg-clip-text text-transparent whitespace-nowrap pr-2">
+                  Intelligence Without
                 </span>
-                <br />
-                <span className="text-slate-900">Without</span>
                 <br />
                 <span className="text-slate-900">Limits</span>
               </h1>
@@ -241,18 +238,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* About Section - WITH VISIBLE PATTERN */}
-      <section 
-        id="about" 
-        className="py-24 relative overflow-hidden"
-        style={{
-          backgroundImage: "url('/bg-pattern.png')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'repeat'
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-white/85 to-slate-50/90" />
+      {/* About Section */}
+      <section id="about" className="py-24 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/75 to-slate-50/85" />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -325,18 +313,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Services Section - WITH VISIBLE PATTERN */}
-      <section 
-        id="services" 
-        className="py-24 relative overflow-hidden"
-        style={{
-          backgroundImage: "url('/bg-pattern.png')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'repeat'
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-50/85 via-white/90 to-slate-50/85" />
+      {/* Services Section */}
+      <section id="services" className="py-24 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-50/75 via-white/82 to-slate-50/78" />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
@@ -440,18 +419,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Business Divisions - WITH VISIBLE PATTERN */}
-      <section 
-        id="divisions" 
-        className="py-24 relative overflow-hidden"
-        style={{
-          backgroundImage: "url('/bg-pattern.png')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'repeat'
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-b from-white/85 via-white/90 to-slate-50/90" />
+      {/* Business Divisions */}
+      <section id="divisions" className="py-24 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-white/72 via-white/78 to-slate-50/82" />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
@@ -661,18 +631,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Contact Section - WITH VISIBLE PATTERN & UPDATED INFO */}
-      <section 
-        id="contact" 
-        className="py-24 relative overflow-hidden"
-        style={{
-          backgroundImage: "url('/bg-pattern.png')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'repeat'
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-b from-white/85 via-white/90 to-slate-50/90" />
+      {/* Contact Section - WITH UPDATED INFO */}
+      <section id="contact" className="py-24 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-white/72 via-white/78 to-slate-50/82" />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16">
