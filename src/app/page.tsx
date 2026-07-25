@@ -131,21 +131,20 @@ export default function Home() {
         )}
       </header>
 
-      {/* Hero Section - With Prominent Network Pattern Background */}
-      <section id="home" className="relative min-h-screen flex items-center overflow-hidden pt-20">
-        {/* Network Pattern Background - More Visible */}
-        <div 
-          className="absolute inset-0 opacity-[0.35]"
-          style={{
-            backgroundImage: `url('/bg-pattern.png')`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat'
-          }} 
-        />
-        
-        {/* Light Gradient Overlay on top of pattern */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white/70 via-white/60 to-cyan-50/40" />
+      {/* Hero Section - WITH VISIBLE BACKGROUND PATTERN */}
+      <section 
+        id="home" 
+        className="relative min-h-screen flex items-center overflow-hidden pt-20"
+        style={{
+          backgroundImage: "url('/bg-pattern.png')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'repeat',
+          backgroundAttachment: 'fixed'
+        }}
+      >
+        {/* Light overlay for readability */}
+        <div className="absolute inset-0 bg-gradient-to-br from-white/75 via-white/70 to-cyan-50/50" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -155,8 +154,8 @@ export default function Home() {
                 <span className="text-sm font-medium text-slate-700">Welcome to Epigater</span>
               </div>
               
-              {/* UPDATED HEADLINE */}
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.1]">
+              {/* SMALLER HEADLINE - Reduced from text-7xl to text-5xl */}
+              <h1 className="text-4xl sm:text-5xl lg:text-5xl font-bold leading-[1.15]">
                 <span className="bg-gradient-to-r from-cyan-700 via-blue-700 to-slate-800 bg-clip-text text-transparent">
                   Intelligence
                 </span>
@@ -166,8 +165,8 @@ export default function Home() {
                 <span className="text-slate-900">Limits</span>
               </h1>
               
-              <p className="text-lg sm:text-xl text-slate-600 leading-relaxed max-w-xl">
-                AI-driven solutions that empower organizations to operate more efficiently, securely, and sustainably. From intelligent software to smart energy systems.
+              <p className="text-lg text-slate-600 leading-relaxed max-w-xl">
+                AI-driven solutions that empower organizations to operate more efficiently, securely, and sustainably.
               </p>
 
               <div className="flex flex-wrap gap-4">
@@ -242,18 +241,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* About Section - With visible pattern */}
-      <section id="about" className="py-24 relative overflow-hidden">
-        {/* Visible Network Pattern Background */}
-        <div 
-          className="absolute inset-0 opacity-[0.25]"
-          style={{
-            backgroundImage: `url('/bg-pattern.png')`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-white via-white/95 to-slate-50/80" />
+      {/* About Section - WITH VISIBLE PATTERN */}
+      <section 
+        id="about" 
+        className="py-24 relative overflow-hidden"
+        style={{
+          backgroundImage: "url('/bg-pattern.png')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'repeat'
+        }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-white/85 to-slate-50/90" />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -326,18 +325,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Services Section - Clean white with subtle but visible pattern */}
-      <section id="services" className="py-24 relative overflow-hidden">
-        {/* Visible Dot Pattern Background */}
-        <div 
-          className="absolute inset-0 opacity-[0.15]"
-          style={{
-            backgroundImage: `url('/bg-pattern.png')`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-50/90 via-white to-slate-50/90" />
+      {/* Services Section - WITH VISIBLE PATTERN */}
+      <section 
+        id="services" 
+        className="py-24 relative overflow-hidden"
+        style={{
+          backgroundImage: "url('/bg-pattern.png')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'repeat'
+        }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-50/85 via-white/90 to-slate-50/85" />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
@@ -441,18 +440,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Business Divisions - With visible pattern background */}
-      <section id="divisions" className="py-24 relative overflow-hidden">
-        {/* Visible Network Pattern Background */}
-        <div 
-          className="absolute inset-0 opacity-[0.2]"
-          style={{
-            backgroundImage: `url('/bg-pattern.png')`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-white via-white/95 to-slate-50/90" />
+      {/* Business Divisions - WITH VISIBLE PATTERN */}
+      <section 
+        id="divisions" 
+        className="py-24 relative overflow-hidden"
+        style={{
+          backgroundImage: "url('/bg-pattern.png')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'repeat'
+        }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-b from-white/85 via-white/90 to-slate-50/90" />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
@@ -556,17 +555,17 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Why Choose Us - Dark section with dot pattern (like reference image) */}
+      {/* Why Choose Us - Dark section with dot pattern */}
       <section id="why-us" className="py-24 bg-gradient-to-br from-slate-800 via-slate-800 to-slate-900 relative overflow-hidden">
-        {/* Visible Subtle Dot Pattern - Like the reference image */}
+        {/* Visible Dot Pattern */}
         <div className="absolute inset-0 opacity-[0.08]" style={{
           backgroundImage: `radial-gradient(circle at 1px 1px, white 1px, transparent 0)`,
           backgroundSize: '24px 24px'
         }} />
         
-        {/* Network Pattern Overlay - Visible */}
+        {/* Network Pattern Overlay */}
         <div 
-          className="absolute inset-0 opacity-[0.05]"
+          className="absolute inset-0 opacity-[0.06]"
           style={{
             backgroundImage: `url('/bg-pattern.png')`,
             backgroundSize: 'cover',
@@ -662,18 +661,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Contact Section - Clean with visible pattern */}
-      <section id="contact" className="py-24 relative overflow-hidden">
-        {/* Visible Pattern Background */}
-        <div 
-          className="absolute inset-0 opacity-[0.25]"
-          style={{
-            backgroundImage: `url('/bg-pattern.png')`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-white via-white/95 to-slate-50/90" />
+      {/* Contact Section - WITH VISIBLE PATTERN & UPDATED INFO */}
+      <section 
+        id="contact" 
+        className="py-24 relative overflow-hidden"
+        style={{
+          backgroundImage: "url('/bg-pattern.png')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'repeat'
+        }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-b from-white/85 via-white/90 to-slate-50/90" />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16">
@@ -689,36 +688,65 @@ export default function Home() {
               </div>
 
               <div className="space-y-6">
+                {/* UPDATED: Email */}
                 <div className="flex items-start gap-4 p-6 bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-100 shadow-sm">
                   <div className="p-3 bg-white rounded-xl shadow-sm">
                     <Mail size={22} className="text-cyan-600" />
                   </div>
                   <div>
                     <h4 className="font-semibold text-slate-900">Email Us</h4>
-                    <p className="text-slate-600">info@epigatersolutions.com</p>
+                    <p className="text-slate-600">contact@epigater.com</p>
                     <p className="text-sm text-slate-500">We respond within 24 hours</p>
                   </div>
                 </div>
 
+                {/* UPDATED: Phone */}
                 <div className="flex items-start gap-4 p-6 bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-100 shadow-sm">
                   <div className="p-3 bg-white rounded-xl shadow-sm">
                     <Phone size={22} className="text-cyan-600" />
                   </div>
                   <div>
                     <h4 className="font-semibold text-slate-900">Call Us</h4>
-                    <p className="text-slate-600">+1 (555) 123-4567</p>
-                    <p className="text-sm text-slate-500">Mon-Fri, 9am-6pm EST</p>
+                    <p className="text-slate-600">+251 966 131 415</p>
+                    <p className="text-sm text-slate-500">Mon-Fri, 9am-6pm EAT</p>
                   </div>
                 </div>
 
+                {/* UPDATED: Address */}
                 <div className="flex items-start gap-4 p-6 bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-100 shadow-sm">
                   <div className="p-3 bg-white rounded-xl shadow-sm">
                     <MapPin size={22} className="text-cyan-600" />
                   </div>
                   <div>
                     <h4 className="font-semibold text-slate-900">Visit Us</h4>
-                    <p className="text-slate-600">123 Innovation Drive, Tech Hub</p>
-                    <p className="text-sm text-slate-500">San Francisco, CA 94105</p>
+                    <p className="text-slate-600">Bole, Addis Ababa, Ethiopia</p>
+                    <p className="text-sm text-slate-500">Main Office Location</p>
+                  </div>
+                </div>
+
+                {/* NEW: Website */}
+                <div className="flex items-start gap-4 p-6 bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-100 shadow-sm">
+                  <div className="p-3 bg-white rounded-xl shadow-sm">
+                    <Globe size={22} className="text-cyan-600" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-slate-900">Website</h4>
+                    <a href="https://epigater.com" target="_blank" rel="noopener noreferrer" className="text-cyan-600 hover:text-cyan-700 transition-colors">
+                      epigater.com
+                    </a>
+                    <p className="text-sm text-slate-500">Learn more about us online</p>
+                  </div>
+                </div>
+
+                {/* NEW: General Manager Info */}
+                <div className="flex items-start gap-4 p-6 bg-gradient-to-r from-cyan-50 to-blue-50 rounded-2xl border border-cyan-100">
+                  <div className="p-3 bg-white rounded-xl shadow-sm">
+                    <Users size={22} className="text-cyan-600" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-slate-900">General Manager</h4>
+                    <p className="text-slate-600">Hailay Weldegebriel</p>
+                    <p className="text-sm text-slate-500">Direct contact available upon request</p>
                   </div>
                 </div>
               </div>
@@ -799,7 +827,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
+      {/* Footer - Updated with correct info */}
       <footer className="bg-slate-900 text-white py-16 mt-auto">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
@@ -814,16 +842,25 @@ export default function Home() {
               <p className="text-slate-400 max-w-md leading-relaxed">
                 Intelligence Without Limits. Transforming organizations through AI-driven technology solutions that enable efficient, secure, and sustainable operations.
               </p>
+              
+              {/* Footer Contact Info */}
+              <div className="mt-6 space-y-2 text-sm text-slate-400">
+                <p><strong className="text-white">Location:</strong> Bole, Addis Ababa, Ethiopia</p>
+                <p><strong className="text-white">Phone:</strong> +251 966 131 415</p>
+                <p><strong className="text-white">Email:</strong> contact@epigater.com</p>
+                <p><strong className="text-white">Website:</strong> <a href="https://epigater.com" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:text-cyan-300">epigater.com</a></p>
+              </div>
+              
               <div className="flex gap-4 mt-6">
-                {['twitter', 'linkedin', 'github'].map((social) => (
-                  <a 
-                    key={social}
-                    href="#" 
-                    className="w-10 h-10 bg-slate-800 hover:bg-cyan-600 rounded-lg flex items-center justify-center transition-colors"
-                  >
-                    <Globe size={18} />
-                  </a>
-                ))}
+                <a href="https://epigater.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-slate-800 hover:bg-cyan-600 rounded-lg flex items-center justify-center transition-colors">
+                  <Globe size={18} />
+                </a>
+                <a href="mailto:contact@epigater.com" className="w-10 h-10 bg-slate-800 hover:bg-cyan-600 rounded-lg flex items-center justify-center transition-colors">
+                  <Mail size={18} />
+                </a>
+                <a href="tel:+251966131415" className="w-10 h-10 bg-slate-800 hover:bg-cyan-600 rounded-lg flex items-center justify-center transition-colors">
+                  <Phone size={18} />
+                </a>
               </div>
             </div>
 
@@ -855,7 +892,7 @@ export default function Home() {
               © 2026 Epigater Solutions. All rights reserved.
             </p>
             <p className="text-slate-500 text-sm">
-              Intelligence Without Limits
+              Hailay Weldegebriel, General Manager
             </p>
           </div>
         </div>
