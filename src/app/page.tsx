@@ -135,6 +135,17 @@ export default function Home() {
           service: '',
           message: ''
         })
+        // Scroll to top of contact section so user sees success message
+        const contactSection = document.getElementById('contact')
+        if (contactSection) {
+          const headerOffset = 80
+          const elementPosition = contactSection.getBoundingClientRect().top
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          })
+        }
       } else {
         setFormStatus('error')
         setFormMessage(result.error || 'Something went wrong. Please try again.')
@@ -836,7 +847,7 @@ export default function Home() {
       </section>
 
       {/* Contact Section - WITH UPDATED INFO */}
-      <section id="contact" className="py-24 relative overflow-hidden">
+      <section id="contact" className="py-16 relative overflow-hidden">
         <div className={`absolute inset-0 ${
           isDark 
             ? 'bg-gradient-to-b from-slate-900/82 via-slate-900/85 to-slate-800/88' 
@@ -844,112 +855,112 @@ export default function Home() {
         }`} />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-16">
-            <div className="space-y-8">
+          <div className="grid lg:grid-cols-2 gap-10">
+            <div className="space-y-5">
               <div>
                 <span className={`text-sm font-semibold uppercase tracking-wider ${isDark ? 'text-cyan-400' : 'text-cyan-600'}`}>Get In Touch</span>
-                <h2 className={`mt-3 text-4xl sm:text-5xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                <h2 className={`mt-2 text-3xl sm:text-4xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
                   Let&apos;s Build Something Amazing Together
                 </h2>
-                <p className={`mt-4 text-lg ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
+                <p className={`mt-3 text-base ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
                   Ready to transform your organization with intelligent technology? Contact us to discuss your project requirements.
                 </p>
               </div>
 
-              <div className="space-y-6">
+              <div className="space-y-4">
                 {/* Email */}
-                <div className={`flex items-start gap-4 p-6 backdrop-blur-sm rounded-2xl border shadow-sm ${
+                <div className={`flex items-start gap-3 p-4 backdrop-blur-sm rounded-xl border shadow-sm ${
                   isDark ? 'bg-slate-800/80 border-slate-700' : 'bg-white/80 border-slate-100'
                 }`}>
-                  <div className={`p-3 rounded-xl shadow-sm ${isDark ? 'bg-slate-700' : 'bg-white'}`}>
-                    <Mail size={22} className="text-cyan-500" />
+                  <div className={`p-2 rounded-lg shadow-sm ${isDark ? 'bg-slate-700' : 'bg-white'}`}>
+                    <Mail size={18} className="text-cyan-500" />
                   </div>
                   <div>
-                    <h4 className={`font-semibold ${isDark ? 'text-white' : 'text-slate-900'}`}>Email Us</h4>
-                    <p className={`${isDark ? 'text-slate-300' : 'text-slate-600'}`}>contact@epigater.com</p>
-                    <p className={`text-sm ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>We respond within 24 hours</p>
+                    <h4 className={`font-semibold text-sm ${isDark ? 'text-white' : 'text-slate-900'}`}>Email Us</h4>
+                    <p className={`${isDark ? 'text-slate-300' : 'text-slate-600'} text-sm`}>contact@epigater.com</p>
+                    <p className={`text-xs ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>We respond within 24 hours</p>
                   </div>
                 </div>
 
                 {/* Phone */}
-                <div className={`flex items-start gap-4 p-6 backdrop-blur-sm rounded-2xl border shadow-sm ${
+                <div className={`flex items-start gap-3 p-4 backdrop-blur-sm rounded-xl border shadow-sm ${
                   isDark ? 'bg-slate-800/80 border-slate-700' : 'bg-white/80 border-slate-100'
                 }`}>
-                  <div className={`p-3 rounded-xl shadow-sm ${isDark ? 'bg-slate-700' : 'bg-white'}`}>
-                    <Phone size={22} className="text-cyan-500" />
+                  <div className={`p-2 rounded-lg shadow-sm ${isDark ? 'bg-slate-700' : 'bg-white'}`}>
+                    <Phone size={18} className="text-cyan-500" />
                   </div>
                   <div>
-                    <h4 className={`font-semibold ${isDark ? 'text-white' : 'text-slate-900'}`}>Call Us</h4>
-                    <p className={`${isDark ? 'text-slate-300' : 'text-slate-600'}`}>+251 966 131 415</p>
-                    <p className={`text-sm ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>Mon-Fri, 9am-6pm EAT</p>
+                    <h4 className={`font-semibold text-sm ${isDark ? 'text-white' : 'text-slate-900'}`}>Call Us</h4>
+                    <p className={`${isDark ? 'text-slate-300' : 'text-slate-600'} text-sm`}>+251 966 131 415</p>
+                    <p className={`text-xs ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>Mon-Fri, 9am-6pm EAT</p>
                   </div>
                 </div>
 
                 {/* Address */}
-                <div className={`flex items-start gap-4 p-6 backdrop-blur-sm rounded-2xl border shadow-sm ${
+                <div className={`flex items-start gap-3 p-4 backdrop-blur-sm rounded-xl border shadow-sm ${
                   isDark ? 'bg-slate-800/80 border-slate-700' : 'bg-white/80 border-slate-100'
                 }`}>
-                  <div className={`p-3 rounded-xl shadow-sm ${isDark ? 'bg-slate-700' : 'bg-white'}`}>
-                    <MapPin size={22} className="text-cyan-500" />
+                  <div className={`p-2 rounded-lg shadow-sm ${isDark ? 'bg-slate-700' : 'bg-white'}`}>
+                    <MapPin size={18} className="text-cyan-500" />
                   </div>
                   <div>
-                    <h4 className={`font-semibold ${isDark ? 'text-white' : 'text-slate-900'}`}>Visit Us</h4>
-                    <p className={`${isDark ? 'text-slate-300' : 'text-slate-600'}`}>Bole, Addis Ababa, Ethiopia</p>
-                    <p className={`text-sm ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>Main Office Location</p>
+                    <h4 className={`font-semibold text-sm ${isDark ? 'text-white' : 'text-slate-900'}`}>Visit Us</h4>
+                    <p className={`${isDark ? 'text-slate-300' : 'text-slate-600'} text-sm`}>Bole, Addis Ababa, Ethiopia</p>
+                    <p className={`text-xs ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>Main Office Location</p>
                   </div>
                 </div>
 
                 {/* Website */}
-                <div className={`flex items-start gap-4 p-6 backdrop-blur-sm rounded-2xl border shadow-sm ${
+                <div className={`flex items-start gap-3 p-4 backdrop-blur-sm rounded-xl border shadow-sm ${
                   isDark ? 'bg-slate-800/80 border-slate-700' : 'bg-white/80 border-slate-100'
                 }`}>
-                  <div className={`p-3 rounded-xl shadow-sm ${isDark ? 'bg-slate-700' : 'bg-white'}`}>
-                    <Globe size={22} className="text-cyan-500" />
+                  <div className={`p-2 rounded-lg shadow-sm ${isDark ? 'bg-slate-700' : 'bg-white'}`}>
+                    <Globe size={18} className="text-cyan-500" />
                   </div>
                   <div>
-                    <h4 className={`font-semibold ${isDark ? 'text-white' : 'text-slate-900'}`}>Website</h4>
-                    <a href="https://epigater.com" target="_blank" rel="noopener noreferrer" className="text-cyan-500 hover:text-cyan-400 transition-colors">
+                    <h4 className={`font-semibold text-sm ${isDark ? 'text-white' : 'text-slate-900'}`}>Website</h4>
+                    <a href="https://epigater.com" target="_blank" rel="noopener noreferrer" className="text-cyan-500 hover:text-cyan-400 transition-colors text-sm">
                       epigater.com
                     </a>
-                    <p className={`text-sm ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>Learn more about us online</p>
+                    <p className={`text-xs ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>Learn more about us online</p>
                   </div>
                 </div>
 
                 {/* General Manager Info */}
-                <div className={`flex items-start gap-4 p-6 rounded-2xl border ${
+                <div className={`flex items-start gap-3 p-4 rounded-xl border ${
                   isDark 
                     ? 'bg-gradient-to-r from-cyan-900/30 to-blue-900/30 border-cyan-800' 
                     : 'bg-gradient-to-r from-cyan-50 to-blue-50 border-cyan-100'
                 }`}>
-                  <div className={`p-3 rounded-xl shadow-sm ${isDark ? 'bg-slate-700' : 'bg-white'}`}>
-                    <Users size={22} className="text-cyan-500" />
+                  <div className={`p-2 rounded-lg shadow-sm ${isDark ? 'bg-slate-700' : 'bg-white'}`}>
+                    <Users size={18} className="text-cyan-500" />
                   </div>
                   <div>
-                    <h4 className={`font-semibold ${isDark ? 'text-white' : 'text-slate-900'}`}>General Manager</h4>
-                    <p className={`${isDark ? 'text-slate-300' : 'text-slate-600'}`}>Hailay Weldegebriel</p>
-                    <p className={`text-sm ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>Direct contact available upon request</p>
+                    <h4 className={`font-semibold text-sm ${isDark ? 'text-white' : 'text-slate-900'}`}>General Manager</h4>
+                    <p className={`${isDark ? 'text-slate-300' : 'text-slate-600'} text-sm`}>Hailay Weldegebriel</p>
+                    <p className={`text-xs ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>Direct contact available upon request</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className={`backdrop-blur-sm rounded-3xl p-8 sm:p-10 border ${
+            <div className={`backdrop-blur-sm rounded-2xl p-6 sm:p-7 border ${
               isDark 
                 ? 'bg-slate-800/90 shadow-xl shadow-black/20 border-slate-700' 
                 : 'bg-white/90 shadow-xl shadow-slate-200/50 border-slate-200'
             }`}>
-              <form className="space-y-6" onSubmit={handleSubmit}>
+              <form className="space-y-4" onSubmit={handleSubmit}>
                 {/* Success/Error Messages */}
                 {formStatus === 'success' && (
-                  <div className="p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-xl">
-                    <p className="text-emerald-600 font-medium flex items-center gap-2">
-                      <CheckCircle2 size={18} />
+                  <div className="p-3 bg-emerald-500/10 border border-emerald-500/30 rounded-xl">
+                    <p className="text-emerald-600 font-medium flex items-center gap-2 text-sm">
+                      <CheckCircle2 size={16} />
                       {formMessage}
                     </p>
                     <button 
                       type="button"
                       onClick={resetForm}
-                      className="mt-2 text-sm text-emerald-600 hover:text-emerald-700 underline"
+                      className="mt-1.5 text-xs text-emerald-600 hover:text-emerald-700 underline"
                     >
                       Send another message
                     </button>
@@ -957,12 +968,12 @@ export default function Home() {
                 )}
 
                 {formStatus === 'error' && (
-                  <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-xl">
-                    <p className="text-red-600 font-medium">{formMessage}</p>
+                  <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-xl">
+                    <p className="text-red-600 font-medium text-sm">{formMessage}</p>
                     <button 
                       type="button"
                       onClick={resetForm}
-                      className="mt-2 text-sm text-red-600 hover:text-red-700 underline"
+                      className="mt-1.5 text-xs text-red-600 hover:text-red-700 underline"
                     >
                       Dismiss
                     </button>
@@ -971,15 +982,15 @@ export default function Home() {
 
                 {formStatus !== 'success' && (
                 <>
-                <div className="grid sm:grid-cols-2 gap-6">
+                <div className="grid sm:grid-cols-2 gap-4">
                   <div>
-                    <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>First Name *</label>
+                    <label className={`block text-sm font-medium mb-1.5 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>First Name *</label>
                     <input 
                       type="text" 
                       name="firstName"
                       value={formData.firstName}
                       onChange={handleInputChange}
-                      className={`w-full px-4 py-3 rounded-xl border outline-none transition-all ${
+                      className={`w-full px-3 py-2.5 rounded-lg border outline-none transition-all ${
                         isDark 
                           ? 'bg-slate-700/50 border-slate-600 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 text-white placeholder:text-slate-500' 
                           : 'bg-white/80 border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20'
@@ -989,13 +1000,13 @@ export default function Home() {
                     />
                   </div>
                   <div>
-                    <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Last Name</label>
+                    <label className={`block text-sm font-medium mb-1.5 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Last Name</label>
                     <input 
                       type="text" 
                       name="lastName"
                       value={formData.lastName}
                       onChange={handleInputChange}
-                      className={`w-full px-4 py-3 rounded-xl border outline-none transition-all ${
+                      className={`w-full px-3 py-2.5 rounded-lg border outline-none transition-all ${
                         isDark 
                           ? 'bg-slate-700/50 border-slate-600 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 text-white placeholder:text-slate-500' 
                           : 'bg-white/80 border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20'
@@ -1006,13 +1017,13 @@ export default function Home() {
                 </div>
 
                 <div>
-                  <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Email Address *</label>
+                  <label className={`block text-sm font-medium mb-1.5 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Email Address *</label>
                   <input 
                     type="email" 
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    className={`w-full px-4 py-3 rounded-xl border outline-none transition-all ${
+                    className={`w-full px-3 py-2.5 rounded-lg border outline-none transition-all ${
                       isDark 
                         ? 'bg-slate-700/50 border-slate-600 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 text-white placeholder:text-slate-500' 
                         : 'bg-white/80 border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20'
@@ -1023,13 +1034,13 @@ export default function Home() {
                 </div>
 
                 <div>
-                  <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Company</label>
+                  <label className={`block text-sm font-medium mb-1.5 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Company</label>
                   <input 
                     type="text" 
                     name="company"
                     value={formData.company}
                     onChange={handleInputChange}
-                    className={`w-full px-4 py-3 rounded-xl border outline-none transition-all ${
+                    className={`w-full px-3 py-2.5 rounded-lg border outline-none transition-all ${
                       isDark 
                         ? 'bg-slate-700/50 border-slate-600 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 text-white placeholder:text-slate-500' 
                         : 'bg-white/80 border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20'
@@ -1039,12 +1050,12 @@ export default function Home() {
                 </div>
 
                 <div>
-                  <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Service Interest</label>
+                  <label className={`block text-sm font-medium mb-1.5 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Service Interest</label>
                   <select 
                     name="service"
                     value={formData.service}
                     onChange={handleInputChange}
-                    className={`w-full px-4 py-3 rounded-xl border outline-none transition-all ${
+                    className={`w-full px-3 py-2.5 rounded-lg border outline-none transition-all ${
                       isDark 
                         ? 'bg-slate-700/50 border-slate-600 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 text-white' 
                         : 'bg-white/80 border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20'
@@ -1061,13 +1072,13 @@ export default function Home() {
                 </div>
 
                 <div>
-                  <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Message *</label>
+                  <label className={`block text-sm font-medium mb-1.5 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Message *</label>
                   <textarea 
-                    rows={4}
+                    rows={3}
                     name="message"
                     value={formData.message}
                     onChange={handleInputChange}
-                    className={`w-full px-4 py-3 rounded-xl border outline-none resize-none transition-all ${
+                    className={`w-full px-3 py-2.5 rounded-lg border outline-none resize-none transition-all ${
                       isDark 
                         ? 'bg-slate-700/50 border-slate-600 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 text-white placeholder:text-slate-500' 
                         : 'bg-white/80 border-slate-200 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20'
@@ -1080,7 +1091,7 @@ export default function Home() {
                 <button 
                   type="submit"
                   disabled={formStatus === 'submitting'}
-                  className="w-full py-4 bg-gradient-to-r from-slate-800 to-slate-700 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-slate-400/25 transition-all duration-300 flex items-center justify-center gap-2 group disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="w-full py-3 bg-gradient-to-r from-slate-800 to-slate-700 text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-slate-400/25 transition-all duration-300 flex items-center justify-center gap-2 group disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                   {formStatus === 'submitting' ? (
                     <>
