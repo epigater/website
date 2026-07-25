@@ -5,6 +5,9 @@ deployment:
     - /bin/rm -rf $DEPLOYPATH
     - /bin/mkdir -p $DEPLOYPATH
     - /bin/cp -r * $DEPLOYPATH/
+    - /bin/cp -r .git $DEPLOYPATH/
+    - /bin/cp -r public $DEPLOYPATH/
+    - /bin/cp -r src $DEPLOYPATH/
     - cd $DEPLOYPATH
-    - npm install
+    - npm install --production
     - npm run build
