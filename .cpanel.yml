@@ -1,0 +1,9 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/$VENDOR/epigater
+    - /bin/cp -r * $DEPLOYPATH
+    - cd $DEPLOYPATH
+    - npm install --production=false
+    - npm run build
+    - echo "✅ Epigater Solutions website deployed successfully!"
