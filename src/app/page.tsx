@@ -10,6 +10,7 @@ import {
   Factory, 
   Globe, 
   ArrowRight, 
+  ArrowUp,
   CheckCircle2, 
   Users, 
   Award, 
@@ -33,6 +34,7 @@ export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('home')
   const [isDark, setIsDark] = useState(false)
+  const [showBackToTop, setShowBackToTop] = useState(false)
 
   useEffect(() => {
     // Check localStorage first, then system preference
@@ -57,6 +59,7 @@ export default function Home() {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50)
+      setShowBackToTop(window.scrollY > 400)
       
       const sections = ['home', 'about', 'services', 'divisions', 'why-us', 'contact']
       for (const section of sections.reverse()) {
@@ -80,6 +83,10 @@ export default function Home() {
 
   const toggleTheme = () => {
     setIsDark(!isDark)
+  }
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   return (
@@ -1030,6 +1037,30 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* Back to Top Button */}
+      <button
+        onClick={scrollToTop}
+        className={`fixed bottom-8 right-8 z-50 p-4 rounded-full shadow-lg transition-all duration-300 transform ${
+          showBackToTop 
+            ? 'opacity-100 translate-y-0' 
+            : 'opacity-0 translate-y-12 pointer-events-none'
+        } ${
+          isDark 
+            ? 'bg-cyan-600 hover:bg-cyan-500 text-white shadow-cyan-600/30' 
+            : 'bg-slate-800 hover:bg-slate-700 text-white shadow-slate-400/30'
+        } hover:scale-110 group`}
+        aria-label="Back to top"
+      >
+        <ArrowUp size={22} className="group-hover:-translate-y-0.5 transition-transform" />
+        
+        {/* Tooltip */}
+        <span className={`absolute right-full mr-3 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none ${
+          isDark ? 'bg-slate-700 text-white' : 'bg-slate-800 text-white'
+        }`}>
+          Back to top
+        </span>
+      </button>
     </div>
   )
 }
